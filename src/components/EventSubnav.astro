@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  eventId: string;
+  current: "overview" | "speakers" | "topics";
+}
+
+const { eventId, current } = Astro.props;
+const speakers = await getCollection("speakers", (s) => s.data.event.id === eventId);
+const topics = await getCollection("topics", (t) => t.data.event.id === eventId);
+
+const items: { key: Props["current"]; label: string; href: string; count?: number }[] = [
+  { key: "overview", label: "Overview", href: `/events/${eventId}` },
+  { key: "speakers", label: "Speakers", href: `/events/${eventId}/speakers`, count: speakers.length },
+  { key: "topics", label: "Topics", href: `/events/${eventId}/topics`, count: topics.length },
+];
+---
+
+<nav class="container subnav" aria-label="Event sections">
+  {items.map((item) => (
+    <a
+      href={item.href}
+      aria-current={current === item.key ? "page" : undefined}
+    >
+      {item.label}{item.count !== undefined && ` (${item.count})`}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .subnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-3);
+  }
+  .subnav a {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -3.5px;
+  }
+  .subnav a:hover { color: var(--color-brand); }
+  .subnav a[aria-current="page"] {
+    color: var(--color-brand-dark);
+    border-bottom-color: var(--color-brand);
+  }
+</style>

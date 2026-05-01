@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import EventCard from "../../components/EventCard.astro";
+
+const all = await getCollection("events");
+const upcoming = all
+  .filter((e) => e.data.status === "upcoming")
+  .sort((a, b) => b.data.year - a.data.year);
+const past = all
+  .filter((e) => e.data.status === "past")
+  .sort((a, b) => b.data.year - a.data.year);
+---
+
+<BaseLayout title="Events" description="Past and upcoming Maintainers Summit events.">
+  <PageHero
+    title="Events"
+    eyebrow="Summit Archive"
+    description="Browse the upcoming summit and our past gatherings."
+  />
+
+  {upcoming.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <h2>Upcoming</h2>
+        <div class="grid grid-2">
+          {upcoming.map((event) => <EventCard event={event} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {past.length > 0 && (
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Past events</h2>
+        <div class="grid grid-2">
+          {past.map((event) => <EventCard event={event} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

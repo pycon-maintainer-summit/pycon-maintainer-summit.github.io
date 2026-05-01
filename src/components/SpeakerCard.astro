@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { leafSlug } from "../lib/slugs";
+
+interface Props {
+  speaker: CollectionEntry<"speakers">;
+  eventId: string;
+}
+
+const { speaker, eventId } = Astro.props;
+const { name, affiliation, pronouns, bio } = speaker.data;
+const href = `/events/${eventId}/speakers/${leafSlug(speaker.id)}`;
+---
+
+<article class="card speaker-card">
+  <h3><a href={href}>{name}</a></h3>
+  <p class="meta">
+    {affiliation}
+    {pronouns && <span class="muted"> · {pronouns}</span>}
+  </p>
+  <p class="bio">{bio}</p>
+  <a href={href} class="more">Read more →</a>
+</article>
+
+<style>
+  .speaker-card { display: flex; flex-direction: column; gap: var(--space-2); }
+  .speaker-card h3 { margin: 0; }
+  .speaker-card h3 a { color: var(--color-brand-dark); text-decoration: none; }
+  .speaker-card h3 a:hover { text-decoration: underline; }
+  .meta { font-weight: 600; color: var(--color-brand); margin: 0; font-size: var(--font-size-sm); }
+  .bio {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .more { margin-top: auto; font-weight: 600; text-decoration: none; }
+  .more:hover { text-decoration: underline; }
+</style>

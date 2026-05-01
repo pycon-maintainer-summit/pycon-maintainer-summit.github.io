@@ -1,0 +1,76 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHero from "../../../components/PageHero.astro";
+import EventSubnav from "../../../components/EventSubnav.astro";
+
+export async function getStaticPaths() {
+  const events = await getCollection("events");
+  return events.map((event) => ({
+    params: { event: event.id },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+const { title, date, location, status, summary, cfpUrl, registrationUrl, scheduleUrl, pyconUrl } = event.data;
+---
+
+<BaseLayout title={title} description={summary}>
+  <PageHero title={title} eyebrow={status === "upcoming" ? "Upcoming event" : "Past event"}>
+    <p class="event-meta">
+      <strong>{date}</strong> · {location}
+    </p>
+    {status === "upcoming" && (
+      <div class="cta-row">
+        {registrationUrl && <a href={registrationUrl} class="button button-accent">Register</a>}
+        {cfpUrl && <a href={cfpUrl} class="button">Submit a proposal</a>}
+        {scheduleUrl && <a href={scheduleUrl} class="button">View schedule</a>}
+      </div>
+    )}
+  </PageHero>
+
+  <EventSubnav eventId={event.id} current="overview" />
+
+  <article class="container container-narrow event-body">
+    <p class="lede">{summary}</p>
+    <Content />
+
+    {pyconUrl && (
+      <p class="pycon-link">
+        <a href={pyconUrl} rel="noopener external">
+          View this event on the PyCon US site →
+        </a>
+      </p>
+    )}
+
+    <p class="back"><a href="/events">← All events</a></p>
+  </article>
+</BaseLayout>
+
+<style>
+  .event-meta { color: var(--color-accent); font-size: var(--font-size-lg); margin: var(--space-3) 0 0; }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .event-body { padding: var(--space-12) 0; }
+  .lede {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+  .back { margin-top: var(--space-8); }
+  .pycon-link {
+    margin-top: var(--space-8);
+    padding: var(--space-4);
+    background: var(--color-bg-alt);
+    border-left: 3px solid var(--color-brand);
+    border-radius: var(--radius-md);
+  }
+  .pycon-link a { font-weight: 600; text-decoration: none; }
+  .pycon-link a:hover { text-decoration: underline; }
+</style>

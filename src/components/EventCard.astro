@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  event: CollectionEntry<"events">;
+}
+
+const { event } = Astro.props;
+const { title, date, location, status, summary, year } = event.data;
+---
+
+<article class="card event-card">
+  <div class="event-meta">
+    <span class={`tag ${status === "upcoming" ? "tag-accent" : ""}`}>
+      {status === "upcoming" ? "Upcoming" : "Past"}
+    </span>
+    <span class="muted">{year}</span>
+  </div>
+  <h3><a href={`/events/${event.id}`}>{title}</a></h3>
+  <p class="muted event-when">
+    <strong>{date}</strong> · {location}
+  </p>
+  <p>{summary}</p>
+  <a href={`/events/${event.id}`} class="event-link">View details →</a>
+</article>
+
+<style>
+  .event-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .event-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  .event-card h3 { margin: 0; }
+  .event-card h3 a { color: var(--color-brand-dark); text-decoration: none; }
+  .event-card h3 a:hover { color: var(--color-brand); text-decoration: underline; }
+  .event-when { margin: 0; font-size: var(--font-size-sm); }
+  .event-link {
+    margin-top: auto;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .event-link:hover { text-decoration: underline; }
+</style>

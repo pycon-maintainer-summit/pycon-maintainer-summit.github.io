@@ -1,0 +1,76 @@
+---
+import type { Organizer } from "../data/organizers";
+import { currentYear } from "../data/organizers";
+
+interface Props {
+  organizer: Organizer;
+}
+
+const { organizer } = Astro.props;
+const yearsSorted = [...organizer.years].sort((a, b) => a - b);
+---
+
+<article class="card organizer">
+  <header>
+    <h3>{organizer.name}</h3>
+    {organizer.role && <p class="role">{organizer.role}</p>}
+  </header>
+  {organizer.affiliation && (
+    <p class="affiliation muted">{organizer.affiliation}</p>
+  )}
+  <p class="years-line" aria-label="Years organized">
+    {yearsSorted.map((y) => (
+      <span class={`year-badge ${y === currentYear ? "year-badge-current" : ""}`}>
+        {y}
+      </span>
+    ))}
+  </p>
+  {organizer.bio && <p>{organizer.bio}</p>}
+  {organizer.links && organizer.links.length > 0 && (
+    <ul class="links">
+      {organizer.links.map((link) => (
+        <li><a href={link.href} rel="noopener">{link.label}</a></li>
+      ))}
+    </ul>
+  )}
+</article>
+
+<style>
+  .organizer { display: flex; flex-direction: column; gap: var(--space-2); }
+  .organizer h3 { margin: 0; }
+  .role {
+    font-weight: 600;
+    color: var(--color-brand);
+    margin: var(--space-1) 0 0;
+    font-size: var(--font-size-sm);
+  }
+  .affiliation { margin: 0; }
+  .years-line {
+    margin: var(--space-2) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .year-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    background: var(--color-bg-muted);
+    color: var(--color-text-muted);
+    border-radius: 999px;
+  }
+  .year-badge-current {
+    background: var(--color-accent);
+    color: var(--color-brand-dark);
+  }
+  .links {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-3) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+</style>

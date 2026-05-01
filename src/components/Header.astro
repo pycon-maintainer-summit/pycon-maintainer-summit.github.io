@@ -1,0 +1,48 @@
+---
+import { site } from "../data/site";
+import Nav from "./Nav.astro";
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span class="brand-text">{site.shortName}</span>
+    </a>
+    <Nav />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--color-brand-dark);
+    color: var(--color-bg);
+    padding: var(--space-4) 0;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-bg);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+  }
+  .brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--color-accent);
+    color: var(--color-brand-dark);
+    border-radius: var(--radius-sm);
+    font-weight: 800;
+  }
+</style>

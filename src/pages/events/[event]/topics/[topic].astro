@@ -1,0 +1,96 @@
+---
+import { getCollection, getEntries, render } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import PageHero from "../../../../components/PageHero.astro";
+import EventSubnav from "../../../../components/EventSubnav.astro";
+import { leafSlug } from "../../../../lib/slugs";
+
+export async function getStaticPaths() {
+  const topics = await getCollection("topics");
+  return topics.map((topic) => ({
+    params: { event: topic.data.event.id, topic: leafSlug(topic.id) },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+const { Content } = await render(topic);
+const { title, abstract, format, tags, slidesUrl, recordingUrl } = topic.data;
+const eventId = topic.data.event.id;
+
+const speakerEntries = topic.data.speakers.length > 0
+  ? await getEntries(topic.data.speakers)
+  : [];
+
+const formatLabels: Record<string, string> = {
+  keynote: "Keynote",
+  talk: "Talk",
+  lightning: "Lightning Talk",
+  bof: "Birds of a Feather",
+  panel: "Panel",
+  workshop: "Workshop",
+};
+---
+
+<BaseLayout title={title} description={abstract}>
+  <PageHero title={title} eyebrow={formatLabels[format]}>
+    {speakerEntries.length > 0 && (
+      <p class="byline">
+        by {speakerEntries.map((s, i) => (
+          <>
+            {i > 0 && ", "}
+            <a href={`/events/${eventId}/speakers/${leafSlug(s.id)}`}>{s.data.name}</a>
+          </>
+        ))}
+      </p>
+    )}
+    {(slidesUrl || recordingUrl) && (
+      <div class="cta-row">
+        {slidesUrl && <a href={slidesUrl} class="button button-accent">Slides</a>}
+        {recordingUrl && <a href={recordingUrl} class="button">Recording</a>}
+      </div>
+    )}
+  </PageHero>
+
+  <EventSubnav eventId={eventId} current="topics" />
+
+  <article class="container container-narrow topic-body">
+    <p class="lede">{abstract}</p>
+    <Content />
+
+    {tags.length > 0 && (
+      <ul class="tags">
+        {tags.map((tag) => <li><span class="tag">{tag}</span></li>)}
+      </ul>
+    )}
+
+    <p class="back"><a href={`/events/${eventId}/topics`}>← All topics</a></p>
+  </article>
+</BaseLayout>
+
+<style>
+  .byline { color: var(--color-accent); font-size: var(--font-size-lg); margin: var(--space-3) 0 0; }
+  .byline a { color: var(--color-accent); }
+  .byline a:hover { color: #fff; }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .topic-body { padding: var(--space-12) 0; }
+  .lede {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-8) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .back { margin-top: var(--space-8); }
+</style>

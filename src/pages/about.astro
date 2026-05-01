@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import OrganizerCard from "../components/OrganizerCard.astro";
+import { organizers, currentYear } from "../data/organizers";
+import { site, contact } from "../data/site";
+
+const maxYear = (o: typeof organizers[number]) => Math.max(...o.years);
+const current = organizers
+  .filter((o) => o.years.includes(currentYear))
+  .sort((a, b) => a.name.localeCompare(b.name));
+const past = organizers
+  .filter((o) => !o.years.includes(currentYear))
+  .sort((a, b) => maxYear(b) - maxYear(a) || a.name.localeCompare(b.name));
+---
+
+<BaseLayout title="About" description={`About ${site.name}`}>
+  <PageHero
+    title="About the Summit"
+    eyebrow="About"
+    description={site.description}
+  />
+
+  <section class="section">
+    <div class="container container-narrow">
+      <h2>Our mission</h2>
+      <p>
+        The PyCon US Maintainers Summit is a dedicated space for the people who
+        keep Python's open source ecosystem running. We come together to share
+        what we've learned, find collaborators, and support each other in the
+        often-invisible work of maintenance.
+      </p>
+      <p>
+        The summit is organized in collaboration with the Python Software
+        Foundation and PyCon US.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <header class="organizers-header">
+        <h2>{currentYear} Organizers</h2>
+        <p class="muted">Organizing this year's summit.</p>
+      </header>
+      <div class="grid grid-3">
+        {current.map((organizer) => (
+          <OrganizerCard organizer={organizer} />
+        ))}
+      </div>
+
+      {past.length > 0 && (
+        <>
+          <header class="organizers-header organizers-header-past">
+            <h2>Past Organizers</h2>
+            <p class="muted">Everyone who's helped run the summit in years past.</p>
+          </header>
+          <div class="grid grid-3">
+            {past.map((organizer) => (
+              <OrganizerCard organizer={organizer} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <h2>Get in touch</h2>
+      <p>
+        Questions, ideas, or want to help out?
+        <a href={`mailto:${contact.email}`}>Email us at {contact.email}</a>
+        or visit the <a href="/contact">contact page</a> for more options.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .organizers-header { margin-bottom: var(--space-6); }
+  .organizers-header h2 { margin-bottom: var(--space-1); }
+  .organizers-header-past { margin-top: var(--space-12); }
+</style>

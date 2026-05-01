@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+import NewsPreview from "../components/NewsPreview.astro";
+import { site, contact } from "../data/site";
+
+const allEvents = await getCollection("events");
+const upcoming = allEvents
+  .filter((e) => e.data.status === "upcoming")
+  .sort((a, b) => b.data.year - a.data.year);
+const featuredEvent = upcoming[0];
+
+const allNews = (await getCollection("news"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="landing">
+    <div class="container landing-inner">
+      <p class="eyebrow">PyCon US</p>
+      <h1>{site.name}</h1>
+      <p class="lede">{site.tagline}</p>
+      <div class="cta-row">
+        <a href="/events" class="button button-accent">See this year's summit</a>
+      </div>
+    </div>
+  </section>
+
+  {featuredEvent && (
+    <section class="section">
+      <div class="container">
+        <header class="section-header">
+          <h2>This year's summit</h2>
+          <a href="/events">All events →</a>
+        </header>
+        <div class="featured-event">
+          <EventCard event={featuredEvent} />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section-alt">
+    <div class="container">
+      <header class="section-header">
+        <h2>Latest news</h2>
+        <a href="/news">All news →</a>
+      </header>
+      <div class="grid grid-2">
+        {allNews.map((post) => <NewsPreview post={post} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="section-header">
+        <h2>Get involved</h2>
+      </header>
+      <div class="grid grid-3">
+        <a href="/docs/attendee-guide" class="card link-card">
+          <h3>Attend</h3>
+          <p>Read the attendee guide and plan your day.</p>
+        </a>
+        <a href="/docs/cfp-guide" class="card link-card">
+          <h3>Speak</h3>
+          <p>Submit a proposal or read tips for new speakers.</p>
+        </a>
+        <a href={`mailto:${contact.email}`} class="card link-card">
+          <h3>Help organize</h3>
+          <p>We're always looking for volunteers — reach out.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .landing {
+    background: linear-gradient(135deg, var(--color-brand-dark), var(--color-brand));
+    color: #fff;
+    padding: var(--space-16) 0;
+  }
+  .landing h1 { color: #fff; font-size: var(--font-size-3xl); }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    font-weight: 600;
+    margin: 0 0 var(--space-3);
+  }
+  .lede {
+    font-size: var(--font-size-lg);
+    color: rgba(255, 255, 255, 0.9);
+    max-width: var(--content-width-narrow);
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    gap: var(--space-4);
+  }
+  .section-header h2 { margin: 0; }
+  .featured-event { max-width: 32rem; }
+  .link-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .link-card h3 { color: var(--color-brand-dark); }
+</style>

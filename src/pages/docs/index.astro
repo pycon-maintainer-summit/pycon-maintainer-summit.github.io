@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import DocLayout from "../../layouts/DocLayout.astro";
+
+const docs = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<DocLayout title="Documentation" description="Guides for attendees, speakers, and organizers.">
+  <h2>Welcome to the documentation</h2>
+  <p>
+    Pick a guide from the sidebar, or browse the full list below. These guides
+    are placeholders — final content will be filled in as the summit
+    approaches.
+  </p>
+
+  <ul class="doc-index">
+    {docs.map((doc) => (
+      <li>
+        <a href={`/docs/${doc.id}`}>
+          <strong>{doc.data.title}</strong>
+          {doc.data.description && <span class="muted"> — {doc.data.description}</span>}
+        </a>
+      </li>
+    ))}
+  </ul>
+</DocLayout>
+
+<style>
+  .doc-index {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0 0;
+  }
+  .doc-index li {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .doc-index a { text-decoration: none; }
+  .doc-index a:hover strong { text-decoration: underline; }
+</style>

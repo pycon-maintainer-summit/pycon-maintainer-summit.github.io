@@ -1,0 +1,94 @@
+---
+import { getCollection, getEntries, render } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import PageHero from "../../../../components/PageHero.astro";
+import EventSubnav from "../../../../components/EventSubnav.astro";
+import { leafSlug } from "../../../../lib/slugs";
+
+export async function getStaticPaths() {
+  const speakers = await getCollection("speakers");
+  return speakers.map((speaker) => ({
+    params: { event: speaker.data.event.id, speaker: leafSlug(speaker.id) },
+    props: { speaker },
+  }));
+}
+
+const { speaker } = Astro.props;
+const { Content } = await render(speaker);
+const { name, affiliation, pronouns, bio, links } = speaker.data;
+const eventId = speaker.data.event.id;
+
+const topics = await getCollection("topics", (t) =>
+  t.data.event.id === eventId &&
+  t.data.speakers.some((ref) => ref.id === speaker.id)
+);
+---
+
+<BaseLayout title={name} description={bio}>
+  <PageHero title={name} eyebrow="Speaker">
+    {affiliation && (
+      <p class="speaker-meta">
+        {affiliation}
+        {pronouns && <span> · {pronouns}</span>}
+      </p>
+    )}
+  </PageHero>
+
+  <EventSubnav eventId={eventId} current="speakers" />
+
+  <article class="container container-narrow speaker-body">
+    <p class="lede">{bio}</p>
+    <Content />
+
+    {links.length > 0 && (
+      <section>
+        <h2>Links</h2>
+        <ul class="links">
+          {links.map((link) => (
+            <li><a href={link.href} rel="noopener">{link.label}</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {topics.length > 0 && (
+      <section>
+        <h2>Topics by this speaker</h2>
+        <ul class="topics">
+          {topics.map((topic) => (
+            <li>
+              <a href={`/events/${eventId}/topics/${leafSlug(topic.id)}`}>
+                {topic.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <p class="back"><a href={`/events/${eventId}/speakers`}>← All speakers</a></p>
+  </article>
+</BaseLayout>
+
+<style>
+  .speaker-meta {
+    color: var(--color-accent);
+    font-size: var(--font-size-lg);
+    margin: var(--space-3) 0 0;
+  }
+  .speaker-body { padding: var(--space-12) 0; }
+  .lede {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+  .links, .topics {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .back { margin-top: var(--space-8); }
+</style>
