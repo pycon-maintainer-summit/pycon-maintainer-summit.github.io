@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  current: CollectionEntry<"events">;
+}
+
+const { current } = Astro.props;
+
+// Sort chronologically — older first, newer last.
+const all = (await getCollection("events")).sort((a, b) => a.data.year - b.data.year);
+const idx = all.findIndex((e) => e.id === current.id);
+const prev = idx > 0 ? all[idx - 1] : null;
+const next = idx < all.length - 1 ? all[idx + 1] : null;
+---
+
+{(prev || next) && (
+  <nav class="event-prev-next" aria-label="Other events">
+    {prev ? (
+      <a href={`/events/${prev.id}`} class="card link-card prev">
+        <span class="dir">← Previous event</span>
+        <span class="title">{prev.data.title}</span>
+        <span class="muted year">{prev.data.year}{prev.data.city && ` · ${prev.data.city}`}</span>
+      </a>
+    ) : (
+      <span class="placeholder" aria-hidden="true"></span>
+    )}
+
+    {next ? (
+      <a href={`/events/${next.id}`} class="card link-card next">
+        <span class="dir">Next event →</span>
+        <span class="title">{next.data.title}</span>
+        <span class="muted year">{next.data.year}{next.data.city && ` · ${next.data.city}`}</span>
+      </a>
+    ) : (
+      <span class="placeholder" aria-hidden="true"></span>
+    )}
+  </nav>
+)}
+
+<style>
+  .event-prev-next {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-12);
+  }
+  @media (max-width: 40rem) {
+    .event-prev-next { grid-template-columns: 1fr; }
+  }
+  .link-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .link-card.next { text-align: right; }
+  .dir {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-brand);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .title {
+    font-weight: 700;
+    color: var(--color-brand-dark);
+  }
+  .year { font-size: var(--font-size-sm); }
+  .placeholder { display: block; }
+</style>

@@ -3,6 +3,7 @@ title: "PyCon US Maintainers Summit 2026"
 year: 2026
 date: "Saturday, May 16, 2026"
 location: "Room 201A, Long Beach Convention & Entertainment Center, Long Beach, CA"
+city: "Long Beach"
 status: "upcoming"
 summary: "A full day of talks, lightning talks, and discussion among Python open source maintainers at PyCon US 2026."
 registrationUrl: "https://us.pycon.org/2026/accounts/dashboard/"

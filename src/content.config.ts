@@ -8,6 +8,8 @@ const events = defineCollection({
     year: z.number(),
     date: z.string(),
     location: z.string(),
+    /** Short city name, used for stat tiles. */
+    city: z.string().optional(),
     status: z.enum(["upcoming", "past"]),
     summary: z.string(),
     cfpUrl: z.string().url().optional(),

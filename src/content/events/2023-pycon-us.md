@@ -3,6 +3,7 @@ title: "PyCon US Maintainers Summit 2023"
 year: 2023
 date: "Friday, April 21, 2023"
 location: "Room 253AB, Salt Palace Convention Center, Salt Lake City, UT"
+city: "Salt Lake City"
 status: "past"
 summary: "A keynote, talks, and roundtable discussions on open source community, packaging, governance, and DEI."
 pyconUrl: "https://us.pycon.org/2023/events/maintainers-summit/"

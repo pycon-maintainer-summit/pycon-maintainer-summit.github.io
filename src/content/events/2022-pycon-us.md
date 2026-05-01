@@ -3,6 +3,7 @@ title: "PyCon US Maintainers Summit 2022"
 year: 2022
 date: "Friday, April 29, 2022"
 location: "Room 253AB, Salt Palace Convention Center, Salt Lake City, UT"
+city: "Salt Lake City"
 status: "past"
 summary: "Pre-recorded talks released April 24, with live Q&A and roundtable discussions on April 29 in Salt Lake City."
 pyconUrl: "https://us.pycon.org/2022/events/maintainers-summit/"

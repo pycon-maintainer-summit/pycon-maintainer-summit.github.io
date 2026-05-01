@@ -3,6 +3,7 @@ title: "PyCon US Maintainers Summit 2024"
 year: 2024
 date: "Friday, May 17, 2024"
 location: "Room 402, David L. Lawrence Convention Center, Pittsburgh, PA"
+city: "Pittsburgh"
 status: "past"
 summary: "A full-day summit of talks and discussion sessions among Python open source maintainers."
 pyconUrl: "https://us.pycon.org/2024/events/maintainers-summit/"

@@ -24,7 +24,7 @@ export type Organizer = {
 export const organizers: Organizer[] = [
   {
     name: "Inessa Pawson",
-    years: [2022, 2023, 2024, 2025, 2026],
+    years: [2020, 2021, 2022, 2023, 2024, 2025, 2026],
     affiliation: "NumPy, OpenTeams",
   },
   {
@@ -54,8 +54,23 @@ export const organizers: Organizer[] = [
   },
   {
     name: "Alexandre de Siqueira",
-    years: [2022, 2023],
+    years: [2021, 2022, 2023],
     affiliation: "Berkeley Institute for Data Science, scikit-image",
+  },
+  {
+    name: "David Charboneau",
+    years: [2021],
+    affiliation: "Open Teams",
+  },
+  {
+    name: "Caroline Dantas",
+    years: [2020],
+    affiliation: "SciPy Latin America, PyLadies Brazil",
+  },
+  {
+    name: "Cooper Lees",
+    years: [2020],
+    affiliation: "Facebook, PyPA, Bandersnatch",
   },
   {
     name: "Jackie Kazil",

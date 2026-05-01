@@ -3,6 +3,7 @@ title: "PyCon US Maintainers Summit 2025"
 year: 2025
 date: "Friday, May 16, 2025"
 location: "Room 402, David L. Lawrence Convention Center, Pittsburgh, PA"
+city: "Pittsburgh"
 status: "past"
 summary: "An afternoon of talks, ignite talks, flash talks, and roundtable discussions among Python open source maintainers."
 pyconUrl: "https://us.pycon.org/2025/events/maintainers-summit/"

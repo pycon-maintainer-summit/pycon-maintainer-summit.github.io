@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import PageHero from "../../../components/PageHero.astro";
 import EventSubnav from "../../../components/EventSubnav.astro";
+import EventPrevNext from "../../../components/EventPrevNext.astro";
 
 export async function getStaticPaths() {
   const events = await getCollection("events");
@@ -45,7 +46,9 @@ const { title, date, location, status, summary, cfpUrl, registrationUrl, schedul
       </p>
     )}
 
-    <p class="back"><a href="/events">← All events</a></p>
+    <EventPrevNext current={event} />
+
+    <p class="back"><a href="/events">All events</a></p>
   </article>
 </BaseLayout>
 
