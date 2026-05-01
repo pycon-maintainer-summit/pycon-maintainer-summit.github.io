@@ -227,13 +227,38 @@ referenced entry, e.g. `2026-pycon-us` (event) or
 
 ## Build & deploy
 
-`npm run build` outputs a fully static site to `dist/`. Serve it from any
-static host (Netlify, Vercel, GitHub Pages, S3+CloudFront, etc.). The site
-URL is configured at the top of `astro.config.mjs` — update it before deploy
-so canonical URLs and RSS links resolve correctly.
+`npm run build` outputs a fully static site to `dist/`. The site URL is
+configured at the top of `astro.config.mjs` — update it before deploying so
+canonical URLs and RSS links resolve correctly.
 
 The RSS feed is at `/rss.xml` and is auto-discovered via
 `<link rel="alternate">` in every page's `<head>`.
+
+### Continuous integration
+
+`.github/workflows/ci.yml` runs on every PR to `main` and on pushes to
+`main`. It runs `npm ci && npm run build` and uploads the built `dist/` as
+an artifact. A failing build blocks merge once you set this workflow as a
+required check in branch protection.
+
+### Netlify
+
+`netlify.toml` pins the Node version and publish directory. To deploy:
+
+1. In Netlify, "Add new site" → "Import an existing project" → connect this
+   repo.
+2. Netlify reads `netlify.toml` and builds. No further config needed.
+3. Netlify gives you a `<sitename>.netlify.app` URL. To use a custom
+   domain later, point DNS at Netlify and add it under Site settings →
+   Domain management.
+
+> **Note on internal links:** internal links throughout the site are
+> absolute (`/events`, `/news/welcome`, etc.), so they only resolve
+> correctly at the root of a domain. That's fine on Netlify (your
+> `*.netlify.app` URL is the root of a subdomain) and on any custom
+> domain. If you ever want to host on a sub-path (e.g. GitHub Pages
+> project pages at `https://user.github.io/repo/`), the links need a
+> base-path refactor.
 
 ---
 
