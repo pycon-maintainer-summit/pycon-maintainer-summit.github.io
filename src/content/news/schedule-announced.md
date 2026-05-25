@@ -1,7 +1,7 @@
 ---
 title: "The 2026 Maintainers Summit schedule is here"
 date: 2026-04-30
-author: "Program Committee"
+author: "Maintainers Summit Team"
 summary: "We've published the full schedule for the 2026 Maintainers Summit, including keynotes, talks, lightning talks, and roundtable discussions."
 tags: ["announcement", "schedule"]
 ---

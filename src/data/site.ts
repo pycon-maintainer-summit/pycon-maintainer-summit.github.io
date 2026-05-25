@@ -8,7 +8,9 @@ export const site = {
   tagline: "A gathering for open source Python maintainers at PyCon US.",
   description:
     "The PyCon US Maintainers Summit brings together maintainers of Python open source projects to share, learn, and collaborate.",
-  url: "https://maintainers.pycon.org",
+  // On github.io for now; switch to "https://maintainers.pycon.org" when the
+  // custom domain is pointed at GitHub Pages (keep in sync with astro.config.mjs).
+  url: "https://pycon-maintainers-summit.github.io",
   locale: "en-US",
   /** Default social-share image. Path is relative to the site root (place file in /public). Leave blank to omit. */
   defaultOgImage: "",
@@ -24,7 +26,7 @@ export const banner = {
 
 export const contact = {
   email: "maintainers-pyconus@googlegroups.com",
-  github: "https://github.com/mariatta/maintainers-summit-website",
+  github: "https://github.com/pycon-maintainers-summit/pycon-maintainers-summit.github.io",
 } as const;
 
 export const nav = [

@@ -15,7 +15,7 @@ interface Props {
   /** Article-specific (only used when ogType === "article"). */
   publishedTime?: Date;
   modifiedTime?: Date;
-  author?: string;
+  author?: string | string[];
   tags?: string[];
 }
 
@@ -74,9 +74,9 @@ const rssHref = new URL("/rss.xml", baseUrl).toString();
     {ogType === "article" && modifiedTime && (
       <meta property="article:modified_time" content={modifiedTime.toISOString()} />
     )}
-    {ogType === "article" && author && (
-      <meta property="article:author" content={author} />
-    )}
+    {ogType === "article" && author && (Array.isArray(author) ? author : [author]).map((name) => (
+      <meta property="article:author" content={name} />
+    ))}
     {ogType === "article" && tags.map((tag) => (
       <meta property="article:tag" content={tag} />
     ))}

@@ -139,22 +139,9 @@ back to title order.
 
 ### Add a news / blog post
 
-`src/content/news/my-post.md`
-
-```markdown
----
-title: "Headline"
-date: 2026-09-01
-author: "Maintainers Summit Team"
-summary: "One-line summary."
-tags: ["announcement"]
-draft: false                    # true to hide
----
-
-Markdown body.
-```
-
-Posts auto-appear on `/news`, get a detail page, and are added to `/rss.xml`.
+See the **[Writing News Posts](src/content/docs/writing-news.md)** contributing
+guide (also published on the site at `/docs/writing-news`). It covers the
+frontmatter fields, single vs. multiple authors, drafts, tags, and previewing.
 
 ### Add or edit a doc
 
@@ -216,7 +203,7 @@ a typo in a field name will fail the build.
 | `events`    | `title`, `year`, `date`, `location`, `status`, `summary` | `cfpUrl`, `registrationUrl`, `scheduleUrl`, `pyconUrl` |
 | `speakers`  | `name`, `bio`, `event`                                   | `affiliation`, `pronouns`, `photo`, `links` |
 | `topics`    | `title`, `abstract`, `event`                              | `format` (default `talk`), `time`, `speakers`, `tags`, `slidesUrl`, `recordingUrl` |
-| `news`      | `title`, `date`, `summary`                                | `author`, `tags`, `draft` |
+| `news`      | `title`, `date`, `summary`                                | `author` (name or list of names), `tags`, `draft` |
 | `docs`      | `title`                                                  | `description`, `order`, `audience` |
 
 Cross-collection refs (`event:`, `speakers:`) use the file path of the
@@ -227,38 +214,55 @@ referenced entry, e.g. `2026-pycon-us` (event) or
 
 ## Build & deploy
 
-`npm run build` outputs a fully static site to `dist/`. The site URL is
-configured at the top of `astro.config.mjs` — update it before deploying so
-canonical URLs and RSS links resolve correctly.
+`npm run build` outputs a fully static site to `dist/`. The site URL is set in
+`astro.config.mjs` (`site`) and `src/data/site.ts` (`url`) — keep them in sync,
+since they drive canonical URLs, Open Graph tags, and RSS links.
 
 The RSS feed is at `/rss.xml` and is auto-discovered via
 `<link rel="alternate">` in every page's `<head>`.
 
+**Production is served by GitHub Pages; pull-request previews by Netlify.**
+
+### Production — GitHub Pages
+
+The repo is named `pycon-maintainers-summit.github.io`, so it is the org's
+**root site** and serves at `https://pycon-maintainers-summit.github.io/` (no
+sub-path — which is why the absolute internal links below "just work").
+
+`.github/workflows/deploy.yml` builds and deploys on every push to `main`.
+One-time setup: repo **Settings → Pages → Source = "GitHub Actions"**.
+
+To move to the custom domain later:
+
+1. Add `maintainers.pycon.org` under Settings → Pages → Custom domain, and
+   commit a `public/CNAME` file containing that hostname.
+2. Point DNS at GitHub Pages.
+3. Flip `site` in `astro.config.mjs` and `url` in `src/data/site.ts` to
+   `https://maintainers.pycon.org`.
+
+### Pull-request previews — Netlify
+
+Netlify is used **only** for deploy previews. `netlify.toml` cancels the
+production-context build (`[context.production] ignore`), so Netlify never
+publishes a competing production deploy; PR previews still build because they
+run in the `deploy-preview` context. To wire it up: in Netlify, "Add new site"
+→ "Import an existing project" → connect this repo and grant the Netlify GitHub
+App access to the org. Deploy Previews are on by default for PRs against
+`main`.
+
 ### Continuous integration
 
-`.github/workflows/ci.yml` runs on every PR to `main` and on pushes to
-`main`. It runs `npm ci && npm run build` and uploads the built `dist/` as
-an artifact. A failing build blocks merge once you set this workflow as a
-required check in branch protection.
+`.github/workflows/ci.yml` runs on every PR to `main` (and pushes to `main`).
+It runs `npm ci && npm run build` and uploads the built `dist/` as an artifact.
+A failing build blocks merge once you set this workflow as a required check in
+branch protection.
 
-### Netlify
-
-`netlify.toml` pins the Node version and publish directory. To deploy:
-
-1. In Netlify, "Add new site" → "Import an existing project" → connect this
-   repo.
-2. Netlify reads `netlify.toml` and builds. No further config needed.
-3. Netlify gives you a `<sitename>.netlify.app` URL. To use a custom
-   domain later, point DNS at Netlify and add it under Site settings →
-   Domain management.
-
-> **Note on internal links:** internal links throughout the site are
-> absolute (`/events`, `/news/welcome`, etc.), so they only resolve
-> correctly at the root of a domain. That's fine on Netlify (your
-> `*.netlify.app` URL is the root of a subdomain) and on any custom
-> domain. If you ever want to host on a sub-path (e.g. GitHub Pages
-> project pages at `https://user.github.io/repo/`), the links need a
-> base-path refactor.
+> **Note on internal links:** internal links throughout the site are absolute
+> (`/events`, `/news/welcome`, etc.), so they only resolve at the root of a
+> domain. The `*.github.io` root site and any custom domain are both roots, so
+> this is fine. Hosting on a sub-path (e.g. a *project* repo at
+> `https://user.github.io/repo/`) would require a base-path refactor — which is
+> exactly why this repo is named `…github.io` rather than something shorter.
 
 ---
 

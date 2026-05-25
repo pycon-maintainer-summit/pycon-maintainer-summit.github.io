@@ -2,6 +2,7 @@ import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 import { site } from "../data/site";
+import { formatAuthors } from "../lib/authors";
 
 export async function GET(context: APIContext) {
   const posts = (await getCollection("news"))
@@ -16,7 +17,7 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       pubDate: post.data.date,
       description: post.data.summary,
-      author: post.data.author,
+      author: formatAuthors(post.data.author),
       categories: post.data.tags,
       link: `/news/${post.id}/`,
     })),

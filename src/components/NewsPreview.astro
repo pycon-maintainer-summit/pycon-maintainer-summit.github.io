@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { formatAuthors } from "../lib/authors";
 
 interface Props {
   post: CollectionEntry<"news">;
@@ -17,7 +18,7 @@ const formatted = date.toLocaleDateString("en-US", {
 <article class="card news-preview">
   <p class="news-meta muted">
     <time datetime={date.toISOString()}>{formatted}</time>
-    <span> · {author}</span>
+    <span> · {formatAuthors(author)}</span>
   </p>
   <h3><a href={`/news/${post.id}`}>{title}</a></h3>
   <p>{summary}</p>

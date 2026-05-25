@@ -16,9 +16,3 @@ This is a placeholder for the organizer guide.
 - Placeholder: 1 month out
 - Placeholder: week of
 
-## Roles
-
-- Placeholder: Chair
-- Placeholder: Program Committee
-- Placeholder: Logistics
-- Placeholder: Communications

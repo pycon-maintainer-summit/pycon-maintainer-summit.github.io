@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
+import { formatAuthors } from "../lib/authors";
 
 interface Props {
   title: string;
   date: Date;
-  author: string;
+  author: string[];
   summary?: string;
   tags?: string[];
 }
@@ -29,7 +30,7 @@ const formatted = date.toLocaleDateString("en-US", {
   <PageHero title={title} eyebrow="News & Announcements">
     <p class="byline">
       <time datetime={date.toISOString()}>{formatted}</time>
-      <span> · {author}</span>
+      <span> · {formatAuthors(author)}</span>
     </p>
   </PageHero>
   <article class="container container-narrow news-article">
