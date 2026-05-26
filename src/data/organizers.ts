@@ -58,11 +58,6 @@ export const organizers: Organizer[] = [
     affiliation: "Berkeley Institute for Data Science, scikit-image",
   },
   {
-    name: "David Charboneau",
-    years: [2021],
-    affiliation: "Open Teams",
-  },
-  {
     name: "Caroline Dantas",
     years: [2020],
     affiliation: "SciPy Latin America, PyLadies Brazil",
