@@ -31,7 +31,13 @@ const {
 } = Astro.props;
 
 const fullTitle = title ? `${title} · ${site.shortName}` : site.name;
-const baseUrl = Astro.site ?? new URL(site.url);
+// In dev, resolve absolute URLs (canonical, OG/Twitter image, RSS) against the
+// live request origin (e.g. http://localhost:4321) so previews work locally. In
+// builds, use the configured site — the deploy URL on Netlify previews, and the
+// github.io / custom domain in production.
+const baseUrl = import.meta.env.DEV
+  ? new URL(Astro.url.origin)
+  : (Astro.site ?? new URL(site.url));
 const canonical = new URL(Astro.url.pathname, baseUrl).toString();
 
 const resolvedImage = ogImage ?? site.defaultOgImage;

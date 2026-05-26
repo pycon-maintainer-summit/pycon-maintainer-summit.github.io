@@ -19,35 +19,52 @@ const formatted = date.toLocaleDateString("en-US", {
 ---
 
 <article class="card news-preview">
+  <div class="np-body">
+    <p class="news-meta muted">
+      <time datetime={date.toISOString()}>{formatted}</time>
+      <span> · {formatAuthors(author)}</span>
+    </p>
+    <h3><a href={href}>{title}</a></h3>
+    <p class="np-summary">{summary}</p>
+    {tags.length > 0 && (
+      <ul class="tags">
+        {tags.map((tag) => (
+          <li><a class="tag" href={`/news/tags/${tagSlug(tag)}`}>{tag}</a></li>
+        ))}
+      </ul>
+    )}
+  </div>
   {image && (
-    <a href={href} class="cover" aria-hidden="true" tabindex="-1">
+    <a href={href} class="np-thumb" aria-hidden="true" tabindex="-1">
       <img src={image} alt="" width="1200" height="630" loading="lazy" />
     </a>
-  )}
-  <p class="news-meta muted">
-    <time datetime={date.toISOString()}>{formatted}</time>
-    <span> · {formatAuthors(author)}</span>
-  </p>
-  <h3><a href={href}>{title}</a></h3>
-  <p>{summary}</p>
-  {tags.length > 0 && (
-    <ul class="tags">
-      {tags.map((tag) => (
-        <li><a class="tag" href={`/news/tags/${tagSlug(tag)}`}>{tag}</a></li>
-      ))}
-    </ul>
   )}
 </article>
 
 <style>
-  .news-preview { display: flex; flex-direction: column; gap: var(--space-3); }
-  .cover {
+  .news-preview {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .np-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  /* Fixed-size landscape thumbnail (the image's own 1200×630 ratio, so it's
+     never cropped) sitting to the right of the text. */
+  .np-thumb {
+    flex: 0 0 auto;
+    width: 13rem;
     display: block;
-    margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) 0;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-radius: var(--radius-md);
     overflow: hidden;
   }
-  .cover img {
+  .np-thumb img {
     display: block;
     width: 100%;
     height: auto;
@@ -58,6 +75,7 @@ const formatted = date.toLocaleDateString("en-US", {
   .news-preview h3 a { color: var(--color-brand-dark); text-decoration: none; }
   .news-preview h3 a:hover { text-decoration: underline; }
   .news-meta { font-size: var(--font-size-sm); margin: 0; }
+  .np-summary { margin: 0; }
   .tags {
     list-style: none;
     padding: 0;
@@ -65,5 +83,15 @@ const formatted = date.toLocaleDateString("en-US", {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
+  }
+  /* Stack the thumbnail above the text on narrow cards. */
+  @media (max-width: 30rem) {
+    .news-preview { flex-direction: column; align-items: stretch; }
+    .np-thumb {
+      width: auto;
+      order: -1;
+      margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) 0;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
   }
 </style>
