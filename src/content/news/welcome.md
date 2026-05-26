@@ -20,7 +20,7 @@ Since then, we've hosted our "site" as a single page under the PyCon US website.
 
 That page does its job well. It's where you register and find each year's
 logistics. But over the years, as our community grew, our organizing team grew 
-and changed hands. We came to realize that we needed more than an event listing
+and changed hands, we came to realize that we needed more than an event listing
 page, which is what the PyCon US site is built to be.
 
 Our documentation and shared guides did exist: for attendees, for speakers,
