@@ -14,14 +14,21 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+// The post's own uploaded image, if any — used both for the social/OG meta
+// and as the on-page cover. Posts without one simply have no image.
+const image = post.data.image;
 ---
 
 <NewsLayout
   title={post.data.title}
   date={post.data.date}
+  updated={post.data.updated}
   author={post.data.author}
   summary={post.data.summary}
   tags={post.data.tags}
+  ogImage={image}
+  coverImage={image}
 >
   <Content />
 </NewsLayout>

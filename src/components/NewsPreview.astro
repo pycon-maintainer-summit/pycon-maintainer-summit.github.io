@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { formatAuthors } from "../lib/authors";
+import { tagSlug } from "../lib/slugs";
 
 interface Props {
   post: CollectionEntry<"news">;
@@ -8,6 +9,8 @@ interface Props {
 
 const { post } = Astro.props;
 const { title, date, author, summary, tags } = post.data;
+const href = `/news/${post.id}`;
+const { image } = post.data;
 const formatted = date.toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -16,21 +19,41 @@ const formatted = date.toLocaleDateString("en-US", {
 ---
 
 <article class="card news-preview">
+  {image && (
+    <a href={href} class="cover" aria-hidden="true" tabindex="-1">
+      <img src={image} alt="" width="1200" height="630" loading="lazy" />
+    </a>
+  )}
   <p class="news-meta muted">
     <time datetime={date.toISOString()}>{formatted}</time>
     <span> · {formatAuthors(author)}</span>
   </p>
-  <h3><a href={`/news/${post.id}`}>{title}</a></h3>
+  <h3><a href={href}>{title}</a></h3>
   <p>{summary}</p>
   {tags.length > 0 && (
     <ul class="tags">
-      {tags.map((tag) => (<li><span class="tag">{tag}</span></li>))}
+      {tags.map((tag) => (
+        <li><a class="tag" href={`/news/tags/${tagSlug(tag)}`}>{tag}</a></li>
+      ))}
     </ul>
   )}
 </article>
 
 <style>
   .news-preview { display: flex; flex-direction: column; gap: var(--space-3); }
+  .cover {
+    display: block;
+    margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    overflow: hidden;
+  }
+  .cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1200 / 630;
+    object-fit: cover;
+  }
   .news-preview h3 { margin: 0; }
   .news-preview h3 a { color: var(--color-brand-dark); text-decoration: none; }
   .news-preview h3 a:hover { text-decoration: underline; }

@@ -54,6 +54,8 @@ const news = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
+    /** Optional last-updated date. Shown as "Updated …" only when after `date`. */
+    updated: z.coerce.date().optional(),
     /** A single name or a list of names; always normalized to an array. */
     author: z
       .union([z.string(), z.array(z.string())])
@@ -61,6 +63,9 @@ const news = defineCollection({
       .transform((a) => (Array.isArray(a) ? a : [a])),
     summary: z.string(),
     tags: z.array(z.string()).default([]),
+    /** Social-share image (Open Graph / Twitter). Absolute path from the site
+     * root, e.g. "/og/welcome.png". Put the file in /public. Recommended 1200×630. */
+    image: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

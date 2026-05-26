@@ -8,3 +8,15 @@ export function leafSlug(id: string): string {
   const parts = id.split("/");
   return parts[parts.length - 1] ?? id;
 }
+
+/**
+ * URL-safe slug for a tag, e.g. "Thank You" -> "thank-you".
+ * Used for /news/tags/<slug> pages and the links to them, so both sides agree.
+ */
+export function tagSlug(tag: string): string {
+  return tag
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}

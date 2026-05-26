@@ -19,7 +19,7 @@ export const site = {
 
 /** Site-wide banner. Set `show: false` to hide. */
 export const banner = {
-  show: true,
+  show: false,
   title: "DEMO ONLY",
   message: "This site is still under construction.",
 } as const;

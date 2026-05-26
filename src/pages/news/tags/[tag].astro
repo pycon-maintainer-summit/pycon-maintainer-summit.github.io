@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHero from "../../../components/PageHero.astro";
+import NewsPreview from "../../../components/NewsPreview.astro";
+import { tagSlug } from "../../../lib/slugs";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("news"))
+    .filter((p) => !p.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  // Group posts by tag slug, keeping the first-seen label for display.
+  const byTag = new Map<string, { label: string; posts: typeof posts }>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const slug = tagSlug(tag);
+      if (!slug) continue;
+      const entry = byTag.get(slug) ?? { label: tag, posts: [] };
+      entry.posts.push(post);
+      byTag.set(slug, entry);
+    }
+  }
+
+  return [...byTag.entries()].map(([slug, { label, posts }]) => ({
+    params: { tag: slug },
+    props: { label, posts },
+  }));
+}
+
+const { label, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`Posts tagged “${label}”`}
+  description={`News and blog posts tagged “${label}” from the Maintainers Summit.`}
+>
+  <PageHero
+    title={`Tagged “${label}”`}
+    eyebrow="News & Announcements"
+    description={`${posts.length} ${posts.length === 1 ? "post" : "posts"} tagged “${label}”.`}
+  >
+    <p class="back"><a href="/news">← All news</a></p>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        {posts.map((post) => <NewsPreview post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .back { margin: var(--space-4) 0 0; }
+  .back a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .back a:hover { text-decoration: underline; }
+</style>

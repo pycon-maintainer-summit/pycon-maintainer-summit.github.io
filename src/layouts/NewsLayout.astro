@@ -2,21 +2,28 @@
 import BaseLayout from "./BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import { formatAuthors } from "../lib/authors";
+import { tagSlug } from "../lib/slugs";
 
 interface Props {
   title: string;
   date: Date;
+  updated?: Date;
   author: string[];
   summary?: string;
   tags?: string[];
+  /** Social-share image for meta tags (may be an auto-generated card). */
+  ogImage?: string;
+  /** Image shown on the page itself (upload if set, otherwise the generated card). */
+  coverImage?: string;
 }
 
-const { title, date, author, summary, tags = [] } = Astro.props;
-const formatted = date.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+const { title, date, updated, author, summary, tags = [], ogImage, coverImage } =
+  Astro.props;
+const formatDate = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const formatted = formatDate(date);
+// Only surface "Updated" when it's meaningfully after the publish date.
+const isUpdated = !!updated && updated.getTime() > date.getTime();
 ---
 
 <BaseLayout
@@ -24,21 +31,38 @@ const formatted = date.toLocaleDateString("en-US", {
   description={summary}
   ogType="article"
   publishedTime={date}
+  modifiedTime={updated}
   author={author}
   tags={tags}
+  ogImage={ogImage}
 >
   <PageHero title={title} eyebrow="News & Announcements">
     <p class="byline">
       <time datetime={date.toISOString()}>{formatted}</time>
       <span> · {formatAuthors(author)}</span>
+      {isUpdated && updated && (
+        <span> · Updated <time datetime={updated.toISOString()}>{formatDate(updated)}</time></span>
+      )}
     </p>
   </PageHero>
   <article class="container container-narrow news-article">
+    {coverImage && (
+      <img
+        class="cover"
+        src={coverImage}
+        alt={title}
+        width="1200"
+        height="630"
+        loading="eager"
+      />
+    )}
     {summary && <p class="lede">{summary}</p>}
     <slot />
     {tags.length > 0 && (
       <ul class="tags">
-        {tags.map((tag) => (<li><span class="tag">{tag}</span></li>))}
+        {tags.map((tag) => (
+          <li><a class="tag" href={`/news/tags/${tagSlug(tag)}`}>{tag}</a></li>
+        ))}
       </ul>
     )}
     <p class="back"><a href="/news">← Back to all news</a></p>
@@ -52,6 +76,15 @@ const formatted = date.toLocaleDateString("en-US", {
     margin: var(--space-3) 0 0;
   }
   .news-article { padding: var(--space-12) 0; }
+  .cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1200 / 630;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+  }
   .lede {
     font-size: var(--font-size-lg);
     color: var(--color-text-muted);

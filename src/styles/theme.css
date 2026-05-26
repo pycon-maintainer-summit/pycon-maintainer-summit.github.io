@@ -166,3 +166,5 @@ img { max-width: 100%; height: auto; }
   border-radius: 999px;
 }
 .tag-accent { background: var(--color-accent); color: var(--color-brand-dark); }
+a.tag { text-decoration: none; transition: background 0.15s ease, color 0.15s ease; }
+a.tag:hover { background: var(--color-brand); color: #fff; }
