@@ -1,0 +1,31 @@
+# Netlify build configuration.
+#
+# Netlify is used ONLY for pull-request deploy previews. Production is served
+# by GitHub Pages (see .github/workflows/deploy.yml), so the production-context
+# build below is canceled — Netlify never publishes a competing production
+# deploy and spends no build minutes on `main`. Deploy Previews still build
+# because they run in the `deploy-preview` context, which has no `ignore`.
+#
+# Netlify auto-detects Astro, but we pin Node and the publish dir for clarity.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Cancel production-branch builds (exit 0 = "nothing changed, skip build").
+[context.production]
+  ignore = "/bin/true"
+
+# Helpful headers for static assets. Tune as needed.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/rss.xml"
+  [headers.values]
+    Content-Type = "application/rss+xml; charset=utf-8"
