@@ -1,89 +1,39 @@
-# Popular: an Astro theme for meetups & communities
+# PyCon US Maintainers Summit website
 
-> *Built to make your community seen and famous.* (Yes, it's named after *Pop!ular* by Darren Hayes.)
+Source for the [PyCon US Maintainers Summit](https://pycon-maintainers-summit.github.io) site:
+a gathering for open source Python maintainers at PyCon US.
 
-> **AI agents / automated contributors:** read [AGENTS.md](AGENTS.md) before making changes. It covers the repo layout, build commands, the Hugo-Astro parity contract, and content conventions.
+## Developing
 
-**Popular** is a warm, community-first [Astro](https://astro.build) theme for meetups, user
-groups and small events: the Astro twin of
-[`hugo-theme-popular`](../hugo-theme-popular). Both share the same design tokens, CSS,
-behaviour JS and content model; see **PARITY.md** for the cross-repo contract.
-
-- Composable **home page** (hero, stats, features, auto next-event, latest posts, organizers, CTA)
-- **Blog** with tag filtering, tag pages, RSS, and per-post speaker bios
-- **Events** that automatically split into *upcoming* and *past*
-- **Organizers / team** page
-- **Docs** (handbook & runbooks) with scroll-spy TOC and **checklists that remember progress**
-- Dark footer with **land-acknowledgement** slot and social links
-- **Alt text, required**: CI builds every site and fails if any image lacks alt text
-- **Agent & human friendly**: ships [`AGENTS.md`](AGENTS.md) so AI coding agents follow the same rules as human contributors
-- **Translatable UI**: every template string lives in one place (Hugo `i18n/`, Astro `STRINGS` config), so a site can run in any language
-- Re-brand the whole theme from `src/config.ts`, no CSS edits needed
-
-**Full documentation** lives on the theme's product site (deployed from the Hugo
-repo): start at `/docs/quick-start/?fw=astro`. This README covers the essentials.
-
-**Multi-author blogging:** posts support `authors: ["slug"]` (profiles in
-`src/content/authors/` with bio, photo, socials, website → linked profile pages)
-and inline `guestAuthors` for one-off guest writers, plus a plain `author` string fallback.
-
-## Quick start
-
-```bash
+```sh
 npm install
-npm run dev          # http://localhost:4321
-npm run build        # static output in dist/
+npm run dev      # local dev server
+npm run build    # production build into dist/
 ```
 
-The repo ships **three complete fictional demos** sharing the same theme code:
-**Rocky Cove Aquarium Club** (teal, active by default), **Lucky Town Foodie Club**
-(copper) and **KDrama Fan Club** (indigo). Switch the active demo with
-`npm run demo:foodie` / `demo:kdrama` / `demo:aquarium` (copies `demos/<slug>/`
-into `src/` + `public/images`). The deploy workflow publishes all three behind a
-gallery landing page with an in-page switcher (`DEMO_BAR` in `src/config.ts`, 
-set it to `null` on a real site and it never appears). All communities and venues
-in the demos are made up for demonstration.
+## Content
 
-## Make it yours
+Everything editable lives in `src/content/`:
 
-| What | Where |
-|---|---|
-| Site name, logo, tagline, land acknowledgement | `src/config.ts` → `SITE` |
-| Colours, fonts, radii (design tokens) | `src/config.ts` → `BRAND` (deep changes: `src/styles/tokens/`) |
-| Navigation, header CTA, footer, socials | `src/config.ts` → `NAV`, `CTA`, `FOOTER`, `SOCIAL` |
-| Home page sections | `src/config.ts` → `HOME` |
-| Blog posts / events / organizers | `src/content/{blog,events,organizers}/*.md` |
-| About, Code of Conduct, Get involved | `src/content/pages/*.mdx` |
-| Handbook & runbooks | `src/content/docs/*.mdx` (use `<Callout>` and `<Checklist>`) |
+- `events/` — one file per summit edition, e.g. `2026-pycon-us.md`
+- `speakers/<event-id>/` and `topics/<event-id>/` — the program for each edition
+- `blog/` — news posts, served at `/news/` (set `draft: true` to keep a post unpublished)
+- `organizers/` — organizer profiles; `years` lists every year the person helped organize
+- `docs/` — guides for attendees, speakers, and organizers
+- `pages/` — prose pages (about, contact)
 
-Front-matter schemas live in `src/content.config.ts` (zod-validated) and are kept
-1:1 compatible with the Hugo theme, so content moves between the two freely.
-
-### MDX components
-
-```mdx
-import Callout from '../../components/Callout.astro';
-import Checklist from '../../components/Checklist.astro';
-
-<Callout tone="tip" title="Two-deep rule">
-  Aim for **two** organizers at every event.
-</Callout>
-
-<Checklist id="rb-venue" items={[
-  'Shortlist 2–3 venues',
-  'Confirm step-free access',
-]} />
-```
-
-`Checklist` progress persists in the visitor's browser (`localStorage`), using the same
-key format as the Hugo theme.
+Site-wide settings (name, navigation, footer, colors, home page copy) are in
+`src/config.ts`.
 
 ## Deploying
 
-Static output: deploy `dist/` to Netlify, GitHub Pages, Cloudflare Pages, etc.
-Set `site` in `astro.config.mjs` for correct RSS/OG URLs.
+Production deploys to GitHub Pages from `main`
+(`.github/workflows/deploy.yml`). Netlify builds deploy previews for pull
+requests only (`netlify.toml`).
 
-## Credits & license
+## Theme
 
-Typography: **Inter** & **Quantico** (Google Fonts). Icons: **Font Awesome 6**.
-MIT: see `LICENSE`. Fork it, adapt it, and share your community's version.
+Built on *Popular*, a personal Astro theme by
+[Mariatta](https://mariatta.ca), vendored into this repository. The theme's
+own documentation is in [THEME.md](THEME.md); the `demos/` directory is
+sample content from the theme and is not part of the site build.
