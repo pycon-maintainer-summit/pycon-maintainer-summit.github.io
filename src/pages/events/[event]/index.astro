@@ -19,9 +19,11 @@ const { Content } = await render(event);
   <article>
     <header class="g-pagehero">
       <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
-        <a href="/events/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:1rem">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {STRINGS.allEvents}
-        </a>
+        <div style="margin-bottom:1rem">
+          <a href="/events/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium)">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {STRINGS.allEvents}
+          </a>
+        </div>
         <span class="g-eyebrow">{d.status === 'upcoming' ? STRINGS.statusUpcoming : STRINGS.statusPast} · {d.year}</span>
         <h1 style="margin:.5rem 0 0">{d.title}</h1>
         <div class="g-meta-line" style="margin-top:var(--space-3)">

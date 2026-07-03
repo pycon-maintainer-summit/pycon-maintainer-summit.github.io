@@ -33,9 +33,11 @@ const formatLabels: Record<string, string> = {
   <article>
     <header class="g-pagehero">
       <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
-        <a href={`/events/${eventId}/topics/`} style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:1rem">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All topics
-        </a>
+        <div style="margin-bottom:1rem">
+          <a href={`/events/${eventId}/topics/`} style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium)">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All topics
+          </a>
+        </div>
         <span class="g-eyebrow">{formatLabels[format]}</span>
         <h1 style="margin:.5rem 0 0">{title}</h1>
         {speakerEntries.length > 0 && (
