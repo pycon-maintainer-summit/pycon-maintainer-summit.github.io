@@ -26,7 +26,7 @@ const topics = await getCollection(
 <BaseLayout title={name} description={bio}>
   <article>
     <header class="g-pagehero">
-      <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
+      <div class="g-container">
         <div style="margin-bottom:1rem">
           <a href={`/events/${eventId}/speakers/`} style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium)">
             <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All speakers
@@ -44,7 +44,7 @@ const topics = await getCollection(
 
     <EventSubnav eventId={eventId} current="speakers" />
 
-    <div class="g-narrow g-section--sm">
+    <div class="g-container g-section--sm">
       <p class="g-lead" style="margin-bottom:var(--space-4)">{bio}</p>
       <div class="g-prose"><Content /></div>
 

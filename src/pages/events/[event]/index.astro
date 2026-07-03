@@ -18,7 +18,7 @@ const { Content } = await render(event);
 <BaseLayout title={d.title} description={d.summary} image={d.image}>
   <article>
     <header class="g-pagehero">
-      <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
+      <div class="g-container">
         <div style="margin-bottom:1rem">
           <a href="/events/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium)">
             <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {STRINGS.allEvents}
@@ -42,7 +42,7 @@ const { Content } = await render(event);
 
     <EventSubnav eventId={event.id} current="overview" />
 
-    <div class="g-narrow g-section--sm">
+    <div class="g-container g-section--sm">
       <p class="g-lead" style="margin-bottom:var(--space-4)">{d.summary}</p>
       <div class="g-prose"><Content /></div>
 
