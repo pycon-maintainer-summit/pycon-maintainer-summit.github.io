@@ -61,6 +61,7 @@ if (b.primaryHover) vars.push(`--color-primary-hover:${b.primaryHover}`);
 if (b.primaryActive) vars.push(`--color-primary-active:${b.primaryActive}`, `--raspberry-700:${b.primaryActive}`, `--text-link:${b.primaryActive}`);
 if (b.secondary) vars.push(`--color-secondary:${b.secondary}`);
 if (b.accent) vars.push(`--color-accent:${b.accent}`, `--indigo-500:${b.accent}`);
+if (b.accentHover) vars.push(`--color-accent-hover:${b.accentHover}`);
 /* Explicit link colors win over the primaryActive-derived --text-link above. */
 if (b.link) vars.push(`--text-link:${b.link}`);
 if (b.linkHover) vars.push(`--text-link-hover:${b.linkHover}`);

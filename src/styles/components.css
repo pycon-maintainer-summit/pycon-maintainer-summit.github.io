@@ -32,6 +32,8 @@
 .g-btn--ghost:hover { background: var(--color-primary-subtle); color: var(--text-link); }
 .g-btn--dark { background: var(--ink-800); color: var(--text-on-brand); }
 .g-btn--dark:hover { background: var(--ink-900); color: var(--text-on-brand); box-shadow: var(--shadow-sm); }
+.g-btn--accent { background: var(--color-accent); color: var(--ink-800); }
+.g-btn--accent:hover { background: var(--color-accent-hover, var(--color-accent)); color: var(--ink-800); box-shadow: var(--shadow-sm); }
 
 /* ---------- Badges & tags ---------- */
 .g-badge {
@@ -48,6 +50,7 @@
 .g-badge--warning { background: var(--amber-500); color: var(--ink-800); }
 .g-badge--warning.g-badge--soft { background: #fff7e0; color: #946a00; }
 .g-badge--ink { background: var(--ink-800); }
+.g-badge--accent { background: var(--color-accent); color: var(--ink-800); }
 
 .g-tag {
   display: inline-flex; align-items: center;
@@ -170,7 +173,7 @@ pre:hover .g-copy, .g-copy:focus-visible { opacity: 1; }
 /* ---------- Stats strip ---------- */
 .g-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); padding-block: var(--space-5); }
 .g-stat { text-align: center; }
-.g-stat__n { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-2xl); color: var(--raspberry-300); }
+.g-stat__n { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-2xl); color: var(--color-accent); }
 .g-stat__l { font-size: var(--text-sm); color: var(--ink-300); margin-top: 0.2rem; }
 
 /* ---------- Feature (image + text) ---------- */

@@ -12,7 +12,7 @@ const href = `/events/${event.id}/`;
   <div class="g-card__body">
     <div class="g-row" style="justify-content:space-between;align-items:center">
       {d.status === 'upcoming'
-        ? <span class="g-badge g-badge--success g-badge--soft">{STRINGS.statusUpcoming}</span>
+        ? <span class="g-badge g-badge--accent">{STRINGS.statusUpcoming}</span>
         : <span class="g-badge g-badge--soft">{STRINGS.statusPast}</span>}
       <span style="font-size:var(--text-sm);color:var(--text-muted)">{d.year}</span>
     </div>

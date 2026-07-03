@@ -90,7 +90,10 @@ export const BRAND: Record<string, string> = {
   primaryHover: "#1f3461",
   primaryActive: "#1f3461",
   secondary: "#1f3461",
-  accent: "#b7791f",
+  // Python yellow, carried over from the previous site. Used on dark surfaces
+  // (stats band) and as chips/buttons with navy text; never as text on white.
+  accent: "#ffd43b",
+  accentHover: "#f0c419",
   // Distinct link color so links stand apart from body text (prose links are
   // also underlined, see components.css).
   link: "#2d4a87",
@@ -170,7 +173,7 @@ export const HOME = {
     title: 'Maintainers Summit',
     lead: "A gathering for open source Python maintainers at PyCon US. We come together to share what we've learned, find collaborators, and support each other in the often-invisible work of maintenance.",
     ctas: [
-      { label: "See this year's summit", url: '/events/', variant: 'primary' },
+      { label: "See this year's summit", url: '/events/', variant: 'accent' },
       { label: 'About the summit', url: '/about/', variant: 'outline' },
     ],
   },
