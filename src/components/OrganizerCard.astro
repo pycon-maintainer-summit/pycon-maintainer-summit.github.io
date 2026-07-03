@@ -1,15 +1,24 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { CURRENT_YEAR } from '../config';
 
 interface Props { organizer: CollectionEntry<'organizers'> }
 const { organizer } = Astro.props;
 const d = organizer.data;
+const yearsSorted = [...d.years].sort((a, b) => a - b);
 ---
 
 <div class="g-org">
   {d.photo && <img class="g-org__img" src={d.photo} alt={d.title} loading="lazy" />}
   <div class="g-org__name">{d.title}</div>
   {d.role && <div class="g-org__role">{d.role}</div>}
+  {yearsSorted.length > 0 && (
+    <div class="g-org__years" aria-label="Years organized">
+      {yearsSorted.map((y) => (
+        <span class={`year-badge ${y === CURRENT_YEAR ? 'year-badge--current' : ''}`}>{y}</span>
+      ))}
+    </div>
+  )}
   {d.description && <p class="g-org__bio">{d.description}</p>}
   {d.social.length > 0 && (
     <div class="g-persona__socials">
@@ -19,3 +28,26 @@ const d = organizer.data;
     </div>
   )}
 </div>
+
+<style>
+  .g-org__years {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .year-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: var(--text-xs);
+    font-family: var(--font-mono, monospace);
+    font-weight: var(--weight-semibold);
+    background: var(--ink-100);
+    color: var(--text-muted);
+    border-radius: var(--radius-pill);
+  }
+  .year-badge--current {
+    background: var(--color-primary);
+    color: #fff;
+  }
+</style>

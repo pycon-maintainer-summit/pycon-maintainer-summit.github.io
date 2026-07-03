@@ -20,8 +20,6 @@ export async function getStaticPaths() {
 }
 
 const { current, past } = Astro.props;
-
-const yearsLabel = (years: number[]) => [...years].sort((a, b) => b - a).join(', ');
 ---
 
 <BaseLayout title="Organizers">
@@ -52,23 +50,9 @@ const yearsLabel = (years: number[]) => [...years].sort((a, b) => b - a).join(',
           <p class="g-lead">Everyone who's helped run the summit over the years.</p>
         </div>
         <div class="g-grid-3" style="margin-top:var(--space-4)">
-          {past.map((o) => (
-            <div class="pastcard">
-              <OrganizerCard organizer={o} />
-              <div class="pastcard__years">Organized: {yearsLabel(o.data.years)}</div>
-            </div>
-          ))}
+          {past.map((o) => <OrganizerCard organizer={o} />)}
         </div>
       </div>
     </section>
   )}
 </BaseLayout>
-
-<style>
-  .pastcard { display: flex; flex-direction: column; gap: 0.5rem; }
-  .pastcard__years {
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-    text-align: center;
-  }
-</style>

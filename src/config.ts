@@ -91,6 +91,10 @@ export const BRAND: Record<string, string> = {
   primaryActive: "#1f3461",
   secondary: "#1f3461",
   accent: "#b7791f",
+  // Distinct link color so links stand apart from body text (prose links are
+  // also underlined, see components.css).
+  link: "#2d4a87",
+  linkHover: "#4a6bb0",
   ink: "#1a1d24",
   surfacePink: "#e7edf6",
   surfacePinkSoft: "#f6f8fb",
@@ -139,6 +143,7 @@ export const FOOTER = {
     { title: 'Get involved', links: [
       { label: 'Attendee Guide', href: '/docs/attendee-guide/' },
       { label: 'CFP Guide', href: '/docs/cfp-guide/' },
+      { label: 'Attendee survey', href: 'https://secretcodes.dev/surveys/maintainer-summit-survey/' },
       { label: 'Contact us', href: '/contact/' },
     ]},
     { title: 'More', links: [
