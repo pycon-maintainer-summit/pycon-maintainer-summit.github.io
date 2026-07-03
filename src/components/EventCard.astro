@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { STRINGS } from '../config';
+
+interface Props { event: CollectionEntry<'events'> }
+const { event } = Astro.props;
+const d = event.data;
+const href = `/events/${event.id}/`;
+---
+
+<article class="g-card">
+  <div class="g-card__body">
+    <div class="g-row" style="justify-content:space-between;align-items:center">
+      {d.status === 'upcoming'
+        ? <span class="g-badge g-badge--success g-badge--soft">{STRINGS.statusUpcoming}</span>
+        : <span class="g-badge g-badge--soft">{STRINGS.statusPast}</span>}
+      <span style="font-size:var(--text-sm);color:var(--text-muted)">{d.year}</span>
+    </div>
+    <h3 class="g-card__title"><a href={href}>{d.title}</a></h3>
+    <div class="g-card__eyebrow" style="text-transform:none;letter-spacing:normal">
+      <strong>{d.date}</strong>{d.city && ` · ${d.city}`}
+    </div>
+    <p class="g-card__text">{d.summary}</p>
+    <div class="g-card__footer" style="border:0;padding-top:0">
+      <a href={href} style="font-weight:var(--weight-semibold)">{STRINGS.viewDetails} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</article>

@@ -2,18 +2,17 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import EventRow from '../../components/EventRow.astro';
+import EventCard from '../../components/EventCard.astro';
 import Pagination from '../../components/Pagination.astro';
 import { SECTIONS, STRINGS, PAGINATION } from '../../config';
 
-/* One route serves /events/ and /events/page/N/, matching the Hugo theme's
-   paginator URLs. Only past events paginate; upcoming events always show in
-   full, mirroring layouts/events/list.html on the Hugo side. */
+/* One route serves /events/ and /events/page/N/. Editions are split by their
+   `status` field (not date-vs-now like the upstream theme) and sorted by year,
+   newest first. Only past events paginate; upcoming always show in full. */
 export async function getStaticPaths() {
-  const now = new Date();
   const all = await getCollection('events');
-  const upcoming = all.filter((e) => e.data.date >= now).sort((a, b) => +a.data.date - +b.data.date);
-  const past = all.filter((e) => e.data.date < now).sort((a, b) => +b.data.date - +a.data.date);
+  const upcoming = all.filter((e) => e.data.status === 'upcoming').sort((a, b) => b.data.year - a.data.year);
+  const past = all.filter((e) => e.data.status === 'past').sort((a, b) => b.data.year - a.data.year);
   const size = PAGINATION.pageSize;
   const total = Math.max(1, Math.ceil(past.length / size));
   return Array.from({ length: total }, (_, i) => ({
@@ -37,14 +36,15 @@ const { current, total, upcoming, past } = Astro.props;
       <div class="g-section-head">
         <span class="g-eyebrow">{STRINGS.comingUp}</span>
         <h2>{STRINGS.upcomingEvents}</h2>
-        <p class="g-lead">{STRINGS.upcomingLead}</p>
+        {upcoming.length > 0 && <p class="g-lead">{STRINGS.upcomingLead}</p>}
       </div>
-      <div class="g-stack" style="margin-top:var(--space-4);gap:var(--space-3)">
-        {upcoming.map((e) => <EventRow event={e} />)}
-        {upcoming.length === 0 && (
-          <p class="g-lead">{STRINGS.noUpcomingEvents}</p>
-        )}
-      </div>
+      {upcoming.length > 0 ? (
+        <div class="g-grid-3" style="margin-top:var(--space-4)">
+          {upcoming.map((e) => <EventCard event={e} />)}
+        </div>
+      ) : (
+        <p class="g-lead" style="margin-top:var(--space-3)">{STRINGS.noUpcomingEvents}</p>
+      )}
     </div>
   </section>
 
@@ -52,8 +52,8 @@ const { current, total, upcoming, past } = Astro.props;
     <section class="g-bg-tertiary g-section">
       <div class="g-container">
         <div class="g-section-head"><span class="g-eyebrow">{STRINGS.lookingBack}</span><h2>{STRINGS.pastEvents}</h2></div>
-        <div class="g-stack" style="margin-top:var(--space-4);gap:var(--space-3)">
-          {past.map((e) => <EventRow event={e} />)}
+        <div class="g-grid-3" style="margin-top:var(--space-4)">
+          {past.map((e) => <EventCard event={e} />)}
         </div>
         <Pagination current={current} total={total} base="/events/" />
       </div>

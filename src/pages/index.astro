@@ -2,16 +2,25 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import EventCard from '../components/EventCard.astro';
 import OrganizerCard from '../components/OrganizerCard.astro';
-import { HOME, SITE, STRINGS } from '../config';
+import { HOME, STRINGS, CURRENT_YEAR } from '../config';
 
-const now = new Date();
+/* Feature the upcoming summit when one is announced; otherwise the most
+   recent past edition (status-based, not date-based as in the upstream theme). */
 const events = await getCollection('events');
-const upcoming = events.filter((e) => e.data.date >= now).sort((a, b) => +a.data.date - +b.data.date);
-const next = upcoming[0];
+const upcoming = events.filter((e) => e.data.status === 'upcoming').sort((a, b) => b.data.year - a.data.year);
+const latestPast = events.filter((e) => e.data.status === 'past').sort((a, b) => b.data.year - a.data.year);
+const featured = upcoming[0] ?? latestPast[0];
 
-const posts = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
-const organizers = (await getCollection('organizers')).sort((a, b) => a.data.weight - b.data.weight);
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 3);
+
+const organizers = (await getCollection('organizers'))
+  .filter((o) => o.data.years.includes(CURRENT_YEAR))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const h = HOME;
 ---
@@ -34,9 +43,6 @@ const h = HOME;
             </div>
           )}
         </div>
-        {h.hero.image && (
-          <div class="g-hero__media"><img src={h.hero.image} alt={SITE.title} /></div>
-        )}
       </div>
     </section>
   )}
@@ -74,22 +80,18 @@ const h = HOME;
     </section>
   )}
 
-  {next && (
-    <section class="g-bg-pink-soft">
-      <div class="g-container g-feature">
-        <div class="g-feature__media"><img src={next.data.image ?? h.hero.image} alt={next.data.title} /></div>
-        <div class="g-feature__body">
-          <span class="g-badge g-badge--soft"><i class="fa-solid fa-calendar" aria-hidden="true"></i> {STRINGS.nextMeetup}</span>
-          <h2 style="margin:0">{next.data.title}</h2>
-          <div class="g-meta-line">
-            <span><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> {next.data.date.toLocaleDateString(SITE.locale, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}{next.data.time && ` · ${next.data.time}`}</span>
-            <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {next.data.venue ?? STRINGS.venueTba}</span>
+  {featured && (
+    <section class="g-bg-pink-soft g-section">
+      <div class="g-container">
+        <div class="g-row" style="justify-content:space-between;align-items:flex-end">
+          <div class="g-section-head">
+            <span class="g-eyebrow">{featured.data.status === 'upcoming' ? STRINGS.nextMeetup : STRINGS.lookingBack}</span>
+            <h2>{featured.data.status === 'upcoming' ? STRINGS.nextMeetup : `The ${featured.data.year} summit`}</h2>
           </div>
-          {next.data.description && <p style="margin:0;color:var(--text-muted);max-width:34rem">{next.data.description}</p>}
-          <div class="g-row">
-            {next.data.rsvp && <a class="g-btn g-btn--primary" href={next.data.rsvp}><i class="fa-solid fa-calendar" aria-hidden="true"></i> {STRINGS.rsvpExternal}</a>}
-            <a class="g-btn g-btn--outline" href="/events/">{STRINGS.allEvents}</a>
-          </div>
+          <a class="g-btn g-btn--ghost" href="/events/">{STRINGS.allEvents} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div style="margin-top:var(--space-4);max-width:34rem">
+          <EventCard event={featured} />
         </div>
       </div>
     </section>
@@ -103,7 +105,7 @@ const h = HOME;
             <span class="g-eyebrow">{STRINGS.fromTheBlog}</span>
             <h2>{STRINGS.latestFromCommunity}</h2>
           </div>
-          <a class="g-btn g-btn--ghost" href="/blog/">{STRINGS.readTheBlog} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <a class="g-btn g-btn--ghost" href="/news/">{STRINGS.readTheBlog} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
         <div class="g-grid-3" style="margin-top:var(--space-4)">
           {posts.map((p) => <PostCard post={p} />)}
@@ -117,11 +119,11 @@ const h = HOME;
       <div class="g-container">
         <div class="g-section-head g-section-head--center">
           <span class="g-eyebrow">The team</span>
-          <h2>Meet the organizers</h2>
-          <p class="g-lead">The volunteers who make every meetup happen.</p>
+          <h2>{CURRENT_YEAR} organizers</h2>
+          <p class="g-lead">The volunteers who make the summit happen.</p>
         </div>
         <div class="g-grid-3" style="margin-top:var(--space-5)">
-          {organizers.slice(0, 3).map((o) => <OrganizerCard organizer={o} />)}
+          {organizers.map((o) => <OrganizerCard organizer={o} />)}
         </div>
         <div class="g-row" style="justify-content:center;margin-top:var(--space-4)">
           <a class="g-btn g-btn--outline" href="/organizers/">All organizers</a>

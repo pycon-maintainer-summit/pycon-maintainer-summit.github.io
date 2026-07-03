@@ -1,0 +1,44 @@
+---
+import { STRINGS, PAGINATION } from '../../../../config';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PageHero from '../../../../components/PageHero.astro';
+import PostCard from '../../../../components/PostCard.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import { tagSlug } from '../../../../lib/slugs';
+
+/* One route serves /news/tags/<tag>/ and /news/tags/<tag>/page/N/.
+   URLs use tagSlug() so multi-word tags stay URL-safe; the display label
+   keeps the first-seen original spelling. Drafts are hidden. */
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  const byTag = new Map<string, string>(); // slug -> first-seen label
+  for (const p of posts) for (const t of p.data.tags) if (!byTag.has(tagSlug(t))) byTag.set(tagSlug(t), t);
+  const size = PAGINATION.pageSize;
+  return [...byTag.entries()].flatMap(([slug, label]) => {
+    const tagged = posts
+      .filter((p) => p.data.tags.some((t) => tagSlug(t) === slug))
+      .sort((a, b) => +b.data.date - +a.data.date);
+    const total = Math.max(1, Math.ceil(tagged.length / size));
+    return Array.from({ length: total }, (_, i) => ({
+      params: { tag: slug, page: i === 0 ? undefined : `page/${i + 1}` },
+      props: { label, current: i + 1, total, count: tagged.length, posts: tagged.slice(i * size, (i + 1) * size) },
+    }));
+  });
+}
+
+const { tag } = Astro.params;
+const { label, current, total, count, posts } = Astro.props;
+---
+
+<BaseLayout title={`#${label}`}>
+  <PageHero eyebrow={STRINGS.eyebrowTag} title={`#${label}`} lead={STRINGS.taggedCount.replace('{n}', String(count)).replace('{tag}', label)} />
+  <section class="g-bg-white g-section">
+    <div class="g-container">
+      <div class="g-grid-3">
+        {posts.map((p) => <PostCard post={p} />)}
+      </div>
+      <Pagination current={current} total={total} base={`/news/tags/${tag}/`} />
+    </div>
+  </section>
+</BaseLayout>

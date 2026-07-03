@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { STRINGS } from '../../config';
+
+const docs = (await getCollection('docs')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title)
+);
+
+const audienceLabels: Record<string, string> = {
+  attendee: 'For attendees',
+  speaker: 'For speakers',
+  organizer: 'For organizers',
+  general: 'General',
+};
+---
+
+<BaseLayout title="Docs" description="Guides for attendees, speakers, and organizers of the Maintainers Summit.">
+  <PageHero
+    eyebrow={STRINGS.eyebrowDocs}
+    title="Docs"
+    lead="Guides for attendees, speakers, and organizers of the Maintainers Summit."
+  />
+  <section class="g-bg-white g-section">
+    <div class="g-container">
+      <div class="g-grid-3">
+        {docs.map((doc) => (
+          <a class="g-card doc-card" href={`/docs/${doc.id}/`}>
+            <div class="g-card__body">
+              <span class="g-card__eyebrow">{audienceLabels[doc.data.audience]}</span>
+              <h3 class="g-card__title">{doc.data.title}</h3>
+              {doc.data.description && <p class="g-card__text">{doc.data.description}</p>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .doc-card { text-decoration: none; color: inherit; display: block; }
+</style>

@@ -2,11 +2,13 @@
 import { SITE } from '../config';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import { tagSlug } from '../lib/slugs';
 
 interface Props { post: CollectionEntry<'blog'> }
 const { post } = Astro.props;
 const d = post.data;
-const href = `/blog/${post.id}/`;
+const href = `/news/${post.id}/`;
+const text = d.description ?? d.summary;
 const month = d.date.toLocaleDateString(SITE.locale, { month: 'short', year: 'numeric' });
 const allAuthors = await getCollection('authors');
 const names = [
@@ -23,11 +25,11 @@ if (!names.length && d.author) names.push(d.author);
   <div class="g-card__body">
     <span class="g-card__eyebrow">{month}{names.length > 0 && ` · ${names.join(', ')}`}</span>
     <h3 class="g-card__title"><a href={href}>{d.title}</a></h3>
-    {d.description && <div class="g-card__text">{d.description}</div>}
+    {text && <div class="g-card__text">{text}</div>}
     {d.tags.length > 0 && (
       <div class="g-card__footer">
         {d.tags.slice(0, 2).map((t) => (
-          <a class="g-tag" href={`/tags/${t}/`}>{t}</a>
+          <a class="g-tag" href={`/news/tags/${tagSlug(t)}/`}>{t}</a>
         ))}
       </div>
     )}

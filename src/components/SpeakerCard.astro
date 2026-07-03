@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { leafSlug } from '../lib/slugs';
+
+interface Props {
+  speaker: CollectionEntry<'speakers'>;
+  eventId: string;
+}
+
+const { speaker, eventId } = Astro.props;
+const { name, affiliation, pronouns, bio } = speaker.data;
+const href = `/events/${eventId}/speakers/${leafSlug(speaker.id)}/`;
+---
+
+<article class="g-card">
+  <div class="g-card__body">
+    <h3 class="g-card__title"><a href={href}>{name}</a></h3>
+    {(affiliation || pronouns) && (
+      <div class="g-card__eyebrow" style="text-transform:none;letter-spacing:normal">
+        {affiliation}{affiliation && pronouns && ' · '}{pronouns}
+      </div>
+    )}
+    <p class="g-card__text speaker-bio">{bio}</p>
+    <div class="g-card__footer" style="border:0;padding-top:0">
+      <a href={href} style="font-weight:var(--weight-semibold)">Read more <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .speaker-bio {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

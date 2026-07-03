@@ -1,0 +1,73 @@
+---
+import { getCollection, getEntries, render } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import EventSubnav from '../../../../components/EventSubnav.astro';
+import { leafSlug } from '../../../../lib/slugs';
+
+export async function getStaticPaths() {
+  const topics = await getCollection('topics');
+  return topics.map((topic) => ({
+    params: { event: topic.data.event.id, topic: leafSlug(topic.id) },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+const { Content } = await render(topic);
+const { title, abstract, format, tags, slidesUrl, recordingUrl } = topic.data;
+const eventId = topic.data.event.id;
+
+const speakerEntries = topic.data.speakers.length > 0 ? await getEntries(topic.data.speakers) : [];
+
+const formatLabels: Record<string, string> = {
+  keynote: 'Keynote',
+  talk: 'Talk',
+  lightning: 'Lightning Talk',
+  bof: 'Birds of a Feather',
+  panel: 'Panel',
+  workshop: 'Workshop',
+};
+---
+
+<BaseLayout title={title} description={abstract}>
+  <article>
+    <header class="g-pagehero">
+      <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
+        <a href={`/events/${eventId}/topics/`} style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:1rem">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All topics
+        </a>
+        <span class="g-eyebrow">{formatLabels[format]}</span>
+        <h1 style="margin:.5rem 0 0">{title}</h1>
+        {speakerEntries.length > 0 && (
+          <p style="margin:.9rem 0 0;font-size:var(--text-sm);color:var(--ink-700)">
+            by {speakerEntries.map((s, i) => (
+              <>
+                {i > 0 && ', '}
+                <a href={`/events/${eventId}/speakers/${leafSlug(s.id)}/`}>{s.data.name}</a>
+              </>
+            ))}
+          </p>
+        )}
+        {(slidesUrl || recordingUrl) && (
+          <div class="g-row" style="margin-top:var(--space-4)">
+            {slidesUrl && <a class="g-btn g-btn--primary g-btn--sm" href={slidesUrl}><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Slides</a>}
+            {recordingUrl && <a class="g-btn g-btn--outline g-btn--sm" href={recordingUrl}><i class="fa-solid fa-video" aria-hidden="true"></i> Recording</a>}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <EventSubnav eventId={eventId} current="topics" />
+
+    <div class="g-narrow g-section--sm">
+      <p class="g-lead" style="margin-bottom:var(--space-4)">{abstract}</p>
+      <div class="g-prose"><Content /></div>
+
+      {tags.length > 0 && (
+        <div class="g-row" style="margin-top:var(--space-4)">
+          {tags.map((tag) => <span class="g-tag">{tag}</span>)}
+        </div>
+      )}
+    </div>
+  </article>
+</BaseLayout>

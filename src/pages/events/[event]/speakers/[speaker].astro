@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import EventSubnav from '../../../../components/EventSubnav.astro';
+import { leafSlug } from '../../../../lib/slugs';
+
+export async function getStaticPaths() {
+  const speakers = await getCollection('speakers');
+  return speakers.map((speaker) => ({
+    params: { event: speaker.data.event.id, speaker: leafSlug(speaker.id) },
+    props: { speaker },
+  }));
+}
+
+const { speaker } = Astro.props;
+const { Content } = await render(speaker);
+const { name, affiliation, pronouns, bio, links } = speaker.data;
+const eventId = speaker.data.event.id;
+
+const topics = await getCollection(
+  'topics',
+  (t) => t.data.event.id === eventId && t.data.speakers.some((ref) => ref.id === speaker.id)
+);
+---
+
+<BaseLayout title={name} description={bio}>
+  <article>
+    <header class="g-pagehero">
+      <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
+        <a href={`/events/${eventId}/speakers/`} style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:1rem">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All speakers
+        </a>
+        <span class="g-eyebrow">Speaker</span>
+        <h1 style="margin:.5rem 0 0">{name}</h1>
+        {(affiliation || pronouns) && (
+          <p style="margin:.9rem 0 0;font-size:var(--text-sm);color:var(--ink-700)">
+            {affiliation}{affiliation && pronouns && ' · '}{pronouns}
+          </p>
+        )}
+      </div>
+    </header>
+
+    <EventSubnav eventId={eventId} current="speakers" />
+
+    <div class="g-narrow g-section--sm">
+      <p class="g-lead" style="margin-bottom:var(--space-4)">{bio}</p>
+      <div class="g-prose"><Content /></div>
+
+      {links.length > 0 && (
+        <section style="margin-top:var(--space-4)">
+          <h2 style="font-size:var(--text-xl);margin:0 0 1rem">Links</h2>
+          <ul style="margin:0;padding-left:1.2rem">
+            {links.map((link) => (
+              <li><a href={link.href} rel="noopener">{link.label}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {topics.length > 0 && (
+        <section style="margin-top:var(--space-4)">
+          <h2 style="font-size:var(--text-xl);margin:0 0 1rem">Topics by this speaker</h2>
+          <ul style="margin:0;padding-left:1.2rem">
+            {topics.map((topic) => (
+              <li><a href={`/events/${eventId}/topics/${leafSlug(topic.id)}/`}>{topic.data.title}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </article>
+</BaseLayout>

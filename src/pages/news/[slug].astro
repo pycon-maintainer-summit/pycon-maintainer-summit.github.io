@@ -3,16 +3,24 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
 import { SUPPORT, SITE, STRINGS } from '../../config';
+import { tagSlug } from '../../lib/slugs';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  return posts
+    .filter((p) => !p.data.draft)
+    .map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
 
 const { post } = Astro.props;
 const d = post.data;
 const { Content } = await render(post);
-const dateStr = d.date.toLocaleDateString(SITE.locale, { month: 'short', day: 'numeric', year: 'numeric' });
+const formatDate = (date: Date) =>
+  date.toLocaleDateString(SITE.locale, { month: 'long', day: 'numeric', year: 'numeric' });
+const dateStr = formatDate(d.date);
+// Only surface "Updated" when it's meaningfully after the publish date.
+const isUpdated = !!d.updated && d.updated.getTime() > d.date.getTime();
+const description = d.description ?? d.summary;
 
 const allAuthors = await getCollection('authors');
 const resolved = d.authors.map((slug) => allAuthors.find((a) => a.id === slug)).filter(Boolean);
@@ -26,21 +34,33 @@ const byline = bylineNames.length > 1
   : bylineNames.join('');
 ---
 
-<BaseLayout title={d.title} description={d.description} image={d.image}>
+<BaseLayout
+  title={d.title}
+  description={description}
+  image={d.image}
+  ogType="article"
+  publishedTime={d.date}
+  modifiedTime={d.updated}
+  authorNames={bylineNames}
+  tags={d.tags}
+>
   <article>
     <header class="g-pagehero">
       <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
-        <a href="/blog/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:1rem">
+        <a href="/news/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:1rem">
           <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {STRINGS.allPosts}
         </a>
         {d.tags.length > 0 && (
           <div class="g-row" style="margin-bottom:.8rem">
-            {d.tags.map((t) => <a class="g-tag" href={`/tags/${t}/`}>{t}</a>)}
+            {d.tags.map((t) => <a class="g-tag" href={`/news/tags/${tagSlug(t)}/`}>{t}</a>)}
           </div>
         )}
         <h1 style="margin:0">{d.title}</h1>
         <p style="margin:.9rem 0 0;font-size:var(--text-sm);color:var(--ink-700)">
-          {byline && `${STRINGS.authorsBy} ${byline} · `}{dateStr}
+          {byline && `${STRINGS.authorsBy} ${byline} · `}<time datetime={d.date.toISOString()}>{dateStr}</time>
+          {isUpdated && d.updated && (
+            <span> · Updated <time datetime={d.updated.toISOString()}>{formatDate(d.updated)}</time></span>
+          )}
         </p>
       </div>
     </header>
@@ -48,9 +68,11 @@ const byline = bylineNames.length > 1
     <div class="g-narrow g-section--sm">
       {d.image && (
         <div style="border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:var(--space-5)">
-          <img src={d.image} alt={d.title} style="width:100%;aspect-ratio:16/9;object-fit:cover" />
+          <img src={d.image} alt={d.title} style="width:100%;aspect-ratio:1200/630;object-fit:cover" />
         </div>
       )}
+
+      {description && <p class="g-lead" style="margin-bottom:var(--space-4)">{description}</p>}
 
       <div class="g-prose"><Content /></div>
 

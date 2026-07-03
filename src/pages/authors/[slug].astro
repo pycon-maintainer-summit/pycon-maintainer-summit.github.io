@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const posts = (await getCollection('blog'))
-  .filter((p) => p.data.authors.includes(entry.id))
+  .filter((p) => p.data.authors.includes(entry.id) && !p.data.draft)
   .sort((a, b) => +b.data.date - +a.data.date);
 ---
 
