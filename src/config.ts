@@ -178,10 +178,10 @@ export const HOME = {
     ],
   },
   stats: [
-    { n: '2019', l: 'first summit' },
-    { n: 'Yearly', l: 'at PyCon US' },
-    { n: '100+', l: 'speakers so far' },
-    { n: 'Free', l: 'with PyCon US registration' },
+    { value: '2019', label: 'first summit' },
+    { value: 'Yearly', label: 'at PyCon US' },
+    { value: '100+', label: 'speakers so far' },
+    { value: 'Free', label: 'with PyCon US registration' },
   ],
   featuresHead: { eyebrow: 'What happens at the summit', title: 'A day for the people who keep Python running', lead: 'Maintainers of projects big and small, new and veteran, are all welcome.' },
   features: [

@@ -38,15 +38,11 @@ const byline = bylineNames.length > 1
   title={d.title}
   description={description}
   image={d.image}
-  ogType="article"
-  publishedTime={d.date}
-  modifiedTime={d.updated}
-  authorNames={bylineNames}
-  tags={d.tags}
+  article={{ published: d.date, modified: d.updated, authors: bylineNames, tags: d.tags }}
 >
   <article>
     <header class="g-pagehero">
-      <div class="g-narrow" style="padding-block:var(--space-6) var(--space-5)">
+      <div class="g-container" style="padding-block:var(--space-6) var(--space-5)">
         <a href="/news/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:1rem">
           <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {STRINGS.allPosts}
         </a>
@@ -65,7 +61,8 @@ const byline = bylineNames.length > 1
       </div>
     </header>
 
-    <div class="g-narrow g-section--sm">
+    <div class="g-container g-section--sm">
+     <div class="g-article">
       {d.image && (
         <div style="border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:var(--space-5)">
           <img src={d.image} alt={d.title} style="width:100%;aspect-ratio:1200/630;object-fit:cover" />
@@ -111,6 +108,7 @@ const byline = bylineNames.length > 1
           </div>
         </div>
       )}
+     </div>
     </div>
   </article>
 </BaseLayout>
