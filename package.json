@@ -1,17 +1,22 @@
 {
-  "name": "maintainersummit",
+  "name": "astro-theme-popular",
+  "version": "1.0.0",
+  "description": "Popular: a warm, community-first Astro theme for meetups, user groups and small events. Built to make your community seen and famous.",
   "type": "module",
-  "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "demo:starter": "node scripts/use-demo.mjs starter",
+    "demo:superfan": "node scripts/use-demo.mjs superfan",
+    "demo:aquarium": "node scripts/use-demo.mjs aquarium",
+    "demo:foodie": "node scripts/use-demo.mjs foodie",
+    "demo:kdrama": "node scripts/use-demo.mjs kdrama"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.18",
-    "astro": "^5.0.0"
+    "@astrojs/mdx": "^7.0.2",
+    "@astrojs/rss": "^4.0.0",
+    "astro": "^7.0.6"
   }
 }

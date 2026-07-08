@@ -1,10 +1,10 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { getEntries } from "astro:content";
-import { leafSlug } from "../lib/slugs";
+import type { CollectionEntry } from 'astro:content';
+import { getEntries } from 'astro:content';
+import { leafSlug } from '../lib/slugs';
 
 interface Props {
-  topic: CollectionEntry<"topics">;
+  topic: CollectionEntry<'topics'>;
   eventId: string;
 }
 
@@ -12,68 +12,49 @@ const { topic, eventId } = Astro.props;
 const { title, abstract, format, tags, time } = topic.data;
 
 function formatTime(t: string): string {
-  const [h, m] = t.split(":").map(Number);
+  const [h, m] = t.split(':').map(Number);
   const hour12 = ((h + 11) % 12) + 1;
-  const ampm = h < 12 ? "am" : "pm";
-  return `${hour12}:${m.toString().padStart(2, "0")} ${ampm}`;
+  const ampm = h < 12 ? 'am' : 'pm';
+  return `${hour12}:${m.toString().padStart(2, '0')} ${ampm}`;
 }
 
-const speakerEntries = topic.data.speakers.length > 0
-  ? await getEntries(topic.data.speakers)
-  : [];
-const speakerNames = speakerEntries.map((s) => s.data.name).join(", ");
+const speakerEntries = topic.data.speakers.length > 0 ? await getEntries(topic.data.speakers) : [];
+const speakerNames = speakerEntries.map((s) => s.data.name).join(', ');
 
-const href = `/events/${eventId}/topics/${leafSlug(topic.id)}`;
+const href = `/events/${eventId}/topics/${leafSlug(topic.id)}/`;
 
 const formatLabels: Record<string, string> = {
-  keynote: "Keynote",
-  talk: "Talk",
-  lightning: "Lightning",
-  bof: "BoF",
-  panel: "Panel",
-  workshop: "Workshop",
+  keynote: 'Keynote',
+  talk: 'Talk',
+  lightning: 'Lightning',
+  bof: 'BoF',
+  panel: 'Panel',
+  workshop: 'Workshop',
 };
 ---
 
-<article class="card topic-card">
-  <div class="topic-meta">
-    {time && <span class="topic-time">{formatTime(time)}</span>}
-    <span class={`tag ${format === "keynote" ? "tag-accent" : ""}`}>{formatLabels[format]}</span>
-    {speakerNames && <span class="muted">{speakerNames}</span>}
+<article class="g-card">
+  <div class="g-card__body">
+    <div class="g-row" style="align-items:center;gap:var(--space-2)">
+      {time && <span class="topic-time">{formatTime(time)}</span>}
+      <span class={`g-badge g-badge--soft ${format === 'keynote' ? 'g-badge--secondary' : ''}`}>{formatLabels[format]}</span>
+      {speakerNames && <span style="font-size:var(--text-sm);color:var(--text-muted)">{speakerNames}</span>}
+    </div>
+    <h3 class="g-card__title"><a href={href}>{title}</a></h3>
+    <p class="g-card__text">{abstract}</p>
+    {tags.length > 0 && (
+      <div class="g-card__footer">
+        {tags.map((t) => <span class="g-tag">{t}</span>)}
+      </div>
+    )}
   </div>
-  <h3><a href={href}>{title}</a></h3>
-  <p class="abstract">{abstract}</p>
-  {tags.length > 0 && (
-    <ul class="tags">
-      {tags.map((tag) => <li><span class="tag">{tag}</span></li>)}
-    </ul>
-  )}
 </article>
 
 <style>
-  .topic-card { display: flex; flex-direction: column; gap: var(--space-3); }
-  .topic-card h3 { margin: 0; }
-  .topic-card h3 a { color: var(--color-brand-dark); text-decoration: none; }
-  .topic-card h3 a:hover { text-decoration: underline; }
-  .topic-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    flex-wrap: wrap;
-    font-size: var(--font-size-sm);
-  }
   .topic-time {
-    font-family: var(--font-mono);
-    font-weight: 600;
-    color: var(--color-brand);
-  }
-  .abstract { margin: 0; }
-  .tags {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+    font-family: var(--font-mono, monospace);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary);
   }
 </style>

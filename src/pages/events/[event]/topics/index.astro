@@ -1,25 +1,22 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import PageHero from "../../../../components/PageHero.astro";
-import EventSubnav from "../../../../components/EventSubnav.astro";
-import TopicCard from "../../../../components/TopicCard.astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PageHero from '../../../../components/PageHero.astro';
+import EventSubnav from '../../../../components/EventSubnav.astro';
+import TopicCard from '../../../../components/TopicCard.astro';
 
 export async function getStaticPaths() {
-  const events = await getCollection("events");
-  return events.map((event) => ({
-    params: { event: event.id },
-    props: { event },
-  }));
+  const events = await getCollection('events');
+  return events.map((event) => ({ params: { event: event.id }, props: { event } }));
 }
 
 const { event } = Astro.props;
-const topics = await getCollection("topics", (t) => t.data.event.id === event.id);
+const topics = await getCollection('topics', (t) => t.data.event.id === event.id);
 
 // Sort chronologically when times are set; fall back to title.
 topics.sort((a, b) => {
-  const at = a.data.time ?? "";
-  const bt = b.data.time ?? "";
+  const at = a.data.time ?? '';
+  const bt = b.data.time ?? '';
   if (at && bt) return at.localeCompare(bt);
   if (at) return -1;
   if (bt) return 1;
@@ -29,22 +26,20 @@ topics.sort((a, b) => {
 
 <BaseLayout title={`Topics · ${event.data.title}`} description={`Sessions and topics at ${event.data.title}`}>
   <PageHero
-    title="Topics"
     eyebrow={event.data.title}
-    description={`Sessions for ${event.data.date} in ${event.data.location}.`}
+    title="Topics"
+    lead={`Sessions for ${event.data.date} in ${event.data.location}.`}
   />
 
   <EventSubnav eventId={event.id} current="topics" />
 
-  <section class="section">
-    <div class="container">
+  <section class="g-bg-white g-section--sm">
+    <div class="g-container">
       {topics.length === 0 ? (
-        <p class="muted">The schedule will be published as the event approaches.</p>
+        <p class="g-lead">The schedule will be published as the event approaches.</p>
       ) : (
-        <div class="schedule">
-          {topics.map((topic) => (
-            <TopicCard topic={topic} eventId={event.id} />
-          ))}
+        <div class="g-stack schedule">
+          {topics.map((topic) => <TopicCard topic={topic} eventId={event.id} />)}
         </div>
       )}
     </div>
@@ -53,10 +48,8 @@ topics.sort((a, b) => {
 
 <style>
   .schedule {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    max-width: var(--content-width-narrow);
+    gap: var(--space-3);
+    max-width: 46rem;
     margin: 0 auto;
   }
 </style>

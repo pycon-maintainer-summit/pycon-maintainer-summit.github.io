@@ -1,76 +1,53 @@
 ---
-import type { Organizer } from "../data/organizers";
-import { currentYear } from "../data/organizers";
+import type { CollectionEntry } from 'astro:content';
+import { CURRENT_YEAR } from '../config';
 
-interface Props {
-  organizer: Organizer;
-}
-
+interface Props { organizer: CollectionEntry<'organizers'> }
 const { organizer } = Astro.props;
-const yearsSorted = [...organizer.years].sort((a, b) => a - b);
+const d = organizer.data;
+const yearsSorted = [...d.years].sort((a, b) => a - b);
 ---
 
-<article class="card organizer">
-  <header>
-    <h3>{organizer.name}</h3>
-    {organizer.role && <p class="role">{organizer.role}</p>}
-  </header>
-  {organizer.affiliation && (
-    <p class="affiliation muted">{organizer.affiliation}</p>
-  )}
-  <p class="years-line" aria-label="Years organized">
-    {yearsSorted.map((y) => (
-      <span class={`year-badge ${y === currentYear ? "year-badge-current" : ""}`}>
-        {y}
-      </span>
-    ))}
-  </p>
-  {organizer.bio && <p>{organizer.bio}</p>}
-  {organizer.links && organizer.links.length > 0 && (
-    <ul class="links">
-      {organizer.links.map((link) => (
-        <li><a href={link.href} rel="noopener">{link.label}</a></li>
+<div class="g-org">
+  {d.photo && <img class="g-org__img" src={d.photo} alt={d.title} loading="lazy" />}
+  <div class="g-org__name">{d.title}</div>
+  {d.role && <div class="g-org__role">{d.role}</div>}
+  {yearsSorted.length > 0 && (
+    <div class="g-org__years" aria-label="Years organized">
+      {yearsSorted.map((y) => (
+        <span class={`year-badge ${y === CURRENT_YEAR ? 'year-badge--current' : ''}`}>{y}</span>
       ))}
-    </ul>
+    </div>
   )}
-</article>
+  {d.description && <p class="g-org__bio">{d.description}</p>}
+  {d.social.length > 0 && (
+    <div class="g-persona__socials">
+      {d.social.map((s) => (
+        <a href={s.url} aria-label={s.label} rel="noopener" target="_blank"><i class={s.icon} aria-hidden="true"></i></a>
+      ))}
+    </div>
+  )}
+</div>
 
 <style>
-  .organizer { display: flex; flex-direction: column; gap: var(--space-2); }
-  .organizer h3 { margin: 0; }
-  .role {
-    font-weight: 600;
-    color: var(--color-brand);
-    margin: var(--space-1) 0 0;
-    font-size: var(--font-size-sm);
-  }
-  .affiliation { margin: 0; }
-  .years-line {
-    margin: var(--space-2) 0 0;
+  .g-org__years {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: 0.4rem;
+    margin-top: 0.5rem;
   }
   .year-badge {
     display: inline-block;
-    padding: 4px 12px;
-    font-size: var(--font-size-sm);
-    font-family: var(--font-mono);
-    font-weight: 600;
-    background: var(--color-bg-muted);
-    color: var(--color-text-muted);
-    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: var(--text-xs);
+    font-family: var(--font-mono, monospace);
+    font-weight: var(--weight-semibold);
+    background: var(--ink-100);
+    color: var(--text-muted);
+    border-radius: var(--radius-pill);
   }
-  .year-badge-current {
+  .year-badge--current {
     background: var(--color-accent);
-    color: var(--color-brand-dark);
-  }
-  .links {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-3) 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
+    color: var(--ink-800);
   }
 </style>

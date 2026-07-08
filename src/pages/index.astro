@@ -1,126 +1,180 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import EventCard from "../components/EventCard.astro";
-import NewsPreview from "../components/NewsPreview.astro";
-import { site, contact } from "../data/site";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import EventCard from '../components/EventCard.astro';
+import OrganizerCard from '../components/OrganizerCard.astro';
+import { HOME, STRINGS, CURRENT_YEAR } from '../config';
 
-const allEvents = await getCollection("events");
-const upcoming = allEvents
-  .filter((e) => e.data.status === "upcoming")
-  .sort((a, b) => b.data.year - a.data.year);
-const featuredEvent = upcoming[0];
+/* Feature the upcoming summit when one is announced; otherwise the most
+   recent past edition (status-based, not date-based as in the upstream theme). */
+const events = await getCollection('events');
+const upcoming = events.filter((e) => e.data.status === 'upcoming').sort((a, b) => b.data.year - a.data.year);
+const latestPast = events.filter((e) => e.data.status === 'past').sort((a, b) => b.data.year - a.data.year);
+const featured = upcoming[0] ?? latestPast[0];
 
-const allNews = (await getCollection("news"))
+const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .sort((a, b) => +b.data.date - +a.data.date)
   .slice(0, 3);
+
+/* value = "@pastEventCount" renders the live number of past editions
+   (upstream theme feature; here it counts status === 'past' summits). */
+const pastCount = latestPast.length;
+const statValue = (v: string) =>
+  v === '@pastEventCount' ? (pastCount >= 10 ? `${Math.floor(pastCount / 10) * 10}+` : String(pastCount)) : v;
+
+const organizers = (await getCollection('organizers'))
+  .filter((o) => o.data.years.includes(CURRENT_YEAR))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const h = HOME;
 ---
 
 <BaseLayout>
-  <section class="landing">
-    <div class="container landing-inner">
-      <p class="eyebrow">PyCon US</p>
-      <h1>{site.name}</h1>
-      <p class="lede">{site.tagline}</p>
-      <div class="cta-row">
-        <a href="/events" class="button button-accent">See this year's summit</a>
-      </div>
-    </div>
-  </section>
-
-  {featuredEvent && (
-    <section class="section">
-      <div class="container">
-        <header class="section-header">
-          <h2>This year's summit</h2>
-          <a href="/events">All events →</a>
-        </header>
-        <div class="featured-event">
-          <EventCard event={featuredEvent} />
+  {h.hero && (
+    <section class="g-hero">
+      <div class="g-container g-hero__grid">
+        <div class="g-hero__content">
+          {h.hero.eyebrow && <span class="g-eyebrow">{h.hero.eyebrow}</span>}
+          <h1>{h.hero.title}</h1>
+          {h.hero.lead && <p class="g-hero__lead">{h.hero.lead}</p>}
+          {h.hero.ctas && (
+            <div class="g-row">
+              {h.hero.ctas.map((c) => (
+                <a class={`g-btn g-btn--lg g-btn--${c.variant ?? 'primary'}`} href={c.url}>
+                  {'icon' in c && c.icon && <i class={c.icon} aria-hidden="true"></i>}{c.label}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
   )}
 
-  <section class="section section-alt">
-    <div class="container">
-      <header class="section-header">
-        <h2>Latest news</h2>
-        <a href="/news">All news →</a>
-      </header>
-      <div class="grid grid-2">
-        {allNews.map((post) => <NewsPreview post={post} />)}
+  {h.stats && (
+    <section class="g-bg-ink">
+      <div class="g-container g-stats">
+        {h.stats.map((s) => (
+          <div class="g-stat"><div class="g-stat__n">{statValue(s.value)}</div><div class="g-stat__l">{s.label}</div></div>
+        ))}
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <section class="section">
-    <div class="container">
-      <header class="section-header">
-        <h2>Get involved</h2>
-      </header>
-      <div class="grid grid-3">
-        <a href="/docs/attendee-guide" class="card link-card">
-          <h3>Attend</h3>
-          <p>Read the attendee guide and plan your day.</p>
-        </a>
-        <a href="/docs/cfp-guide" class="card link-card">
-          <h3>Speak</h3>
-          <p>Submit a proposal or read tips for new speakers.</p>
-        </a>
-        <a href={`mailto:${contact.email}`} class="card link-card">
-          <h3>Help organize</h3>
-          <p>We're always looking for volunteers — reach out.</p>
-        </a>
+  {h.features && (
+    <section class="g-bg-white g-section">
+      <div class="g-container">
+        {h.featuresHead && (
+          <div class="g-section-head">
+            {h.featuresHead.eyebrow && <span class="g-eyebrow">{h.featuresHead.eyebrow}</span>}
+            <h2>{h.featuresHead.title}</h2>
+            {h.featuresHead.lead && <p class="g-lead">{h.featuresHead.lead}</p>}
+          </div>
+        )}
+        <div class="g-grid-3" style="margin-top:var(--space-5)">
+          {h.features.map((f) => (
+            <div class="g-card"><div class="g-card__body">
+              <span class="g-medallion"><i class={f.icon} aria-hidden="true"></i></span>
+              <h3 class="g-card__title">{f.title}</h3>
+              <p class="g-card__text">{f.body}</p>
+            </div></div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
+
+  {featured && (
+    <section class="g-bg-wash-soft g-section">
+      <div class="g-container">
+        <div class="g-row" style="justify-content:space-between;align-items:flex-end">
+          <div class="g-section-head">
+            <span class="g-eyebrow">{featured.data.status === 'upcoming' ? STRINGS.nextMeetup : STRINGS.lookingBack}</span>
+            <h2>{featured.data.status === 'upcoming' ? STRINGS.nextMeetup : `The ${featured.data.year} summit`}</h2>
+          </div>
+          <a class="g-btn g-btn--ghost" href="/events/">{STRINGS.allEvents} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div style="margin-top:var(--space-4);max-width:34rem">
+          <EventCard event={featured} />
+        </div>
+      </div>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="g-bg-white g-section">
+      <div class="g-container">
+        <div class="g-row" style="justify-content:space-between;align-items:flex-end">
+          <div class="g-section-head">
+            <span class="g-eyebrow">{STRINGS.fromTheBlog}</span>
+            <h2>{STRINGS.latestFromCommunity}</h2>
+          </div>
+          <a class="g-btn g-btn--ghost" href="/news/">{STRINGS.readTheBlog} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="g-grid-3" style="margin-top:var(--space-4)">
+          {posts.map((p) => <PostCard post={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {organizers.length > 0 && (
+    <section class="g-bg-tertiary g-section">
+      <div class="g-container">
+        <div class="g-section-head g-section-head--center">
+          <span class="g-eyebrow">The team</span>
+          <h2>{CURRENT_YEAR} organizers</h2>
+          <p class="g-lead">The volunteers who make the summit happen.</p>
+        </div>
+        <div class="g-grid-3" style="margin-top:var(--space-5)">
+          {organizers.map((o) => <OrganizerCard organizer={o} />)}
+        </div>
+        <div class="g-row" style="justify-content:center;margin-top:var(--space-4)">
+          <a class="g-btn g-btn--outline" href="/organizers/">All organizers</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {h.testimonials && (
+    <section class="g-bg-white g-section">
+      <div class="g-container">
+        {h.testimonialsHead && (
+          <div class="g-section-head g-section-head--center">
+            {h.testimonialsHead.eyebrow && <span class="g-eyebrow">{h.testimonialsHead.eyebrow}</span>}
+            <h2>{h.testimonialsHead.title}</h2>
+            {h.testimonialsHead.lead && <p class="g-lead">{h.testimonialsHead.lead}</p>}
+          </div>
+        )}
+        <div class="g-grid-3" style="margin-top:var(--space-5)">
+          {h.testimonials.map((t) => (
+            <figure class="g-quote">
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                {t.photo && <img src={t.photo} alt={t.name} />}
+                <div><span class="g-quote__name">{t.name}</span>{t.role && <span class="g-quote__role">{t.role}</span>}</div>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {h.getInvolved && (
+    <section class="g-bg-wash g-section">
+      <div class="g-container" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:1rem">
+        <span class="g-eyebrow">{h.getInvolved.eyebrow ?? 'Community'}</span>
+        <h2 style="margin:0;max-width:40rem">{h.getInvolved.title}</h2>
+        {h.getInvolved.lead && <p style="margin:0;color:var(--ink-700);max-width:38rem">{h.getInvolved.lead}</p>}
+        <div class="g-row" style="justify-content:center">
+          {h.getInvolved.ctas.map((c) => (
+            <a class={`g-btn g-btn--${c.variant ?? 'primary'}`} href={c.url}>{c.label}</a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </BaseLayout>
-
-<style>
-  .landing {
-    background: linear-gradient(135deg, var(--color-brand-dark), var(--color-brand));
-    color: #fff;
-    padding: var(--space-16) 0;
-  }
-  .landing h1 { color: #fff; font-size: var(--font-size-3xl); }
-  .eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-accent);
-    font-weight: 600;
-    margin: 0 0 var(--space-3);
-  }
-  .lede {
-    font-size: var(--font-size-lg);
-    color: rgba(255, 255, 255, 0.9);
-    max-width: var(--content-width-narrow);
-  }
-  .cta-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: var(--space-6);
-    gap: var(--space-4);
-  }
-  .section-header h2 { margin: 0; }
-  .featured-event { max-width: 32rem; }
-  .link-card {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .link-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-  .link-card h3 { color: var(--color-brand-dark); }
-</style>

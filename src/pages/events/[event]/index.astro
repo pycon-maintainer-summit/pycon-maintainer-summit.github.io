@@ -1,79 +1,62 @@
 ---
-import { getCollection, render } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PageHero from "../../../components/PageHero.astro";
-import EventSubnav from "../../../components/EventSubnav.astro";
-import EventPrevNext from "../../../components/EventPrevNext.astro";
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import EventSubnav from '../../../components/EventSubnav.astro';
+import EventPrevNext from '../../../components/EventPrevNext.astro';
+import { STRINGS } from '../../../config';
 
 export async function getStaticPaths() {
-  const events = await getCollection("events");
-  return events.map((event) => ({
-    params: { event: event.id },
-    props: { event },
-  }));
+  const events = await getCollection('events');
+  return events.map((event) => ({ params: { event: event.id }, props: { event } }));
 }
 
 const { event } = Astro.props;
+const d = event.data;
 const { Content } = await render(event);
-const { title, date, location, status, summary, cfpUrl, registrationUrl, scheduleUrl, pyconUrl } = event.data;
 ---
 
-<BaseLayout title={title} description={summary}>
-  <PageHero title={title} eyebrow={status === "upcoming" ? "Upcoming event" : "Past event"}>
-    <p class="event-meta">
-      <strong>{date}</strong> · {location}
-    </p>
-    {status === "upcoming" && (
-      <div class="cta-row">
-        {registrationUrl && <a href={registrationUrl} class="button button-accent">Register</a>}
-        {cfpUrl && <a href={cfpUrl} class="button">Submit a proposal</a>}
-        {scheduleUrl && <a href={scheduleUrl} class="button">View schedule</a>}
+<BaseLayout title={d.title} description={d.summary} image={d.image}>
+  <article>
+    <header class="g-pagehero">
+      <div class="g-container">
+        <div style="margin-bottom:1rem">
+          <a href="/events/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium)">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {STRINGS.allEvents}
+          </a>
+        </div>
+        <span class="g-eyebrow">{d.status === 'upcoming' ? STRINGS.statusUpcoming : STRINGS.statusPast} · {d.year}</span>
+        <h1 style="margin:.5rem 0 0">{d.title}</h1>
+        <div class="g-meta-line" style="margin-top:var(--space-3)">
+          <span><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> {d.date}</span>
+          <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {d.location}</span>
+        </div>
+        {d.status === 'upcoming' && (d.registrationUrl || d.cfpUrl || d.scheduleUrl) && (
+          <div class="g-row" style="margin-top:var(--space-4)">
+            {d.registrationUrl && <a class="g-btn g-btn--primary" href={d.registrationUrl}><i class="fa-solid fa-calendar" aria-hidden="true"></i> {STRINGS.rsvp}</a>}
+            {d.cfpUrl && <a class="g-btn g-btn--outline" href={d.cfpUrl}>Submit a proposal</a>}
+            {d.scheduleUrl && <a class="g-btn g-btn--outline" href={d.scheduleUrl}>View schedule</a>}
+          </div>
+        )}
       </div>
-    )}
-  </PageHero>
+    </header>
 
-  <EventSubnav eventId={event.id} current="overview" />
+    <EventSubnav eventId={event.id} current="overview" />
 
-  <article class="container container-narrow event-body">
-    <p class="lede">{summary}</p>
-    <Content />
+    <div class="g-container g-section--sm">
+      <p class="g-lead" style="margin-bottom:var(--space-4)">{d.summary}</p>
+      <div class="g-prose"><Content /></div>
 
-    {pyconUrl && (
-      <p class="pycon-link">
-        <a href={pyconUrl} rel="noopener external">
-          View this event on the PyCon US site →
-        </a>
-      </p>
-    )}
+      {d.pyconUrl && (
+        <div class="g-callout" style="margin-top:var(--space-4)">
+          <div class="g-callout__body">
+            <a href={d.pyconUrl} rel="noopener external" style="font-weight:var(--weight-semibold)">
+              View this event on the PyCon US site <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      )}
 
-    <EventPrevNext current={event} />
-
-    <p class="back"><a href="/events">All events</a></p>
+      <EventPrevNext current={event} />
+    </div>
   </article>
 </BaseLayout>
-
-<style>
-  .event-meta { color: var(--color-accent); font-size: var(--font-size-lg); margin: var(--space-3) 0 0; }
-  .cta-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-  .event-body { padding: var(--space-12) 0; }
-  .lede {
-    font-size: var(--font-size-lg);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-8);
-  }
-  .back { margin-top: var(--space-8); }
-  .pycon-link {
-    margin-top: var(--space-8);
-    padding: var(--space-4);
-    background: var(--color-bg-alt);
-    border-left: 3px solid var(--color-brand);
-    border-radius: var(--radius-md);
-  }
-  .pycon-link a { font-weight: 600; text-decoration: none; }
-  .pycon-link a:hover { text-decoration: underline; }
-</style>

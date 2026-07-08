@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import OrganizerCard from '../../components/OrganizerCard.astro';
+import { SECTIONS, CURRENT_YEAR } from '../../config';
+
+/* Unlike the upstream theme (weight-sorted flat grid), organizers are split
+   into this year's team and past organizers by their `years` field. */
+export async function getStaticPaths() {
+  const all = await getCollection('organizers');
+  const maxYear = (o: (typeof all)[number]) => Math.max(...o.data.years, 0);
+  const current = all
+    .filter((o) => o.data.years.includes(CURRENT_YEAR))
+    .sort((a, b) => a.data.title.localeCompare(b.data.title));
+  const past = all
+    .filter((o) => !o.data.years.includes(CURRENT_YEAR))
+    .sort((a, b) => maxYear(b) - maxYear(a) || a.data.title.localeCompare(b.data.title));
+  return [{ params: { page: undefined }, props: { current, past } }];
+}
+
+const { current, past } = Astro.props;
+---
+
+<BaseLayout title="Organizers">
+  <PageHero
+    eyebrow={SECTIONS.organizers.eyebrow}
+    title={SECTIONS.organizers.title}
+    lead={SECTIONS.organizers.lead}
+  />
+
+  <section class="g-bg-white g-section">
+    <div class="g-container">
+      <div class="g-section-head">
+        <span class="g-eyebrow">This year</span>
+        <h2>{CURRENT_YEAR} organizers</h2>
+      </div>
+      <div class="g-grid-3" style="margin-top:var(--space-4)">
+        {current.map((o) => <OrganizerCard organizer={o} />)}
+      </div>
+    </div>
+  </section>
+
+  {past.length > 0 && (
+    <section class="g-bg-tertiary g-section">
+      <div class="g-container">
+        <div class="g-section-head">
+          <span class="g-eyebrow">Years past</span>
+          <h2>Past organizers</h2>
+          <p class="g-lead">Everyone who has helped run the summit over the years.</p>
+        </div>
+        <div class="g-grid-3" style="margin-top:var(--space-4)">
+          {past.map((o) => <OrganizerCard organizer={o} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
