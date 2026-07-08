@@ -39,18 +39,17 @@ const rssHref = new URL('/rss.xml', baseUrl).toString();
 const vars: string[] = [];
 const b = BRAND;
 if (b.primary) {
-  vars.push(`--color-primary:${b.primary}`, `--raspberry-500:${b.primary}`);
-  vars.push(`--raspberry-50:color-mix(in srgb, ${b.primary} 7%, #fff)`);
-  vars.push(`--raspberry-300:color-mix(in srgb, ${b.primary} 55%, #fff)`);
+  vars.push(`--color-primary:${b.primary}`, `--gold-500:${b.primary}`);
+  vars.push(`--gold-50:color-mix(in srgb, ${b.primary} 7%, #fff)`);
+  vars.push(`--gold-300:color-mix(in srgb, ${b.primary} 55%, #fff)`);
 }
 if (b.primaryHover) vars.push(`--color-primary-hover:${b.primaryHover}`);
-if (b.primaryActive) vars.push(`--color-primary-active:${b.primaryActive}`, `--raspberry-700:${b.primaryActive}`, `--text-link:${b.primaryActive}`);
+if (b.primaryActive) vars.push(`--color-primary-active:${b.primaryActive}`, `--gold-700:${b.primaryActive}`, `--text-link:${b.primaryActive}`);
+if (b.link) vars.push(`--text-link:${b.link}`);
+if (b.linkHover) vars.push(`--text-link-hover:${b.linkHover}`);
 if (b.secondary) vars.push(`--color-secondary:${b.secondary}`);
 if (b.accent) vars.push(`--color-accent:${b.accent}`, `--indigo-500:${b.accent}`);
 if (b.accentHover) vars.push(`--color-accent-hover:${b.accentHover}`);
-/* Explicit link colors win over the primaryActive-derived --text-link above. */
-if (b.link) vars.push(`--text-link:${b.link}`);
-if (b.linkHover) vars.push(`--text-link-hover:${b.linkHover}`);
 if (b.ink) vars.push(`--ink-800:${b.ink}`, `--text-strong:${b.ink}`);
 if (b.surfaceWash) vars.push(`--surface-wash:${b.surfaceWash}`);
 if (b.surfaceWashSoft) vars.push(`--surface-wash-soft:${b.surfaceWashSoft}`);
@@ -105,7 +104,9 @@ const brandCss = `html:root{${vars.join(';')}}`;
 
     <link rel="icon" href={SITE.favicon ?? SITE.logo} />
     <link rel="alternate" type="application/rss+xml" title={SITE.rssTitle ?? SITE.title} href={rssHref} />
-    <link rel="stylesheet" href={SITE.fontAwesome} referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href={SITE.fontAwesome} referrerpolicy="no-referrer"
+      integrity={SITE.fontAwesome.includes("font-awesome/6.5.2/css/all.min.css") ? "sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" : undefined}
+      crossorigin={SITE.fontAwesome.includes("font-awesome/6.5.2/css/all.min.css") ? "anonymous" : undefined} />
     {(SITE as Record<string, any>).customCSS?.map((href: string) => <link rel="stylesheet" href={href} />)}
     <style is:inline id="popular-brand" set:html={brandCss}></style>
   </head>

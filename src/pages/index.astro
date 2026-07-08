@@ -18,6 +18,12 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => +b.data.date - +a.data.date)
   .slice(0, 3);
 
+/* value = "@pastEventCount" renders the live number of past editions
+   (upstream theme feature; here it counts status === 'past' summits). */
+const pastCount = latestPast.length;
+const statValue = (v: string) =>
+  v === '@pastEventCount' ? (pastCount >= 10 ? `${Math.floor(pastCount / 10) * 10}+` : String(pastCount)) : v;
+
 const organizers = (await getCollection('organizers'))
   .filter((o) => o.data.years.includes(CURRENT_YEAR))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -51,7 +57,7 @@ const h = HOME;
     <section class="g-bg-ink">
       <div class="g-container g-stats">
         {h.stats.map((s) => (
-          <div class="g-stat"><div class="g-stat__n">{s.value}</div><div class="g-stat__l">{s.label}</div></div>
+          <div class="g-stat"><div class="g-stat__n">{statValue(s.value)}</div><div class="g-stat__l">{s.label}</div></div>
         ))}
       </div>
     </section>

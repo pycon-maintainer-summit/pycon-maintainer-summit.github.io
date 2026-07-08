@@ -18,14 +18,14 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - run: npm ci
 
       - name: Build each demo and check its output
         run: |
-          for d in aquarium foodie kdrama superfan; do
+          for d in starter aquarium foodie kdrama superfan; do
             npm run "demo:$d"
             npx astro build
             python3 scripts/check-image-alt.py dist

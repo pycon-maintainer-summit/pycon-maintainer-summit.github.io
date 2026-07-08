@@ -1,17 +1,19 @@
-/** Popular: theme configuration (KDrama Fan Club demo). See README for all options. */
+/** Popular: theme configuration ("Your Community" starter skeleton).
+ *  The neutral baseline adopters copy, and the default active site: the
+ *  Astro counterpart of the Hugo theme's exampleSite. See README. */
 
 export const SITE = {
-  title: "KDrama Fan Club",
-  tagline: "A fictional fan club, demo content for the Popular theme",
-  description: "A fan club for K-drama lovers, new and obsessed. (This is a made-up club, example content demonstrating the Popular theme.)",
-  brandName: "KDrama",
-  brandSub: "Fan Club",
+  title: "Your Community",
+  tagline: "A starter site for the Popular theme",
+  description: "Describe your community here.",
+  brandName: "Your",
+  brandSub: "Community",
   logo: '/images/logo.png',
   favicon: '/images/logo.png',
   ogImage: '/images/hero.png',
   locale: 'en-US',
   fontAwesome: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css',
-  landAcknowledgement: "Add your community's land acknowledgement or welcome statement here, this demo keeps it as a placeholder.",
+  landAcknowledgement: "Add your community's land acknowledgement or welcome statement here, this starter keeps it as a placeholder.",
 };
 
 /* UI strings. Translate your site by editing these values; keys map 1:1 to
@@ -71,22 +73,15 @@ export const STRINGS: Record<string, string> = {
   paginationNext: 'Next',
 };
 
-/* List pagination size. Mirrors Hugo's [pagination] pagerSize (see PARITY.md). */
-export const PAGINATION = { pageSize: 3 };
+/* List pagination size. Mirrors Hugo's [pagination] pagerSize (see PARITY.md);
+   10 is Hugo's default. The flavored demos use 3 to show the pager. */
+export const PAGINATION = { pageSize: 10 };
 
-export const BRAND: Record<string, string> = {
-  primary: "#4f46e5",
-  primaryHover: "#4338ca",
-  primaryActive: "#3730a3",
-  secondary: "#3730a3",
-  accent: "#b45309",
-  ink: '#142a36',
-  surfaceWash: "#e2e4f7",
-  surfaceWashSoft: "#f0f1fb",
-  surfaceInk: '#142a36',
-  fontSans: 'Inter, system-ui, sans-serif',
-  fontDisplay: 'Quantico, Inter, sans-serif',
-};
+/* Re-brand the whole site here, see /docs/theming/ on the theme site.
+   Empty = the theme's default identity (marquee gold, sunglass black,
+   periwinkle). Example:
+   { primary: "#0f766e", surfaceWash: "#d7ece9", fontDisplay: "Quantico, Inter, sans-serif" } */
+export const BRAND: Record<string, string> = {};
 
 export const NAV: {
   label: string;
@@ -116,7 +111,7 @@ export const SOCIAL = [
 ];
 
 export const FOOTER = {
-  tagline: "Watch · Swoon · Debate, an Astro demo site for the Popular theme",
+  tagline: "Your community's motto goes here",
   credit: { label: 'Popular. An Astro theme by Mariatta.', url: 'https://mariatta.ca' },
   columns: [
     { title: 'Community', links: [
@@ -141,54 +136,44 @@ export const SUPPORT = null;
 
 /** Section list-page headers. */
 export const SECTIONS = {
-  blog: { eyebrow: 'Blog', title: 'From our community', lead: "Recaps and spotlights from KDrama Fan Club, example posts showing the theme's blog." },
-  events: { eyebrow: 'Events', title: 'Upcoming gatherings & announcements', lead: 'All events are free, and newcomers are always welcome.' },
-  organizers: { eyebrow: 'The team', title: 'Organizers', lead: "KDrama Fan Club is run entirely by volunteers. Want to help? We'd love to have you." },
+  blog: { eyebrow: 'Blog', title: 'Blog', lead: 'Recaps and news from your community.' },
+  events: { eyebrow: 'Events', title: 'Events', lead: 'Upcoming gatherings. All events are free, and newcomers are always welcome.' },
+  organizers: { eyebrow: 'The team', title: 'Organizers', lead: 'Your community is run by volunteers. Want to help? Say hi.' },
 };
 
 export const HOME = {
   hero: {
-    eyebrow: "Watch · Swoon · Debate",
-    title: "A fan club for K-drama lovers, new and obsessed",
-    lead: "Watch parties, trivia nights and OST singalongs. Whether you've seen every episode of Vincenzo twice or you're wondering where to start, we saved you a seat.",
+    eyebrow: "Your · Community · Here",
+    title: "A warm welcome to your community",
+    lead: "Replace this with one friendly paragraph about who you are and who's welcome (hint: everyone).",
     image: '/images/hero.png',
     ctas: [
       { label: 'RSVP', url: 'https://example.com/rsvp', icon: 'fa-solid fa-calendar', variant: 'primary' },
       { label: 'About us', url: '/about/', variant: 'outline' },
     ],
   },
-  stats: [{ value: "2021", label: "club founded" }, { value: "All", label: "fans welcome" }, { value: "Free", label: "to attend" }, { value: "Monthly", label: "watch parties" }],
-  featuresHead: { eyebrow: 'What we do', title: "What KDrama Fan Club is all about", lead: 'No experience necessary, come as you are.' },
+  stats: [{ value: "2026", label: "founded" }, { value: "All", label: "welcome" }, { value: "Free", label: "to attend" }, { value: "Monthly", label: "gatherings" }],
+  featuresHead: { eyebrow: 'What we do', title: "What your community is all about", lead: 'Three cards, three reasons to show up.' },
   features: [
-    { icon: "fa-solid fa-tv", title: "Watch parties", body: "Big screen, subtitles on, communal gasping encouraged. We pick a series and watch the openers together." },
-    { icon: "fa-solid fa-circle-question", title: "Trivia nights", body: "From courtroom scenes to whale facts, test your knowledge of the dramas we all pretend we didn't binge in one weekend." },
-    { icon: "fa-solid fa-music", title: "OST nights & karaoke", body: "The soundtracks deserve their own evening. Bring your ballad voice." },
+    { icon: "fa-solid fa-people-group", title: "Meet", body: "Describe your regular gathering." },
+    { icon: "fa-solid fa-hand-sparkles", title: "Make", body: "Describe your hands-on activity." },
+    { icon: "fa-solid fa-heart", title: "Belong", body: "Describe your community's spirit." },
   ],
+  /* Optional: quotes from members. Delete both keys to hide the section. */
   testimonialsHead: { eyebrow: 'Kind words', title: 'What members say' },
   testimonials: [
-    { quote: "I showed up alone to my first watch party. By the finale I had a whole couch.", name: "Dani", role: "Watch-party regular" },
-    { quote: "Trivia night taught me more about whales than school ever did.", name: "Sam", role: "Team Whale Facts" },
-    { quote: "I've cried in public four times this year. Highly recommend.", name: "Mina", role: "Ballad enthusiast" },
+    { quote: "A short quote from a happy member goes here.", name: "Member name", role: "A few words about them" },
+    { quote: "Another member quote goes here.", name: "Member name", role: "A few words about them" },
   ],
   getInvolved: {
     eyebrow: 'Community',
-    title: "Come for one episode, stay for sixteen",
-    lead: "Host a watch party, suggest a series, or offer us a screening room.",
+    title: "There's a place for everyone here",
+    lead: "Host a session, offer a venue, or just show up.",
     ctas: [
       { label: 'Get involved', url: '/get-involved/', variant: 'primary' },
-      { label: 'Read the handbook', url: '/handbook/', variant: 'outline' },
     ],
   },
 };
 
-/** Demo-only switcher bar. Adopters: set to null (or delete the demo bar usage). */
-export const DEMO_BAR = {
-  current: "kdrama",
-  repo: 'https://github.com/Mariatta/astro-theme-popular',
-  links: [
-    { slug: 'aquarium', label: 'Aquarium', icon: 'fa-solid fa-fish' },
-    { slug: 'foodie', label: 'Foodie', icon: 'fa-solid fa-utensils' },
-    { slug: 'kdrama', label: 'KDrama', icon: 'fa-solid fa-tv' },
-    { slug: 'superfan', label: 'Superfan', icon: 'fa-solid fa-star' },
-  ],
-};
+/** Demo-only switcher bar; the starter never shows it. */
+export const DEMO_BAR = null;
