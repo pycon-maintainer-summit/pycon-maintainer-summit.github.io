@@ -30,6 +30,7 @@ in both repos. The Hugo repo is the canonical source; copy Hugo → Astro.
 | `scripts/spreadsheet-import.py`      | `scripts/spreadsheet-import.py` |
 | `scripts/sample-community.xlsx`      | `scripts/sample-community.xlsx` |
 | `scripts/tests/`                     | `scripts/tests/`             |
+| `CHANGELOG.md`                       | `CHANGELOG.md`               |
 
 Use `scripts/sync-shared.sh` to copy or verify (`--check` diffs and fails on drift).
 Demo images are *not* in this tier: Astro's `public/images/` is an activation
@@ -66,7 +67,7 @@ Same behaviour, different language. When you change one, port the other.
 
 **Config invariant:** the `[params.brand]` keys in Hugo and the `BRAND` keys in
 `src/config.ts` must stay identical (`primary`, `primaryHover`, `primaryActive`,
-`link`, `linkHover`, `secondary`, `accent`, `ink`, `surfaceWash`,
+`link`, `linkHover`, `secondary`, `accent`, `accentHover`, `ink`, `surfaceWash`,
 `surfaceWashSoft`, `surfaceInk`, `fontSans`, `fontDisplay`, `radiusCard`,
 `containerMax`, plus the dark-palette keys `surfacePage`, `surfaceCard`,
 `surfaceTertiary`, `textBody`, `textMuted`, `textOnBrand`, `borderSubtle`). `params.favicon` ⇄
@@ -141,3 +142,18 @@ of the deployed demo set.
 2. Tier-2 changes ported (or a `parity` issue exists).
 3. Both example sites build: `hugo server` / `npm run build`.
 4. Bump versions together; note cross-repo changes in both changelogs.
+
+## Blog post ordering (the post-navigation contract)
+
+Older/newer navigation on blog singles orders posts by **date descending,
+then title ascending, then slug/path ascending**; "next" is the newer post.
+Hugo gets this from `.NextInSection` (its native section order); Astro sorts
+explicitly with the same keys. Setting `weight` on a blog post is
+unsupported: it would reorder Hugo but not Astro.
+
+## Allowed asymmetries (by design)
+
+- `head-extra.html` hook is Hugo-only: Hugo sites override a partial, Astro
+  sites vendor the repo and edit `BaseLayout.astro` directly.
+- `SITE.rssTitle` is Astro-only: Hugo's feed link title comes from the RSS
+  output format and site title.

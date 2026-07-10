@@ -41,6 +41,7 @@ const b = BRAND;
 if (b.primary) {
   vars.push(`--color-primary:${b.primary}`, `--gold-500:${b.primary}`);
   vars.push(`--gold-50:color-mix(in srgb, ${b.primary} 7%, #fff)`);
+  vars.push(`--gold-100:color-mix(in srgb, ${b.primary} 20%, #fff)`);
   vars.push(`--gold-300:color-mix(in srgb, ${b.primary} 55%, #fff)`);
 }
 if (b.primaryHover) vars.push(`--color-primary-hover:${b.primaryHover}`);
