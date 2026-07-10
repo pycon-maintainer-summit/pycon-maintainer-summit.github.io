@@ -66,6 +66,9 @@ export const STRINGS: Record<string, string> = {
   eyebrowVenue: 'Venue',
   venueEvents: 'Events held here',
   beforeYouArrive: 'Before you arrive',
+  postNavigation: 'More posts',
+  newerPost: 'Newer post',
+  olderPost: 'Older post',
   paginationLabel: 'Pagination',
   paginationPrev: 'Previous',
   paginationNext: 'Next',
@@ -117,7 +120,7 @@ export const SOCIAL = [
 
 export const FOOTER = {
   tagline: "Fish · Plants · Community, an Astro demo site for the Popular theme",
-  credit: { label: 'Popular. An Astro theme by Mariatta.', url: 'https://mariatta.ca' },
+  credit: { label: 'Popular. An Astro theme by Mariatta.', url: 'https://mariatta.ca/hugo-theme-popular/' },
   columns: [
     { title: 'Community', links: [
       { label: 'About us', href: '/about/' },

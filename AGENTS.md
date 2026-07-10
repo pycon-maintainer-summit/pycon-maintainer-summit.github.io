@@ -34,6 +34,23 @@ copies that demo's `config.ts`, `content/`, and `images/` over `src/config.ts`,
   demo's `config.ts`.
 - When editing shared config shape (NAV, FOOTER, BRAND), apply the same edit to
   `src/config.ts` **and** all four `demos/*/config.ts`.
+- **Merge-based forks**: because the starter is activated into `src/` by
+  default, `src/content/` ships live sample entries (event, post, organizer,
+  speaker, venue). Forks that merge from upstream (rather than copy) should
+  expect to delete or replace those samples; only `demos/**` is inert.
+
+## The npm package transition (PACKAGING.md, PR #9)
+
+`package/` is the theme as a publishable Astro integration (phase 1);
+`smoke/` is its minimal consumer, built in CI. Until the cutover, theme code
+exists **twice**: the canonical template-model copy (`src/`,
+`public/scripts/`) and the package copy (`package/src/`, `package/scripts/`).
+Any edit to one must be applied to the other; the package-smoke workflow
+fails on drift (styles/scripts byte-identical; components/layouts/pages/lib
+identical modulo the config import, `../config` in src vs `popular:config`
+in the package). The one exception is `BaseLayout.astro`, which diverges by
+design (the package version has no static script tags; the integration
+injects them): mirror edits to it by hand.
 
 ## Commands
 
@@ -141,5 +158,5 @@ Remember: add demo content under `demos/<name>/content/`, not only `src/`.
   points to `example.com`. Do not add real organizations or people. Exception:
   license attribution must keep its real links (the Code of Conduct credits
   the Django CoC and Geek Feminism template, as CC-BY requires).
-- The theme credit is "Popular. An Astro theme by Mariatta." linking to
-  https://mariatta.ca (set per site via `FOOTER.credit`).
+- The theme credit is "Popular. An Astro theme by Mariatta." linking to the
+  project site https://mariatta.ca/hugo-theme-popular/ (set per site via `FOOTER.credit`).
