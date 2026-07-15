@@ -4,16 +4,17 @@
  *  absolute OG/Twitter image URLs resolve against the live request origin in
  *  dev and the configured `site` in builds (the deploy URL on Netlify
  *  previews, the github.io / custom domain in production). */
-import '../styles/tokens/fonts.css';
-import '../styles/tokens/colors.css';
-import '../styles/tokens/typography.css';
-import '../styles/tokens/spacing.css';
-import '../styles/tokens/elevation.css';
-import '../styles/base.css';
-import '../styles/components.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import DemoBar from '../components/DemoBar.astro';
+import 'astro-theme-popular/styles/tokens/fonts.css';
+import 'astro-theme-popular/styles/tokens/colors.css';
+import 'astro-theme-popular/styles/tokens/typography.css';
+import 'astro-theme-popular/styles/tokens/spacing.css';
+import 'astro-theme-popular/styles/tokens/elevation.css';
+import 'astro-theme-popular/styles/base.css';
+import 'astro-theme-popular/styles/components.css';
+import '../styles/summit.css';
+import Header from 'astro-theme-popular/components/Header.astro';
+import Footer from 'astro-theme-popular/components/Footer.astro';
+import DemoBar from 'astro-theme-popular/components/DemoBar.astro';
 import { SITE, BRAND, STRINGS } from '../config';
 
 interface Props {
@@ -119,10 +120,5 @@ const brandCss = `html:root{${vars.join(';')}}`;
     </main>
     <Footer />
     <DemoBar />
-    <script src="/scripts/nav.js" is:inline defer></script>
-    <script src="/scripts/checklist.js" is:inline defer></script>
-    <script src="/scripts/toc.js" is:inline defer></script>
-    <script src="/scripts/blog-filter.js" is:inline defer></script>
-    <script src="/scripts/copy-code.js" is:inline defer></script>
   </body>
 </html>

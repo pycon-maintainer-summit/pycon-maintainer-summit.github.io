@@ -5,7 +5,7 @@
 import { STRINGS } from '../../config';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHero from '../../components/PageHero.astro';
+import PageHero from 'astro-theme-popular/components/PageHero.astro';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');

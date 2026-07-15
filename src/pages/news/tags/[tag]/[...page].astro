@@ -2,9 +2,9 @@
 import { STRINGS, PAGINATION } from '../../../../config';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import PageHero from '../../../../components/PageHero.astro';
+import PageHero from 'astro-theme-popular/components/PageHero.astro';
 import PostCard from '../../../../components/PostCard.astro';
-import Pagination from '../../../../components/Pagination.astro';
+import Pagination from 'astro-theme-popular/components/Pagination.astro';
 import { tagSlug } from '../../../../lib/slugs';
 
 /* One route serves /news/tags/<tag>/ and /news/tags/<tag>/page/N/.

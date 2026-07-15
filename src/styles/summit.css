@@ -1,0 +1,13 @@
+/* Summit-specific additions on top of the packaged theme styles. */
+
+/* Accent button/badge variants (python yellow with navy text); proposed
+   upstream as UPSTREAM-HANDOFF item 11, local until the theme ships them. */
+.g-btn--accent { background: var(--color-accent); color: var(--ink-800); }
+.g-btn--accent:hover { background: var(--color-accent-hover, var(--color-accent)); color: var(--ink-800); box-shadow: var(--shadow-sm); }
+.g-badge--accent { background: var(--color-accent); color: var(--ink-800); }
+
+/* Stat numbers use the accent (python yellow) instead of the theme gold. */
+.g-stat__n { color: var(--color-accent); }
+
+/* Underline all prose links, not only bare ones. */
+.g-prose a { text-decoration: underline; text-underline-offset: 2px; }
