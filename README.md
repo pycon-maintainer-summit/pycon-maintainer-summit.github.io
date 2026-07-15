@@ -33,7 +33,9 @@ requests only (`netlify.toml`).
 
 ## Theme
 
-Built on *Popular*, a personal Astro theme by
-[Mariatta](https://mariatta.ca), vendored into this repository. The theme's
-own documentation is in [THEME.md](THEME.md); the `demos/` directory is
-sample content from the theme and is not part of the site build.
+Built on [astro-theme-popular](https://github.com/Mariatta/astro-theme-popular),
+installed from npm. The theme supplies the shared components, layouts,
+styles, and behavior JS; this site keeps its own routes, content model, and
+a few customized components (see `src/`). Theme updates arrive with
+`npm update astro-theme-popular`; the theme's injected routes are disabled
+in `astro.config.mjs` because this site replaces them.
