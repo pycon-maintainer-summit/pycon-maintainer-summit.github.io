@@ -1,0 +1,139 @@
+---
+/** Cross-edition talk archive. The upstream theme ships a /talks/ page over
+ *  its flat event model (talks live on the event); this site already keeps a
+ *  richer `topics` collection per edition, so the archive aggregates that
+ *  instead. Newest edition first, filterable by session format via the
+ *  theme's blog-filter.js ([data-filterbar] / [data-tags] markup).
+ *
+ *  Format, not tags: no topic entry carries tags today, and the format enum
+ *  is the axis a reader actually browses by ("show me the keynotes"). */
+import { getCollection, getEntries } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from 'astro-theme-popular/components/PageHero.astro';
+import { STRINGS } from '../../config';
+import { leafSlug } from '../../lib/slugs';
+
+const FORMAT_LABELS: Record<string, string> = {
+  keynote: 'Keynote',
+  talk: 'Talk',
+  lightning: 'Lightning',
+  bof: 'BoF',
+  panel: 'Panel',
+  workshop: 'Workshop',
+};
+/* Display order for the filter bar; a format with no talks is dropped. */
+const FORMAT_ORDER = ['keynote', 'talk', 'lightning', 'panel', 'bof', 'workshop'];
+
+const events = await getCollection('events');
+const eventById = new Map(events.map((e) => [e.id, e]));
+const topics = await getCollection('topics');
+
+const talks = await Promise.all(
+  topics.map(async (topic) => {
+    const event = eventById.get(topic.data.event.id)!;
+    const speakers = topic.data.speakers.length ? await getEntries(topic.data.speakers) : [];
+    return {
+      id: topic.id,
+      title: topic.data.title,
+      abstract: topic.data.abstract,
+      format: topic.data.format,
+      time: topic.data.time ?? '',
+      recordingUrl: topic.data.recordingUrl,
+      slidesUrl: topic.data.slidesUrl,
+      href: `/events/${event.id}/topics/${leafSlug(topic.id)}/`,
+      eventId: event.id,
+      eventTitle: event.data.title,
+      eventYear: event.data.year,
+      eventCity: event.data.city ?? event.data.location,
+      speakers: speakers.map((s) => ({
+        name: s.data.name,
+        href: `/events/${event.id}/speakers/${leafSlug(s.id)}/`,
+      })),
+    };
+  }),
+);
+
+/* Newest edition first; within an edition, scheduled order, then title. */
+talks.sort(
+  (a, b) =>
+    b.eventYear - a.eventYear ||
+    a.time.localeCompare(b.time) ||
+    a.title.localeCompare(b.title),
+);
+
+const formats = FORMAT_ORDER.filter((f) => talks.some((t) => t.format === f));
+---
+
+<BaseLayout title={STRINGS.talks} description={STRINGS.talksLead}>
+  <PageHero eyebrow="Summit archive" title={STRINGS.talks} lead={STRINGS.talksLead} />
+
+  <section class="g-bg-white g-section">
+    <div class="g-container">
+      <div class="g-row talks-bar" data-filterbar>
+        <span style="font-size:var(--text-sm);color:var(--text-muted)">{STRINGS.filterLabel}</span>
+        <button class="g-filter is-active" data-filter="*">{STRINGS.filterAll}</button>
+        {formats.map((f) => <button class="g-filter" data-filter={f}>{FORMAT_LABELS[f]}</button>)}
+      </div>
+
+      <div class="talks">
+        {talks.map((t) => (
+          <div class="g-talk" data-tags={t.format}>
+            <div class="g-row" style="align-items:center;gap:var(--space-2)">
+              <span class={`g-badge g-badge--soft ${t.format === 'keynote' ? 'g-badge--secondary' : ''}`}>
+                {FORMAT_LABELS[t.format]}
+              </span>
+            </div>
+            <div class="g-talk__title"><a href={t.href}>{t.title}</a></div>
+            {t.speakers.length > 0 && (
+              <div class="g-talk__by">
+                <i class="fa-solid fa-microphone-lines" aria-hidden="true"></i>{' '}
+                {t.speakers.map((s, i) => (
+                  <>{i > 0 && STRINGS.listSeparator}<a href={s.href}>{s.name}</a></>
+                ))}
+              </div>
+            )}
+            <div class="g-talk__event">
+              <i class="fa-solid fa-calendar-day" aria-hidden="true"></i>{' '}
+              <a href={`/events/${t.eventId}/`}>{t.eventTitle}</a> · {t.eventCity}
+            </div>
+            {(t.recordingUrl || t.slidesUrl) && (
+              <div class="g-row" style="gap:var(--space-2)">
+                {t.recordingUrl && (
+                  <a class="g-btn g-btn--sm g-btn--outline" href={t.recordingUrl} rel="noopener" target="_blank">
+                    <i class="fa-solid fa-circle-play" aria-hidden="true"></i> {STRINGS.watchRecording}
+                  </a>
+                )}
+                {t.slidesUrl && (
+                  <a class="g-btn g-btn--sm g-btn--ghost" href={t.slidesUrl} rel="noopener" target="_blank">
+                    <i class="fa-solid fa-file-lines" aria-hidden="true"></i> {STRINGS.viewSlides}
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* The list and the filter bar share one column so they line up. */
+  .talks,
+  .talks-bar {
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+  .talks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .talks-bar {
+    flex-wrap: wrap;
+    margin-bottom: var(--space-5);
+  }
+  .g-talk__title a {
+    color: inherit;
+  }
+</style>

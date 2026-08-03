@@ -4,7 +4,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import EventCard from '../components/EventCard.astro';
 import OrganizerCard from '../components/OrganizerCard.astro';
-import { HOME, STRINGS, CURRENT_YEAR } from '../config';
+import { formatStat, countSectionsIn } from '../lib/stats';
+import { buildOrgLd, jsonld } from '../lib/jsonld';
+import { HOME, STRINGS, CURRENT_YEAR, SITE, SOCIAL } from '../config';
 
 /* Feature the upcoming summit when one is announced; otherwise the most
    recent past edition (status-based, not date-based as in the upstream theme). */
@@ -18,20 +20,36 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => +b.data.date - +a.data.date)
   .slice(0, 3);
 
-/* value = "@pastEventCount" renders the live number of past editions
-   (upstream theme feature; here it counts status === 'past' summits). */
+/* Stat values: "@pastEventCount" and "@count:<section>[:rounded]" render live
+   numbers (upstream theme feature). Past editions are counted by
+   status === 'past' rather than by date as the upstream theme does. */
 const pastCount = latestPast.length;
-const statValue = (v: string) =>
-  v === '@pastEventCount' ? (pastCount >= 10 ? `${Math.floor(pastCount / 10) * 10}+` : String(pastCount)) : v;
+const counts: Record<string, number> = {};
+for (const name of countSectionsIn(HOME.stats ?? [])) {
+  counts[name] = (await getCollection(name as 'speakers')).length;
+}
+const statValue = (v: string) => formatStat(v, { pastCount, counts });
 
 const organizers = (await getCollection('organizers'))
   .filter((o) => o.data.years.includes(CURRENT_YEAR))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const h = HOME;
+
+/* Organization structured data. Only absolute, resolvable URLs go in, so the
+   mailto: and relative social entries are filtered out of sameAs. */
+const siteUrl = new URL('/', Astro.site ?? Astro.url).href;
+const orgLd = jsonld(buildOrgLd({
+  name: SITE.title,
+  url: siteUrl,
+  logo: SITE.logo ? new URL(SITE.logo, Astro.site ?? Astro.url).href : undefined,
+  description: SITE.description,
+  sameAs: SOCIAL.map((s) => s.url).filter((u) => u.startsWith('http')),
+}));
 ---
 
 <BaseLayout>
+  <script type="application/ld+json" slot="head" set:html={orgLd} />
   {h.hero && (
     <section class="g-hero">
       <div class="g-container g-hero__grid">

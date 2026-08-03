@@ -15,6 +15,7 @@ import '../styles/summit.css';
 import Header from 'astro-theme-popular/components/Header.astro';
 import Footer from 'astro-theme-popular/components/Footer.astro';
 import DemoBar from 'astro-theme-popular/components/DemoBar.astro';
+import Notice from 'astro-theme-popular/components/Notice.astro';
 import { SITE, BRAND, STRINGS } from '../config';
 
 interface Props {
@@ -23,8 +24,12 @@ interface Props {
   image?: string;
   /** Set on news posts: emits og:type=article plus article meta. */
   article?: { published?: Date; modified?: Date; authors?: string[]; tags?: string[] };
+  /** Alt text for the OG image. Falls back to the page title. */
+  imageAlt?: string;
+  /** Keeps a page out of search results while still following its links. */
+  noindex?: boolean;
 }
-const { title, description, image, article } = Astro.props;
+const { title, description, image, article, imageAlt, noindex } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.shortName ?? SITE.title}` : `${SITE.title}, ${SITE.tagline}`;
 const desc = description ?? SITE.description;
 
@@ -91,6 +96,7 @@ const brandCss = `html:root{${vars.join(';')}}`;
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={SITE.locale.replace('-', '_')} />
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta property="og:image:alt" content={imageAlt ?? title ?? SITE.title} />}
 
     {/* Article-specific OG */}
     {article?.published && <meta property="article:published_time" content={article.published.toISOString()} />}
@@ -106,14 +112,20 @@ const brandCss = `html:root{${vars.join(';')}}`;
 
     <link rel="icon" href={SITE.favicon ?? SITE.logo} />
     <link rel="alternate" type="application/rss+xml" title={SITE.rssTitle ?? SITE.title} href={rssHref} />
+    {SITE.fontAwesome.includes("font-awesome/6.5.2/css/all.min.css") && <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />}
     <link rel="stylesheet" href={SITE.fontAwesome} referrerpolicy="no-referrer"
       integrity={SITE.fontAwesome.includes("font-awesome/6.5.2/css/all.min.css") ? "sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" : undefined}
       crossorigin={SITE.fontAwesome.includes("font-awesome/6.5.2/css/all.min.css") ? "anonymous" : undefined} />
     {(SITE as Record<string, any>).customCSS?.map((href: string) => <link rel="stylesheet" href={href} />)}
+    {noindex && <meta name="robots" content="noindex,follow" />}
     <style is:inline id="popular-brand" set:html={brandCss}></style>
+    {/* Structured data and any other per-page head markup. Pages fill this
+        with <script type="application/ld+json" slot="head" ...>. */}
+    <slot name="head" />
   </head>
   <body data-copy-label={STRINGS.copyCode} data-checklist-done={STRINGS.checklistDone}>
     <a class="g-skip" href="#main">{STRINGS.skipToContent}</a>
+    <Notice />
     <Header />
     <main id="main">
       <slot />

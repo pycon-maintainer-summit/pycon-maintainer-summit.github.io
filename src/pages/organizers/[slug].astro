@@ -1,0 +1,114 @@
+---
+/** Organizer profile hub. Organizers double as news authors (the authors
+ *  collection was folded into this one), so each profile shows a persona card,
+ *  a stats strip, and grids of both the editions they organized and the posts
+ *  they wrote. Mirrors the-invisibles' host page (layouts/organizers/single).
+ *
+ *  Local rather than injected because the theme's organizers route group is
+ *  disabled (its sibling list page would collide with this site's
+ *  this-year/past-years split). */
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from 'astro-theme-popular/components/PageHero.astro';
+import AuthorBox from 'astro-theme-popular/components/AuthorBox.astro';
+import EventCard from '../../components/EventCard.astro';
+import PostCard from '../../components/PostCard.astro';
+import { STRINGS, CURRENT_YEAR } from '../../config';
+
+export async function getStaticPaths() {
+  const organizers = await getCollection('organizers');
+  return organizers.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const bio = d.description ?? d.bio;
+
+/* The editions this person helped organize (by their `years` field), newest
+   first; and the news posts that list them as an author. */
+const allEvents = await getCollection('events');
+const events = d.years
+  .map((y) => allEvents.find((e) => e.data.year === y))
+  .filter(Boolean)
+  .sort((a, b) => b!.data.year - a!.data.year);
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft && p.data.authors.includes(entry.id))
+  .sort((a, b) => +b.data.date - +a.data.date);
+
+/* The hero already carries name and role, so only add the bio card when it
+   brings something new: a photo, a bio, or links. */
+const hasBioCard = Boolean(d.photo || bio || d.social.length > 0);
+const yearsSorted = [...d.years].sort((a, b) => a - b);
+---
+
+<BaseLayout title={d.title} description={bio}>
+  <PageHero eyebrow={d.role ?? STRINGS.eyebrowOrganizer} title={d.title} lead={bio} />
+
+  {(events.length > 0 || posts.length > 0) && (
+    <section class="g-bg-ink">
+      <div class="g-container g-stats">
+        {events.length > 0 && (
+          <div class="g-stat"><div class="g-stat__n">{events.length}</div><div class="g-stat__l">summit{events.length === 1 ? '' : 's'} organized</div></div>
+        )}
+        {posts.length > 0 && (
+          <div class="g-stat"><div class="g-stat__n">{posts.length}</div><div class="g-stat__l">news post{posts.length === 1 ? '' : 's'}</div></div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="g-bg-white g-section">
+    <div class="g-container">
+      <div class="g-article" style="margin-bottom:var(--space-5)">
+        {hasBioCard && <AuthorBox entry={entry} base="/organizers/" />}
+        {yearsSorted.length > 0 && (
+          <p style="margin-top:var(--space-4)" aria-label="Years organized">
+            {yearsSorted.map((y) => (
+              <span class={`year-badge ${y === CURRENT_YEAR ? 'year-badge--current' : ''}`}>{y}</span>
+            ))}
+          </p>
+        )}
+        <Content />
+      </div>
+
+      {events.length > 0 && (
+        <>
+          <div class="g-section-head"><span class="g-eyebrow">The summit</span><h2>Summits organized by {d.title}</h2></div>
+          <div class="g-grid-3" style="margin-top:var(--space-4);margin-bottom:var(--space-5)">
+            {events.map((e) => <EventCard event={e} />)}
+          </div>
+        </>
+      )}
+
+      {posts.length > 0 && (
+        <>
+          <div class="g-section-head"><span class="g-eyebrow">{STRINGS.fromTheBlog}</span><h2>{STRINGS.writtenBy.replace('{name}', d.title)}</h2></div>
+          <div class="g-grid-3" style="margin-top:var(--space-4);margin-bottom:var(--space-5)">
+            {posts.map((p) => <PostCard post={p} />)}
+          </div>
+        </>
+      )}
+
+      <a href="/organizers/" style="display:inline-flex;gap:.4rem;align-items:center;font-size:var(--text-sm);font-weight:var(--weight-medium)"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All organizers</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .year-badge {
+    display: inline-block;
+    margin-right: 0.3rem;
+    padding: 3px 10px;
+    font-size: var(--text-xs);
+    font-family: var(--font-mono, monospace);
+    font-weight: var(--weight-semibold);
+    background: var(--ink-100);
+    color: var(--text-muted);
+    border-radius: var(--radius-pill);
+  }
+  .year-badge--current {
+    background: var(--color-accent);
+    color: var(--ink-800);
+  }
+</style>

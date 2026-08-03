@@ -107,6 +107,44 @@ date: 2026-09-01
 updated: 2026-09-15
 ```
 
+## Writing a summit recap
+
+A recap is a normal news post tagged `recap` that leans on two extra
+components: a photo gallery and a pull-quote. Both need the post to be an
+`.mdx` file rather than `.md` — rename the extension and add the imports at
+the top, everything else about the post stays the same.
+
+```mdx
+---
+title: "Recap: Maintainers Summit 2026"
+date: 2026-05-20
+summary: "What happened at Long Beach, in photos and quotes."
+tags: ["recap"]
+---
+
+import Gallery from 'astro-theme-popular/components/Gallery.astro';
+import Photo from 'astro-theme-popular/components/Photo.astro';
+import Pullquote from 'astro-theme-popular/components/Pullquote.astro';
+
+The room was full by ten past nine.
+
+<Pullquote cite="A first-time attendee">
+The first conference room where nobody had to explain what a triage backlog is.
+</Pullquote>
+
+<Gallery>
+  <Photo src="/images/recap/2026-room.jpg" alt="A packed room of about eighty people facing a speaker" />
+  <Photo src="/images/recap/2026-roundtable.jpg" alt="Six people around a table mid-discussion" caption="The funding roundtable" />
+</Gallery>
+```
+
+- **`alt` is required on every `<Photo>`** and the build fails without it. Write
+  what the photo shows, not "summit photo".
+- **`caption` is optional** and appears under the image.
+- The gallery is a plain CSS grid with no JavaScript and no lightbox: each photo
+  links to its own full-size file, so put reasonably sized images in `public/`.
+- Get permission before publishing photos of identifiable attendees.
+
 ## Drafts
 
 Set `draft: true` while a post is in progress. It is excluded from the news

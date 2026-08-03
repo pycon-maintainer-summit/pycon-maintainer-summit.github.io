@@ -2,6 +2,8 @@
 title: "PyCon US Maintainers Summit 2021"
 year: 2021
 date: "May 12–13, 2021"
+startDate: 2021-05-12
+endDate: 2021-05-13
 location: "Online — PyCon US 2021 (virtual)"
 city: "Online"
 status: "past"

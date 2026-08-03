@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AuthorBox from 'astro-theme-popular/components/AuthorBox.astro';
 import { SUPPORT, SITE, STRINGS } from '../../config';
 import { tagSlug } from '../../lib/slugs';
+import { buildBlogPostingLd, jsonld } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
@@ -29,7 +30,7 @@ const dateStr = formatDate(d.date);
 const isUpdated = !!d.updated && d.updated.getTime() > d.date.getTime();
 const description = d.description ?? d.summary;
 
-const allAuthors = await getCollection('authors');
+const allAuthors = await getCollection('organizers');
 const resolved = d.authors.map((slug) => allAuthors.find((a) => a.id === slug)).filter(Boolean);
 const bylineNames = [
   ...d.authors.map((slug) => allAuthors.find((a) => a.id === slug)?.data.title ?? slug),
@@ -39,6 +40,21 @@ if (!bylineNames.length && d.author) bylineNames.push(d.author);
 const byline = bylineNames.length > 1
   ? bylineNames.slice(0, -1).join(STRINGS.listSeparator) + STRINGS.listSeparatorFinal + bylineNames[bylineNames.length - 1]
   : bylineNames.join('');
+
+/* BlogPosting structured data. Posts live at /news/ on this site, not the
+   theme's /blog/, so the url is built from the local route. */
+const isoZ = (date: Date) => date.toISOString().replace(/\.\d{3}Z$/, 'Z');
+const postLd = jsonld(buildBlogPostingLd({
+  title: d.title,
+  datePublished: isoZ(d.date),
+  dateModified: isoZ(isUpdated ? d.updated! : d.date),
+  authors: bylineNames,
+  image: d.image ? new URL(d.image, Astro.site ?? Astro.url).href : undefined,
+  url: new URL(`/news/${post.id}/`, Astro.site ?? Astro.url).href,
+  description,
+  siteTitle: SITE.title,
+  siteUrl: new URL('/', Astro.site ?? Astro.url).href,
+}));
 ---
 
 <BaseLayout
@@ -47,6 +63,7 @@ const byline = bylineNames.length > 1
   image={d.image}
   article={{ published: d.date, modified: d.updated, authors: bylineNames, tags: d.tags }}
 >
+  <script type="application/ld+json" slot="head" set:html={postLd} />
   <article>
     <header class="g-pagehero">
       <div class="g-container" style="padding-block:var(--space-6) var(--space-5)">
@@ -98,7 +115,7 @@ const byline = bylineNames.length > 1
         <>
           <h2 style="font-size:var(--text-xl);margin:var(--space-5) 0 1rem">About the author{resolved.length + d.guestAuthors.length > 1 ? 's' : ''}</h2>
           <div class="g-stack" style="gap:var(--space-3)">
-            {resolved.map((a) => <AuthorBox entry={a} />)}
+            {resolved.map((a) => <AuthorBox entry={a} base="/organizers/" />)}
             {d.guestAuthors.map((g) => <AuthorBox guest={g} />)}
           </div>
         </>

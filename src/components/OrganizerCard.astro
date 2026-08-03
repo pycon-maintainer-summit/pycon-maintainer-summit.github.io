@@ -6,11 +6,12 @@ interface Props { organizer: CollectionEntry<'organizers'> }
 const { organizer } = Astro.props;
 const d = organizer.data;
 const yearsSorted = [...d.years].sort((a, b) => a - b);
+const href = `/organizers/${organizer.id}/`;
 ---
 
 <div class="g-org">
-  {d.photo && <img class="g-org__img" src={d.photo} alt={d.title} loading="lazy" />}
-  <div class="g-org__name">{d.title}</div>
+  {d.photo && <a href={href}><img class="g-org__img" src={d.photo} alt={d.title} loading="lazy" /></a>}
+  <div class="g-org__name"><a href={href} style="color:inherit">{d.title}</a></div>
   {d.role && <div class="g-org__role">{d.role}</div>}
   {yearsSorted.length > 0 && (
     <div class="g-org__years" aria-label="Years organized">

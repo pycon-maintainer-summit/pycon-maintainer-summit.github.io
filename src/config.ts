@@ -16,6 +16,11 @@ export const SITE = {
   fontAwesome: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
   landAcknowledgement: "",
   rssTitle: "PyCon US Maintainers Summit — News",
+  /** Banner above the header: { text, url? }. `text` takes inline markdown;
+   *  `url` appends a "Learn more" link. Static and not dismissible, so keep
+   *  it to one timely thing (CFP open, registration live) and set it back to
+   *  null when that window closes. */
+  notice: null as { text: string; url?: string } | null,
 };
 
 /** The year of the upcoming/current summit — used to flag "this year" organizers. */
@@ -62,6 +67,7 @@ export const STRINGS: Record<string, string> = {
   posts: 'Posts',
   guest: 'Guest',
   website: 'Website',
+  eyebrowOrganizer: 'Organizer',
   checklist: 'Checklist',
   copyCode: 'Copy code',
   checklistDone: 'done',
@@ -84,6 +90,11 @@ export const STRINGS: Record<string, string> = {
   paginationLabel: 'Pagination',
   paginationPrev: 'Previous',
   paginationNext: 'Next',
+  learnMore: 'Learn more',
+  talks: 'Talks',
+  talksLead: 'Every talk, lightning talk, and discussion session from every summit, newest first.',
+  watchRecording: 'Watch',
+  viewSlides: 'Slides',
   // Summit-specific additions (not in the upstream theme).
   statusUpcoming: 'Upcoming',
   statusPast: 'Past',
@@ -122,6 +133,7 @@ export const NAV: {
   children?: { label: string; href: string }[];
 }[] = [
   { label: 'Events', href: '/events/' },
+  { label: 'Talks', href: '/talks/' },
   { label: 'News', href: '/news/' },
   { label: 'Docs', href: '/docs/' },
   {
@@ -129,6 +141,7 @@ export const NAV: {
     href: '/about/',
     children: [
       { label: 'About the summit', href: '/about/' },
+      { label: 'FAQ', href: '/faq/' },
       { label: 'Organizers', href: '/organizers/' },
       { label: 'Contact', href: '/contact/' },
     ],
@@ -146,7 +159,10 @@ export const SOCIAL = [
 
 export const FOOTER = {
   tagline: "A gathering for open source Python maintainers at PyCon US",
-  credit: { label: 'Popular Astro theme by Mariatta', url: 'https://mariatta.ca' },
+  // The repo, not mariatta.ca: the theme's Footer appends its own version
+  // number ("· v0.7.0") when the credit URL points at mariatta.ca, which
+  // suits the theme's demos but not a PyCon-branded site.
+  credit: { label: 'Popular Astro theme by Mariatta', url: 'https://github.com/mariatta/astro-theme-popular' },
   columns: [
     { title: 'Summit', links: [
       { label: 'Events', href: '/events/' },
@@ -189,8 +205,11 @@ export const HOME = {
   },
   stats: [
     { value: '2019', label: 'first summit' },
-    { value: 'Yearly', label: 'at PyCon US' },
-    { value: '100+', label: 'speakers so far' },
+    // Live counts (see lib/stats): editions with status 'past', and entries in
+    // the speakers collection. "listed", not "so far": the collection only
+    // covers the editions whose speakers we have written up.
+    { value: '@pastEventCount', label: 'summits held' },
+    { value: '@count:speakers', label: 'speakers listed' },
     { value: 'Free', label: 'with PyCon US registration' },
   ],
   featuresHead: { eyebrow: 'What happens at the summit', title: 'A day for the people who keep Python running', lead: 'Maintainers of projects big and small, new and veteran, are all welcome.' },

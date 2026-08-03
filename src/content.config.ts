@@ -13,7 +13,7 @@ const blog = defineCollection({
     /** Optional last-updated date. Shown as "Updated …" only when after `date`. */
     updated: z.coerce.date().optional(),
     author: z.string().optional(), // simple byline fallback
-    authors: z.array(z.string()).default([]), // slugs of entries in the authors collection
+    authors: z.array(z.string()).default([]), // slugs of entries in the organizers collection
     guestAuthors: z
       .array(
         z.object({
@@ -50,10 +50,20 @@ const events = defineCollection({
     title: z.string(),
     year: z.number(),
     date: z.string(), // human-readable, e.g. "Saturday, May 16, 2026"
+    /** Machine-readable first day. Drives Event structured data; the prose
+     *  `date` above stays the display string (it carries ranges and notes
+     *  like "(originally scheduled)" that no date parser should see). */
+    startDate: z.coerce.date(),
+    /** Last day, for multi-day editions. Omit for single-day summits. */
+    endDate: z.coerce.date().optional(),
     location: z.string(),
     /** Short city name, used for stat tiles and prev/next links. */
     city: z.string().optional(),
     status: z.enum(['upcoming', 'past']),
+    /** Set only when an edition did not run as planned; maps to the matching
+     *  schema.org eventStatus so the structured data does not claim a summit
+     *  happened in a room it never happened in (2020 moved online). */
+    disruption: z.enum(['cancelled', 'moved-online']).optional(),
     summary: z.string(),
     image: z.string().optional(),
     cfpUrl: z.string().url().optional(),
@@ -93,6 +103,11 @@ const topics = defineCollection({
   }),
 });
 
+/** People who run the summit. This is also the author collection: news posts
+ *  reference organizers by slug in `authors: [...]`, and /organizers/<slug>/
+ *  is one profile page listing both the editions they organized and the posts
+ *  they wrote. (Mirrors the-invisibles' `[sections] authors = team = hosts`.)
+ *  Writers who are not organizers use a post's inline `guestAuthors` instead. */
 const organizers = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/organizers' }),
   schema: z.object({
@@ -100,25 +115,16 @@ const organizers = defineCollection({
     weight: z.number().default(100),
     role: z.string().optional(),
     photo: z.string().optional(),
+    /** Bio. `bio` is the theme's field name, `description` the summit's; the
+     *  AuthorBox reads either, so both are accepted here. */
     description: z.string().optional(),
+    bio: z.string().optional(),
+    website: z.string().optional(),
     /** Every year this person helped organize the summit. */
     years: z.array(z.number()).default([]),
     social: z
       .array(z.object({ label: z.string(), icon: z.string(), url: z.string() }))
       .default([]),
-  }),
-});
-
-/** Author profiles: referenced from blog posts via `authors: [slug]`. */
-const authors = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/authors' }),
-  schema: z.object({
-    title: z.string(), // the author's name
-    role: z.string().optional(),
-    photo: z.string().optional(),
-    bio: z.string().optional(),
-    website: z.string().optional(),
-    social: z.array(z.object({ label: z.string(), icon: z.string(), url: z.string() })).default([]),
   }),
 });
 
@@ -146,4 +152,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { blog, events, speakers, topics, organizers, authors, docs, pages };
+export const collections = { blog, events, speakers, topics, organizers, docs, pages };

@@ -30,6 +30,15 @@ export default defineConfig({
         venues: false,
         tags: false,
         rss: false,
+        // This site aggregates its own `topics` collection at /talks/ (see
+        // src/pages/talks/); the theme's archive reads its flat event model.
+        talks: false,
+        // The theme's calendar feed and llms.txt read its flat event schema
+        // (a real `date`); this site's editions carry a human-readable date
+        // string instead, so both would ship empty/wrong. Off until the
+        // summit grows a machine-readable date and its own versions.
+        calendar: false,
+        llms: false,
       },
     }),
   ],

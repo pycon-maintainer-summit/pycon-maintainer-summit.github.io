@@ -2,6 +2,7 @@
 title: "PyCon US Maintainers Summit 2026"
 year: 2026
 date: "Saturday, May 16, 2026"
+startDate: 2026-05-16
 location: "Room 201A, Long Beach Convention & Entertainment Center, Long Beach, CA"
 city: "Long Beach"
 status: "past"

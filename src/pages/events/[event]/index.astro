@@ -3,7 +3,8 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import EventSubnav from '../../../components/EventSubnav.astro';
 import EventPrevNext from '../../../components/EventPrevNext.astro';
-import { STRINGS } from '../../../config';
+import { STRINGS, SITE } from '../../../config';
+import { buildSummitEventLd, jsonld } from '../../../lib/jsonld';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -13,9 +14,30 @@ export async function getStaticPaths() {
 const { event } = Astro.props;
 const d = event.data;
 const { Content } = await render(event);
+
+/* Event structured data. The editions held virtually are identified from the
+   location text rather than a flag, since only two of them ever were. */
+const online = d.city === 'Online' || /online|virtual/i.test(d.location);
+const speakers = await getCollection('speakers', (s) => s.data.event.id === event.id);
+const eventLd = jsonld(buildSummitEventLd({
+  title: d.title,
+  startDate: d.startDate,
+  endDate: d.endDate,
+  location: d.location,
+  online,
+  disruption: d.disruption,
+  description: d.summary,
+  image: d.image ? new URL(d.image, Astro.site ?? Astro.url).href : undefined,
+  registrationUrl: d.registrationUrl,
+  permalink: new URL(`/events/${event.id}/`, Astro.site ?? Astro.url).href,
+  siteUrl: new URL('/', Astro.site ?? Astro.url).href,
+  siteTitle: SITE.title,
+  performers: speakers.map((s) => s.data.name),
+}));
 ---
 
 <BaseLayout title={d.title} description={d.summary} image={d.image}>
+  <script type="application/ld+json" slot="head" set:html={eventLd} />
   <article>
     <header class="g-pagehero">
       <div class="g-container">
