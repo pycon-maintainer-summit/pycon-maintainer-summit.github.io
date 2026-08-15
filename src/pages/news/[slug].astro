@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AuthorBox from 'astro-theme-popular/components/AuthorBox.astro';
+import PostFooter from '../../components/PostFooter.astro';
 import { SUPPORT, SITE, STRINGS } from '../../config';
 import { tagSlug } from '../../lib/slugs';
 import { buildBlogPostingLd, jsonld } from '../../lib/jsonld';
@@ -96,6 +97,8 @@ const postLd = jsonld(buildBlogPostingLd({
       {description && <p class="g-lead" style="margin-bottom:var(--space-4)">{description}</p>}
 
       <div class="g-prose"><Content /></div>
+
+      <PostFooter />
 
       {d.speaker && (
         <>
