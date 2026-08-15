@@ -1,6 +1,6 @@
 ---
 title: "Welcome to the new Maintainers Summit website"
-date: 2026-05-25
+date: 2026-08-20
 authors: ["mariatta-wijaya"]
 summary: "Announcing the new PyCon US Maintainers Summit website. Subscribe to our RSS feed to follow along."
 tags: ["announcement"]
