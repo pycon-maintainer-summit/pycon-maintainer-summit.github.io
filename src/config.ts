@@ -186,6 +186,18 @@ export const FOOTER = {
 /** Support box at the bottom of news posts, null hides it. */
 export const SUPPORT = null;
 
+/** Common footer rendered at the end of every news post, so the subscribe
+ *  pitch lives in one place instead of being pasted into each post. Set to
+ *  null to hide it. `body` paragraphs take inline markdown (links, bold,
+ *  emphasis, code); block syntax is not supported. */
+export const POST_FOOTER = {
+  title: 'Subscribe to the RSS feed',
+  body: [
+    "Don't want to miss a post? Subscribe to our [RSS feed](/rss.xml) and every new announcement, recap, and blog post will land in your reader automatically. No account or inbox required.",
+    'Thanks for being part of our community!',
+  ],
+} as { title?: string; body: string[] } | null;
+
 /** Section list-page headers. */
 export const SECTIONS = {
   blog: { eyebrow: 'News & Announcements', title: 'News', lead: 'Announcements and updates from the Maintainers Summit team.' },

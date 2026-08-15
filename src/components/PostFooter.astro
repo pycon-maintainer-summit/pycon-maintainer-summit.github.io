@@ -1,0 +1,21 @@
+---
+/** Common footer appended to the end of every news post. Content comes from
+ *  POST_FOOTER in config, so the subscribe pitch is written once rather than
+ *  repeated in each post's Markdown. Renders nothing when POST_FOOTER is null. */
+import { POST_FOOTER } from '../config';
+import { inlineMarkdown } from '../lib/inline-md';
+
+const footer = POST_FOOTER;
+---
+
+{footer && (
+  <footer class="g-callout" style="margin-top:var(--space-5);flex-direction:column;gap:.6rem;align-items:flex-start">
+    <i class="fa-solid fa-rss" aria-hidden="true"></i>
+    <div class="g-callout__body">
+      {footer.title && <div class="g-callout__title">{footer.title}</div>}
+      {footer.body.map((p) => (
+        <p style="margin:.5rem 0 0"><Fragment set:html={inlineMarkdown(p)} /></p>
+      ))}
+    </div>
+  </footer>
+)}
