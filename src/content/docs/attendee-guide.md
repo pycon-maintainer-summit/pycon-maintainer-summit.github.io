@@ -24,4 +24,3 @@ This is a placeholder for the attendee guide. Final content coming soon.
 ## After the summit
 
 - Placeholder: how to follow up with people you met
-- Placeholder: where recordings will be posted

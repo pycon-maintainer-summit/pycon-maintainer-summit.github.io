@@ -1,0 +1,44 @@
+---
+/** Docs pages, served under /docs/ to keep this site's existing URLs.
+ *  Rendering matches the upstream theme's doc layout: side nav + scroll-spy
+ *  "On this page" TOC (see public/scripts/toc.js). */
+import { STRINGS } from '../../config';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from 'astro-theme-popular/components/PageHero.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
+const allDocs = (await getCollection('docs')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title)
+);
+---
+
+<BaseLayout title={d.title} description={d.description ?? d.lead}>
+  <PageHero eyebrow={d.eyebrow ?? STRINGS.eyebrowDocs} title={d.title} lead={d.lead ?? d.description} />
+
+  <div class="g-container g-doc">
+    <nav class="g-doc-toc" aria-label={STRINGS.eyebrowDocs}>
+      <div class="g-doc-toc__label">{STRINGS.eyebrowDocs}</div>
+      {allDocs.map((e) => (
+        <a
+          href={`/docs/${e.id}/`}
+          class={e.id === entry.id ? 'is-active' : ''}
+          aria-current={e.id === entry.id ? 'page' : undefined}
+        >{e.data.title}</a>
+      ))}
+      <div class="g-doc-toc__label" style="margin-top:1.2rem">{STRINGS.onThisPage}</div>
+      {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+    </nav>
+    <div class="g-doc__content g-prose">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>

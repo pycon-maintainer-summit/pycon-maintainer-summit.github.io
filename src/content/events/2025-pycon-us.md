@@ -2,6 +2,7 @@
 title: "PyCon US Maintainers Summit 2025"
 year: 2025
 date: "Friday, May 16, 2025"
+startDate: 2025-05-16
 location: "Room 402, David L. Lawrence Convention Center, Pittsburgh, PA"
 city: "Pittsburgh"
 status: "past"

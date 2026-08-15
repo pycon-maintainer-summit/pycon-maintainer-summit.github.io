@@ -2,6 +2,7 @@
 title: "PyCon US Maintainers Summit 2019"
 year: 2019
 date: "Saturday, May 4, 2019"
+startDate: 2019-05-04
 location: "Room 25C, Huntington Convention Center, Cleveland, OH"
 city: "Cleveland"
 status: "past"

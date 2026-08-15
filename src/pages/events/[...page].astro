@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from 'astro-theme-popular/components/PageHero.astro';
+import EventCard from '../../components/EventCard.astro';
+import Pagination from 'astro-theme-popular/components/Pagination.astro';
+import { SECTIONS, STRINGS, PAGINATION } from '../../config';
+
+/* One route serves /events/ and /events/page/N/. Editions are split by their
+   `status` field (not date-vs-now like the upstream theme) and sorted by year,
+   newest first. Only past events paginate; upcoming always show in full. */
+export async function getStaticPaths() {
+  const all = await getCollection('events');
+  const upcoming = all.filter((e) => e.data.status === 'upcoming').sort((a, b) => b.data.year - a.data.year);
+  const past = all.filter((e) => e.data.status === 'past').sort((a, b) => b.data.year - a.data.year);
+  const size = PAGINATION.pageSize;
+  const total = Math.max(1, Math.ceil(past.length / size));
+  return Array.from({ length: total }, (_, i) => ({
+    params: { page: i === 0 ? undefined : `page/${i + 1}` },
+    props: { current: i + 1, total, upcoming, past: past.slice(i * size, (i + 1) * size) },
+  }));
+}
+
+const { current, total, upcoming, past } = Astro.props;
+---
+
+<BaseLayout title="Events">
+  <PageHero
+    eyebrow={SECTIONS.events.eyebrow}
+    title={SECTIONS.events.title}
+    lead={SECTIONS.events.lead}
+  />
+
+  <section class="g-bg-white g-section">
+    <div class="g-container">
+      <div class="g-section-head">
+        <span class="g-eyebrow">{STRINGS.comingUp}</span>
+        <h2>{STRINGS.upcomingEvents}</h2>
+        {upcoming.length > 0 && <p class="g-lead">{STRINGS.upcomingLead}</p>}
+      </div>
+      {upcoming.length > 0 ? (
+        <div class="g-grid-3" style="margin-top:var(--space-4)">
+          {upcoming.map((e) => <EventCard event={e} />)}
+        </div>
+      ) : (
+        <p class="g-lead" style="margin-top:var(--space-3)">{STRINGS.noUpcomingEvents}</p>
+      )}
+    </div>
+  </section>
+
+  {past.length > 0 && (
+    <section class="g-bg-tertiary g-section">
+      <div class="g-container">
+        <div class="g-section-head"><span class="g-eyebrow">{STRINGS.lookingBack}</span><h2>{STRINGS.pastEvents}</h2></div>
+        <div class="g-grid-3" style="margin-top:var(--space-4)">
+          {past.map((e) => <EventCard event={e} />)}
+        </div>
+        <Pagination current={current} total={total} base="/events/" />
+      </div>
+    </section>
+  )}
+</BaseLayout>

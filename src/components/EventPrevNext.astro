@@ -1,78 +1,65 @@
 ---
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 
-interface Props {
-  current: CollectionEntry<"events">;
-}
-
+interface Props { current: CollectionEntry<'events'> }
 const { current } = Astro.props;
 
 // Sort chronologically — older first, newer last.
-const all = (await getCollection("events")).sort((a, b) => a.data.year - b.data.year);
+const all = (await getCollection('events')).sort((a, b) => a.data.year - b.data.year);
 const idx = all.findIndex((e) => e.id === current.id);
 const prev = idx > 0 ? all[idx - 1] : null;
 const next = idx < all.length - 1 ? all[idx + 1] : null;
 ---
 
 {(prev || next) && (
-  <nav class="event-prev-next" aria-label="Other events">
+  <nav class="prevnext" aria-label="Other events">
     {prev ? (
-      <a href={`/events/${prev.id}`} class="card link-card prev">
-        <span class="dir">← Previous event</span>
-        <span class="title">{prev.data.title}</span>
-        <span class="muted year">{prev.data.year}{prev.data.city && ` · ${prev.data.city}`}</span>
+      <a href={`/events/${prev.id}/`} class="g-card prevnext__card">
+        <span class="prevnext__dir"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Previous event</span>
+        <span class="prevnext__title">{prev.data.title}</span>
+        <span class="prevnext__meta">{prev.data.year}{prev.data.city && ` · ${prev.data.city}`}</span>
       </a>
     ) : (
-      <span class="placeholder" aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
     )}
-
     {next ? (
-      <a href={`/events/${next.id}`} class="card link-card next">
-        <span class="dir">Next event →</span>
-        <span class="title">{next.data.title}</span>
-        <span class="muted year">{next.data.year}{next.data.city && ` · ${next.data.city}`}</span>
+      <a href={`/events/${next.id}/`} class="g-card prevnext__card prevnext__card--next">
+        <span class="prevnext__dir">Next event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        <span class="prevnext__title">{next.data.title}</span>
+        <span class="prevnext__meta">{next.data.year}{next.data.city && ` · ${next.data.city}`}</span>
       </a>
     ) : (
-      <span class="placeholder" aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
     )}
   </nav>
 )}
 
 <style>
-  .event-prev-next {
+  .prevnext {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
-    margin-top: var(--space-12);
+    gap: var(--space-3);
+    margin-top: var(--space-5);
   }
   @media (max-width: 40rem) {
-    .event-prev-next { grid-template-columns: 1fr; }
+    .prevnext { grid-template-columns: 1fr; }
   }
-  .link-card {
+  .prevnext__card {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: 0.3rem;
+    padding: var(--space-3);
     text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .link-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-  .link-card.next { text-align: right; }
-  .dir {
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    color: var(--color-brand);
+  .prevnext__card--next { text-align: right; }
+  .prevnext__dir {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--tracking-wide);
   }
-  .title {
-    font-weight: 700;
-    color: var(--color-brand-dark);
-  }
-  .year { font-size: var(--font-size-sm); }
-  .placeholder { display: block; }
+  .prevnext__title { font-weight: var(--weight-semibold); color: var(--text-strong); }
+  .prevnext__meta { font-size: var(--text-sm); color: var(--text-muted); }
 </style>

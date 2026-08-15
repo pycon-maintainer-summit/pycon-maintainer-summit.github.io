@@ -1,40 +1,37 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { leafSlug } from "../lib/slugs";
+import type { CollectionEntry } from 'astro:content';
+import { leafSlug } from '../lib/slugs';
 
 interface Props {
-  speaker: CollectionEntry<"speakers">;
+  speaker: CollectionEntry<'speakers'>;
   eventId: string;
 }
 
 const { speaker, eventId } = Astro.props;
 const { name, affiliation, pronouns, bio } = speaker.data;
-const href = `/events/${eventId}/speakers/${leafSlug(speaker.id)}`;
+const href = `/events/${eventId}/speakers/${leafSlug(speaker.id)}/`;
 ---
 
-<article class="card speaker-card">
-  <h3><a href={href}>{name}</a></h3>
-  <p class="meta">
-    {affiliation}
-    {pronouns && <span class="muted"> · {pronouns}</span>}
-  </p>
-  <p class="bio">{bio}</p>
-  <a href={href} class="more">Read more →</a>
+<article class="g-card">
+  <div class="g-card__body">
+    <h3 class="g-card__title"><a href={href}>{name}</a></h3>
+    {(affiliation || pronouns) && (
+      <div class="g-card__eyebrow" style="text-transform:none;letter-spacing:normal">
+        {affiliation}{affiliation && pronouns && ' · '}{pronouns}
+      </div>
+    )}
+    <p class="g-card__text speaker-bio">{bio}</p>
+    <div class="g-card__footer" style="border:0;padding-top:0">
+      <a href={href} style="font-weight:var(--weight-semibold)">Read more <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
 </article>
 
 <style>
-  .speaker-card { display: flex; flex-direction: column; gap: var(--space-2); }
-  .speaker-card h3 { margin: 0; }
-  .speaker-card h3 a { color: var(--color-brand-dark); text-decoration: none; }
-  .speaker-card h3 a:hover { text-decoration: underline; }
-  .meta { font-weight: 600; color: var(--color-brand); margin: 0; font-size: var(--font-size-sm); }
-  .bio {
-    margin: 0;
+  .speaker-bio {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .more { margin-top: auto; font-weight: 600; text-decoration: none; }
-  .more:hover { text-decoration: underline; }
 </style>

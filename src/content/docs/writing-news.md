@@ -38,9 +38,11 @@ there.
 |---|---|---|
 | `title` | yes | Headline. Also used for the page `<title>` and OG tags. |
 | `date` | yes | `YYYY-MM-DD`. Posts are sorted newest-first by this date. |
+| `updated` | no | `YYYY-MM-DD`. Shows "Updated …" in the byline when later than `date`. See below. |
 | `summary` | yes | One sentence. Shown on the index card, the post lede, and the RSS description. |
 | `author` | no | Defaults to `"Maintainers Summit Team"`. One name or several — see below. |
 | `tags` | no | List of strings, shown as chips and included as RSS categories. |
+| `image` | no | Social-share image (Open Graph / Twitter card). See below. |
 | `draft` | no | `true` hides the post from the site and the feed. Defaults to `false`. |
 
 ## Multiple authors
@@ -57,12 +59,91 @@ For several authors, use a YAML list:
 ```yaml
 author:
   - "Mariatta Wijaya"
-  - "Jane Doe"
+  - "Inessa Pawson"
+  - "Leah Wasser"
 ```
 
 The byline renders the names with proper "and" joining — two names become
 "A and B", three become "A, B, and C" — on the news index, the post page, and
 the RSS feed. Each name also gets its own `article:author` meta tag.
+
+## Social-share image
+
+Set an `image` to give the post a cover image — it appears at the top of the
+post, as the thumbnail on the news list, and as the preview card when the post
+is shared on social media (Open Graph + the Twitter/X large card). It's optional;
+posts without one simply have no image (and share using the site default, if one
+is set in `src/data/site.ts`).
+
+```yaml
+image: "/og/my-post.jpg"
+```
+
+- **Where it goes:** put the file in `public/` (e.g. `public/og/my-post.jpg`)
+  and reference it with an absolute path from the site root, like
+  `/og/my-post.jpg`.
+- **Size:** **1200 × 630 px** — the standard Open Graph ratio (1.91:1), used by
+  Facebook, LinkedIn, and the X large card.
+- **Format & file size:** JPG for photos, PNG for flat graphics. Keep it under
+  ~1 MB (200–500 KB is ideal) so it loads quickly when shared.
+- **Safe area:** keep faces and any text toward the center — feeds sometimes
+  crop the edges.
+- **Overlaid text:** if you put a title on the image, make it large; the card is
+  shown small in feeds.
+
+When `image` is set, the page emits `og:image` and `twitter:image` and upgrades
+the Twitter card to `summary_large_image`. The layout turns the path into a full
+URL automatically, so a root-relative path is all you need.
+
+## Updated date
+
+If you make a meaningful change to a post after it's published, add an `updated`
+date. The byline then shows "Updated <date>" (only when it's later than `date`),
+and the page sets `article:modified_time` for SEO. Use it for substantive
+revisions — corrections or new information — not for typo fixes.
+
+```yaml
+date: 2026-09-01
+updated: 2026-09-15
+```
+
+## Writing a summit recap
+
+A recap is a normal news post tagged `recap` that leans on two extra
+components: a photo gallery and a pull-quote. Both need the post to be an
+`.mdx` file rather than `.md` — rename the extension and add the imports at
+the top, everything else about the post stays the same.
+
+```mdx
+---
+title: "Recap: Maintainers Summit 2026"
+date: 2026-05-20
+summary: "What happened at Long Beach, in photos and quotes."
+tags: ["recap"]
+---
+
+import Gallery from 'astro-theme-popular/components/Gallery.astro';
+import Photo from 'astro-theme-popular/components/Photo.astro';
+import Pullquote from 'astro-theme-popular/components/Pullquote.astro';
+
+The room was full by ten past nine.
+
+<Pullquote cite="A first-time attendee">
+The first conference room where nobody had to explain what a triage backlog is.
+</Pullquote>
+
+<Gallery>
+  <Photo src="/images/recap/2026-room.jpg" alt="A packed room of about eighty people facing a speaker" />
+  <Photo src="/images/recap/2026-roundtable.jpg" alt="Six people around a table mid-discussion" caption="The funding roundtable" />
+</Gallery>
+```
+
+- **`alt` is required on every `<Photo>`** and the build fails without it. Write
+  what the photo shows, not "summit photo".
+- **`caption` is optional** and appears under the image.
+- The gallery is a plain CSS grid with no JavaScript and no lightbox: each photo
+  links to its own full-size file, so put reasonably sized images in `public/`.
+- Get permission before publishing photos of identifiable attendees.
 
 ## Drafts
 

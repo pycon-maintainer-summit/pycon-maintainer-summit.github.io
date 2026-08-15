@@ -2,9 +2,11 @@
 title: "PyCon US Maintainers Summit 2020"
 year: 2020
 date: "April 17, 2020 (originally scheduled)"
+startDate: 2020-04-17
 location: "David L. Lawrence Convention Center, Room 408, Pittsburgh, PA"
 city: "Pittsburgh"
 status: "past"
+disruption: "moved-online"
 summary: "Planned as a one-day in-person summit at PyCon US 2020 in Pittsburgh; PyCon US 2020 was cancelled in person and moved to an Online Edition due to COVID-19."
 pyconUrl: "https://us.pycon.org/2020/hatchery/maintainers/"
 ---
