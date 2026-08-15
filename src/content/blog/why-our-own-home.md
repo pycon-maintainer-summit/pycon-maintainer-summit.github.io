@@ -1,6 +1,6 @@
 ---
 title: "Why the Maintainers Summit has a home of its own now"
-date: 2026-05-25
+date: 2026-08-20
 authors: ["mariatta-wijaya"]
 summary: "Why we moved from a single page on the PyCon US site to a dedicated, openly-maintained home — and what that lets us do."
 tags: ["blog"]
