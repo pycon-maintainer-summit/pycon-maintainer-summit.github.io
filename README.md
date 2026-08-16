@@ -1,6 +1,6 @@
-# PyCon US Maintainers Summit website
+# PyCon US Maintainer Summit website
 
-Source for the [PyCon US Maintainers Summit](https://pycon-maintainers-summit.github.io) site:
+Source for the [PyCon US Maintainer Summit](https://pycon-maintainer-summit.github.io) site:
 a gathering for open source Python maintainers at PyCon US.
 
 ## Developing

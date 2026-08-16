@@ -21,7 +21,7 @@ URL slug, so keep it short and use hyphens — e.g. `cfp-now-open.md` →
 ---
 title: "Headline goes here"
 date: 2026-09-01
-author: "Maintainers Summit Team"
+author: "Maintainer Summit Team"
 summary: "One-line summary shown on the news index, the RSS feed, and social cards."
 tags: ["announcement"]
 draft: false
@@ -40,7 +40,7 @@ there.
 | `date` | yes | `YYYY-MM-DD`. Posts are sorted newest-first by this date. |
 | `updated` | no | `YYYY-MM-DD`. Shows "Updated …" in the byline when later than `date`. See below. |
 | `summary` | yes | One sentence. Shown on the index card, the post lede, and the RSS description. |
-| `author` | no | Defaults to `"Maintainers Summit Team"`. One name or several — see below. |
+| `author` | no | Defaults to `"Maintainer Summit Team"`. One name or several — see below. |
 | `tags` | no | List of strings, shown as chips and included as RSS categories. |
 | `image` | no | Social-share image (Open Graph / Twitter card). See below. |
 | `draft` | no | `true` hides the post from the site and the feed. Defaults to `false`. |
@@ -116,7 +116,7 @@ the top, everything else about the post stays the same.
 
 ```mdx
 ---
-title: "Recap: Maintainers Summit 2026"
+title: "Recap: Maintainer Summit 2026"
 date: 2026-05-20
 summary: "What happened at Long Beach, in photos and quotes."
 tags: ["recap"]
