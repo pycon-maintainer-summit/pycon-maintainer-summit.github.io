@@ -7,7 +7,7 @@ lead: "The fastest way to reach us is by email."
 ## Email
 
 For program, sponsorship, or media inquiries:
-[maintainers-pyconus@googlegroups.com](mailto:maintainers-pyconus@googlegroups.com)
+[maintainer-pyconus@googlegroups.com](mailto:maintainer-pyconus@googlegroups.com)
 
 ## GitHub
 
