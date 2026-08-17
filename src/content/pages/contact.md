@@ -12,7 +12,7 @@ For program, sponsorship, or media inquiries:
 ## GitHub
 
 Site source and issues:
-[github.com/pycon-maintainers-summit/pycon-maintainers-summit.github.io](https://github.com/pycon-maintainers-summit/pycon-maintainers-summit.github.io)
+[github.com/pycon-maintainer-summit/pycon-maintainer-summit.github.io](https://github.com/pycon-maintainer-summit/pycon-maintainer-summit.github.io)
 
 ## Code of Conduct concerns
 

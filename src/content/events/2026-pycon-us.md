@@ -1,5 +1,5 @@
 ---
-title: "PyCon US Maintainers Summit 2026"
+title: "PyCon US Maintainer Summit 2026"
 year: 2026
 date: "Saturday, May 16, 2026"
 startDate: 2026-05-16
@@ -13,7 +13,7 @@ pyconUrl: "https://us.pycon.org/2026/events/maintainers-summit/"
 
 ## About this year's summit
 
-The 2026 Maintainers Summit took place on **Saturday, May 16, 2026** in
+The 2026 Maintainer Summit took place on **Saturday, May 16, 2026** in
 Room 201A at the Long Beach Convention & Entertainment Center, alongside
 PyCon US.
 

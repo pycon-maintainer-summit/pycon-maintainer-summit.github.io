@@ -1,11 +1,11 @@
 ---
 title: "Event Formats"
-description: "What to expect from each session type at the Maintainers Summit."
+description: "What to expect from each session type at the Maintainer Summit."
 order: 15
 audience: "general"
 ---
 
-The Maintainers Summit uses a mix of session formats. Each year's program
+The Maintainer Summit uses a mix of session formats. Each year's program
 is a different blend, but most days include some combination of the
 following.
 

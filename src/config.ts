@@ -1,12 +1,12 @@
-/** PyCon US Maintainers Summit: site configuration (Popular theme fork). */
+/** PyCon US Maintainer Summit: site configuration (Popular theme fork). */
 
 export const SITE = {
-  title: "PyCon US Maintainers Summit",
-  shortName: "Maintainers Summit",
+  title: "PyCon US Maintainer Summit",
+  shortName: "Maintainer Summit",
   tagline: "A gathering for open source Python maintainers at PyCon US",
   description:
-    "The PyCon US Maintainers Summit brings together maintainers of Python open source projects to share, learn, and collaborate.",
-  brandName: "Maintainers Summit",
+    "The PyCon US Maintainer Summit brings together maintainers of Python open source projects to share, learn, and collaborate.",
+  brandName: "Maintainer Summit",
   brandSub: "PyCon US",
   logo: "",
   favicon: "/favicon.svg",
@@ -15,7 +15,7 @@ export const SITE = {
   locale: "en-US",
   fontAwesome: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
   landAcknowledgement: "",
-  rssTitle: "PyCon US Maintainers Summit — News",
+  rssTitle: "PyCon US Maintainer Summit — News",
   /** Banner above the header: { text, url? }. `text` takes inline markdown;
    *  `url` appends a "Learn more" link. Static and not dismissible, so keep
    *  it to one timely thing (CFP open, registration live) and set it back to
@@ -28,7 +28,7 @@ export const CURRENT_YEAR = 2026;
 
 export const CONTACT = {
   email: "maintainers-pyconus@googlegroups.com",
-  github: "https://github.com/pycon-maintainers-summit/pycon-maintainers-summit.github.io",
+  github: "https://github.com/pycon-maintainer-summit/pycon-maintainer-summit.github.io",
 };
 
 /* UI strings. Keys map 1:1 to the upstream theme's STRINGS (see PARITY.md). */
@@ -200,7 +200,7 @@ export const POST_FOOTER = {
 
 /** Section list-page headers. */
 export const SECTIONS = {
-  blog: { eyebrow: 'News & Announcements', title: 'News', lead: 'Announcements and updates from the Maintainers Summit team.' },
+  blog: { eyebrow: 'News & Announcements', title: 'News', lead: 'Announcements and updates from the Maintainer Summit team.' },
   events: { eyebrow: 'Summit archive', title: 'Events', lead: 'Browse the upcoming summit and our past gatherings, every year since 2019.' },
   organizers: { eyebrow: 'The team', title: 'Organizers', lead: 'The volunteers who make the summit happen, this year and in years past.' },
 };
@@ -208,7 +208,7 @@ export const SECTIONS = {
 export const HOME = {
   hero: {
     eyebrow: 'PyCon US',
-    title: 'Maintainers Summit',
+    title: 'Maintainer Summit',
     lead: "A gathering for open source Python maintainers at PyCon US. We come together to share what we've learned, find collaborators, and support each other in the often-invisible work of maintenance.",
     ctas: [
       { label: "See this year's summit", url: '/events/', variant: 'accent' },

@@ -1,6 +1,6 @@
 ---
 title: "Speaker Guide"
-description: "Resources for accepted speakers at the Maintainers Summit."
+description: "Resources for accepted speakers at the Maintainer Summit."
 order: 20
 audience: "speaker"
 ---

@@ -5,7 +5,7 @@ order: 5
 audience: "general"
 ---
 
-The Maintainers Summit follows the
+The Maintainer Summit follows the
 [PyCon US Code of Conduct](https://us.pycon.org/2026/about/code-of-conduct/) during
 the conference days.
 
