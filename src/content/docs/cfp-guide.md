@@ -1,6 +1,6 @@
 ---
 title: "CFP Guide"
-description: "How to write a strong proposal for the Maintainers Summit."
+description: "How to write a strong proposal for the Maintainer Summit."
 order: 30
 audience: "speaker"
 ---

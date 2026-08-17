@@ -1,6 +1,6 @@
 ---
 title: "Attendee Guide"
-description: "Everything you need to know as an attendee of the Maintainers Summit."
+description: "Everything you need to know as an attendee of the Maintainer Summit."
 order: 10
 audience: "attendee"
 ---

@@ -1,13 +1,13 @@
 ---
-title: "Welcome to the new Maintainers Summit website"
+title: "Welcome to the new Maintainer Summit website"
 date: 2026-08-20
 authors: ["mariatta-wijaya"]
-summary: "Announcing the new PyCon US Maintainers Summit website: why we moved from a single page on the PyCon US site to a dedicated, openly-maintained home, and what that lets us do. Subscribe to our RSS feed to follow along."
+summary: "Announcing the new PyCon US Maintainer Summit website: why we moved from a single page on the PyCon US site to a dedicated, openly-maintained home, and what that lets us do. Subscribe to our RSS feed to follow along."
 tags: ["announcement", "blog"]
 image: "/og/welcome.png"
 ---
 
-Welcome to the new home of the **PyCon US Maintainers Summit**.
+Welcome to the new home of the **PyCon US Maintainer Summit**.
 
 Everything about the summit now lives together in one place: details on the
 event, an archive of past years, guides for attendees and speakers, and this
@@ -17,7 +17,7 @@ Here's why we built it, and what you can expect to find here.
 
 ## Where we started
 
-The Maintainers Summit began as a hatchery program for PyCon US 2019. Since
+The Maintainer Summit began as a hatchery program for PyCon US 2019. Since
 then, our "site" has been a single page under the PyCon US website.
 
 That made sense. The summit happens at PyCon US, and the conference site is
@@ -68,7 +68,7 @@ conference calendar. It has room for everything: attendee docs, speaker docs,
 organizing docs, an archive, and a blog. And it's openly maintained, so people
 can read how we work, learn from it, and contribute improvements.
 
-That last point matters most. The Maintainers Summit is a gathering of open
+That last point matters most. The Maintainer Summit is a gathering of open
 source people. It feels right to run it the open source way: in the open,
 documented, and contributable.
 
@@ -97,6 +97,6 @@ happening with the community around it:
 This whole site is open source, and we'd love your help keeping it useful. If
 you spot a typo, want to improve a guide, or have an idea for the summit, take a
 look at our
-[GitHub repository](https://github.com/pycon-maintainers-summit/pycon-maintainers-summit.github.io).
+[GitHub repository](https://github.com/pycon-maintainer-summit/pycon-maintainer-summit.github.io).
 Feel free to browse it, fork it, open an issue, or send a pull request.
 Contributions of every size are welcome.
