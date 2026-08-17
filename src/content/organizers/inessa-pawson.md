@@ -2,16 +2,16 @@
 title: "Inessa Pawson"
 role: "NumPy, OpenTeams"
 photo: "/images/people/inessa-pawson.webp"
-description: "Open Source Program Manager and Community Architect at OpenTeams, leading cross-organizational initiatives on sustainable collaboration between industry, academia, and open source ecosystems."
+description: "NumPy Steering Council, PyOpenSci Advisory Council, Scientific Python Ecosystem Coordination Committee, OpenTeams OSPO."
 years: [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 ---
 
-Inessa Pawson has spent much of her career designing and delivering commercial
-digital products across diverse industries. Discovering the transformative
-impact of building in the open and becoming an active contributor to the
-Scientific Python ecosystem have entirely reshaped her professional mission. In
-her current role as Open Source Program Manager and Community Architect at
-OpenTeams, Inessa is leading cross-organizational initiatives centered on
-development of sustainable collaboration models between industry, academia, and
-open source ecosystems. She is perpetually fascinated by incentive design,
-collaborative intelligence, and jazz.
+
+Inessa Pawson is an open source maintainer, educator, and community builder.
+She contributes across the Python ecosystem, most notably to NumPy, PyOpenSci,
+the Scientific Python project, and helps organize the SciPy conference and the
+Maintainer Summit at PyCon US. In her role as Director of Open Source Program
+Office at OpenTeams, Inessa leads initiatives focused on developing sustainable
+collaboration models between industry, government, academia, and open source
+ecosystems. She also advises on OpenTeams’ open source product strategy and
+roadmap, advancing community-driven open standards and ecosystem interoperability.
