@@ -1,7 +1,7 @@
 ---
 title: "About the Summit"
 eyebrow: "About"
-lead: "The PyCon US Maintainer Summit brings together maintainers, contributors, researchers, policymakers, and others who care about the long-term health of open source communities."
+lead: "The PyCon US Maintainer Summit brings together maintainers, contributors, researchers, policymakers, and everyone invested in the health and sustainability of the open source Python ecosystem."
 ---
 
 ## Our mission
