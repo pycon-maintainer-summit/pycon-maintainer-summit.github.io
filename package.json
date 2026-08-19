@@ -1,7 +1,8 @@
 {
-  "name": "astro-theme-popular",
-  "version": "0.3.0",
-  "description": "Popular: a warm, community-first Astro theme for meetups, user groups and small events. Built to make your community seen and famous.",
+  "name": "pycon-maintainer-summit-site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Website for the PyCon US Maintainer Summit, built on the astro-theme-popular theme.",
   "type": "module",
   "license": "MIT",
   "scripts": {
