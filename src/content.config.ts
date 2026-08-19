@@ -92,7 +92,9 @@ const topics = defineCollection({
   schema: z.object({
     title: z.string(),
     abstract: z.string(),
-    format: z.enum(['keynote', 'talk', 'lightning', 'bof', 'panel', 'workshop']).default('talk'),
+    /** `remarks` is opening/closing housekeeping: it appears on an edition's
+     *  schedule but is filtered out of the cross-edition /talks/ archive. */
+    format: z.enum(['keynote', 'talk', 'lightning', 'bof', 'panel', 'workshop', 'remarks']).default('talk'),
     /** 24h "HH:MM" — used for sorting and display on the topics page. */
     time: z.string().regex(/^\d{2}:\d{2}$/).optional(),
     event: reference('events'),

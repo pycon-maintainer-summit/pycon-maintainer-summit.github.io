@@ -6,7 +6,11 @@
  *  theme's blog-filter.js ([data-filterbar] / [data-tags] markup).
  *
  *  Format, not tags: no topic entry carries tags today, and the format enum
- *  is the axis a reader actually browses by ("show me the keynotes"). */
+ *  is the axis a reader actually browses by ("show me the keynotes").
+ *
+ *  Opening/closing remarks are schedule housekeeping rather than program
+ *  content, so they are excluded here; they still appear on their edition's
+ *  schedule page. */
 import { getCollection, getEntries } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from 'astro-theme-popular/components/PageHero.astro';
@@ -23,10 +27,14 @@ const FORMAT_LABELS: Record<string, string> = {
 };
 /* Display order for the filter bar; a format with no talks is dropped. */
 const FORMAT_ORDER = ['keynote', 'talk', 'lightning', 'panel', 'bof', 'workshop'];
+/* Formats that are not program content and so stay out of the archive. */
+const EXCLUDED_FORMATS = ['remarks'];
 
 const events = await getCollection('events');
 const eventById = new Map(events.map((e) => [e.id, e]));
-const topics = await getCollection('topics');
+const topics = (await getCollection('topics')).filter(
+  (t) => !EXCLUDED_FORMATS.includes(t.data.format),
+);
 
 const talks = await Promise.all(
   topics.map(async (topic) => {
