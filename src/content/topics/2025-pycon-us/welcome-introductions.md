@@ -1,7 +1,7 @@
 ---
 title: "Welcome and Introductions"
 abstract: "Opening remarks and overview of the day from the summit organizers."
-format: "talk"
+format: "remarks"
 time: "14:15"
 event: 2025-pycon-us
 speakers:
