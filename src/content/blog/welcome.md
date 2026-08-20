@@ -2,7 +2,7 @@
 title: "Welcome to the new Maintainer Summit website"
 date: 2026-08-20
 authors: ["mariatta-wijaya"]
-summary: "Announcing the new PyCon US Maintainer Summit website: why we moved from a single page on the PyCon US site to a dedicated, openly-maintained home, and what that lets us do. Subscribe to our RSS feed to follow along."
+summary: "Announcing the PyCon US Maintainer Summit website: why we moved from a single page on https://us.pycon.org to a dedicated, openly-maintained website. Subscribe to our RSS feed to follow along."
 tags: ["announcement", "blog"]
 image: "/og/welcome.png"
 ---
