@@ -5,9 +5,9 @@ export const SITE = {
   shortName: "Maintainer Summit",
   tagline: "A gathering for open source Python maintainers at PyCon US",
   description:
-    "The PyCon US Maintainer Summit brings together maintainers, contributors, researchers,
+    `The PyCon US Maintainer Summit brings together maintainers, contributors, researchers,
     policymakers, and everyone invested in the health and sustainability of the open source
-    Python ecosystem.",
+    Python ecosystem.`,
   brandName: "Maintainer Summit",
   brandSub: "PyCon US",
   logo: "",
