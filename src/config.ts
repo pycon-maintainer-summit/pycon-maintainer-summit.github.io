@@ -211,7 +211,7 @@ export const HOME = {
   hero: {
     eyebrow: 'PyCon US',
     title: 'Maintainer Summit',
-    lead: "A gathering for open source Python maintainers at PyCon US. We come together to share what we've learned, find collaborators, and support each other in the often-invisible work of maintenance.",
+    lead: "The PyCon US Maintainer Summit brings together maintainers, contributors, researchers, policymakers, and everyone invested in the health and sustainability of the open source Python ecosystem.",
     ctas: [
       { label: "See this year's summit", url: '/events/', variant: 'accent' },
       { label: 'About the summit', url: '/about/', variant: 'outline' },
@@ -222,11 +222,11 @@ export const HOME = {
     // Live counts (see lib/stats): editions with status 'past', and entries in
     // the speakers collection. "listed", not "so far": the collection only
     // covers the editions whose speakers we have written up.
-    { value: '@pastEventCount', label: 'summits held' },
-    { value: '@count:speakers', label: 'speakers listed' },
+    { value: '@pastEventCount', label: 'summits' },
+    { value: '@count:speakers', label: 'speakers' },
     { value: 'Free', label: 'with PyCon US registration' },
   ],
-  featuresHead: { eyebrow: 'What happens at the summit', title: 'A day for the people who keep Python running', lead: 'Maintainers of projects big and small, new and veteran, are all welcome.' },
+  featuresHead: { eyebrow: 'What happens at the summit', title: 'A day for the people who keep Python running'},
   features: [
     { icon: 'fa-solid fa-microphone-lines', title: 'Talks & lightning talks', body: 'Maintainers share lessons learned: sustainability, governance, funding, tooling, and everything in between.' },
     { icon: 'fa-solid fa-comments', title: 'Discussions & roundtables', body: 'Open conversations about the challenges of maintenance, with people who have faced the same ones.' },
