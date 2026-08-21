@@ -60,7 +60,7 @@ and may rotate over time. Reach the team via the contact addresses below.
 ## Reporting
 
 To report a Code of Conduct concern, email
-[maintainers-pyconus@googlegroups.com](mailto:maintainers-pyconus@googlegroups.com),
+[maintainer-pyconus@googlegroups.com](mailto:maintainer-pyconus@googlegroups.com),
 or DM any moderator on the community Discord.
 
 When reporting, please include:

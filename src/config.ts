@@ -29,7 +29,7 @@ export const SITE = {
 export const CURRENT_YEAR = 2026;
 
 export const CONTACT = {
-  email: "maintainers-pyconus@googlegroups.com",
+  email: "maintainer-pyconus@googlegroups.com",
   github: "https://github.com/pycon-maintainer-summit/pycon-maintainer-summit.github.io",
 };
 
