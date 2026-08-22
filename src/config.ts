@@ -107,24 +107,18 @@ export const STRINGS: Record<string, string> = {
 export const PAGINATION = { pageSize: 12 };
 
 export const BRAND: Record<string, string> = {
-  // PyCon-inspired blue + python yellow, carried over from the previous site.
-  primary: "#2d4a87",
-  primaryHover: "#1f3461",
-  primaryActive: "#1f3461",
-  secondary: "#1f3461",
-  // Python yellow, carried over from the previous site. Used on dark surfaces
-  // (stats band) and as chips/buttons with navy text; never as text on white.
-  accent: "#ffd43b",
-  accentHover: "#f0c419",
-  // Distinct link color so links stand apart from body text (prose links are
-  // also underlined, see components.css).
-  link: "#2d4a87",
-  linkHover: "#4a6bb0",
-  ink: "#1a1d24",
+  primary: "#022791",
+  primaryHover: "#3A62E3",
+  primaryActive: "#02217B",
+  secondary: "#4D75FE",
+  accent: "#ffb901",
+  accentHover: "#e0a301",
+  link: "#022791",
+  linkHover: "#3A62E3",
   // The upstream theme renamed the surfacePink* keys to surfaceWash*.
-  surfaceWash: "#e7edf6",
-  surfaceWashSoft: "#f6f8fb",
-  surfaceInk: "#1f3461",
+  surfaceWash: "#e1e5f2",
+  surfaceWashSoft: "#f2f4fa",
+  surfaceInk: "#022791",
   fontSans: 'Inter, system-ui, sans-serif',
   fontDisplay: 'Inter, system-ui, sans-serif',
 };
