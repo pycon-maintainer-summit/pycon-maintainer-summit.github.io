@@ -4,6 +4,10 @@ role: "NumPy, OpenTeams"
 photo: "/images/people/inessa-pawson.webp"
 description: "NumPy Steering Council, PyOpenSci Advisory Council, Scientific Python Ecosystem Coordination Committee, OpenTeams OSPO."
 years: [2020, 2021, 2022, 2023, 2024, 2025, 2026]
+social:
+  - label: "GitHub"
+    icon: "fa-brands fa-github"
+    url: "https://github.com/InessaPawson"
 ---
 
 
