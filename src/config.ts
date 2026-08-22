@@ -107,18 +107,19 @@ export const STRINGS: Record<string, string> = {
 export const PAGINATION = { pageSize: 12 };
 
 export const BRAND: Record<string, string> = {
-  primary: "#022791",
+  primary: "#00274c",
   primaryHover: "#3A62E3",
-  primaryActive: "#02217B",
+  primaryActive: "#00274c",
   secondary: "#4D75FE",
-  accent: "#ffb901",
-  accentHover: "#e0a301",
-  link: "#022791",
+  accent: "#ffcb05",
+  accentHover: "#ffcb05",
+  accentActive: "#ffcb05",
+  link: "#00274c",
   linkHover: "#3A62E3",
   // The upstream theme renamed the surfacePink* keys to surfaceWash*.
   surfaceWash: "#e1e5f2",
   surfaceWashSoft: "#f2f4fa",
-  surfaceInk: "#022791",
+  surfaceInk: "#00274c",
   fontSans: 'Inter, system-ui, sans-serif',
   fontDisplay: 'Inter, system-ui, sans-serif',
 };
