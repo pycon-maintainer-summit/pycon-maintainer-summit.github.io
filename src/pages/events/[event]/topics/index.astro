@@ -28,7 +28,7 @@ topics.sort((a, b) => {
   <PageHero
     eyebrow={event.data.title}
     title="Topics"
-    lead={`Sessions for ${event.data.date} in ${event.data.location}.`}
+    lead={event.data.date ? `Sessions for ${event.data.date} in ${event.data.location}.` : `Sessions for ${event.data.title}.`}
   />
 
   <EventSubnav eventId={event.id} current="topics" />

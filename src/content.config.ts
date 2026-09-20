@@ -49,11 +49,15 @@ const events = defineCollection({
   schema: z.object({
     title: z.string(),
     year: z.number(),
-    date: z.string(), // human-readable, e.g. "Saturday, May 16, 2026"
+    /** Human-readable, e.g. "Saturday, May 16, 2026". Omit while an edition
+     *  is only being planned; pages then show "Date to be announced". */
+    date: z.string().optional(),
     /** Machine-readable first day. Drives Event structured data; the prose
      *  `date` above stays the display string (it carries ranges and notes
-     *  like "(originally scheduled)" that no date parser should see). */
-    startDate: z.coerce.date(),
+     *  like "(originally scheduled)" that no date parser should see). Omit
+     *  with `date`: no structured data is emitted until a day is set, so a
+     *  placeholder never reaches search engines. */
+    startDate: z.coerce.date().optional(),
     /** Last day, for multi-day editions. Omit for single-day summits. */
     endDate: z.coerce.date().optional(),
     location: z.string(),
