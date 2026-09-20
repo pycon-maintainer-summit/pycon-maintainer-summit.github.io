@@ -4,7 +4,7 @@ role: "PyLadies, CPython"
 photo: "/images/people/mariatta-wijaya.png"
 description: "Multi-award-winning open source maintainer and contributor. CPython core developer. Serial conference organizer. Runs PyLadies Vancouver."
 website: "https://mariatta.ca"
-years: [2025, 2026]
+years: [2025, 2026, 2027]
 social:
   - label: "GitHub"
     icon: "fa-brands fa-github"
