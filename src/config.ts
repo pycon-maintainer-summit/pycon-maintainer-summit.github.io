@@ -26,7 +26,7 @@ export const SITE = {
 };
 
 /** The year of the upcoming/current summit — used to flag "this year" organizers. */
-export const CURRENT_YEAR = 2026;
+export const CURRENT_YEAR = 2027;
 
 export const CONTACT = {
   email: "maintainer-pyconus@googlegroups.com",
@@ -41,6 +41,7 @@ export const STRINGS: Record<string, string> = {
   onThisPage: 'On this page',
   nextMeetup: "This year's summit",
   venueTba: 'Location to be announced',
+  dateTba: 'Date to be announced',
   rsvp: 'Register',
   rsvpExternal: 'Register for PyCon US',
   allEvents: 'All events',

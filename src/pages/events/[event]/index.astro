@@ -16,10 +16,12 @@ const d = event.data;
 const { Content } = await render(event);
 
 /* Event structured data. The editions held virtually are identified from the
-   location text rather than a flag, since only two of them ever were. */
+   location text rather than a flag, since only two of them ever were. An
+   edition without a `startDate` yet (announced, not scheduled) emits none:
+   schema.org Event needs a real day, and a placeholder would be indexed. */
 const online = d.city === 'Online' || /online|virtual/i.test(d.location);
 const speakers = await getCollection('speakers', (s) => s.data.event.id === event.id);
-const eventLd = jsonld(buildSummitEventLd({
+const eventLd = d.startDate && jsonld(buildSummitEventLd({
   title: d.title,
   startDate: d.startDate,
   endDate: d.endDate,
@@ -37,7 +39,7 @@ const eventLd = jsonld(buildSummitEventLd({
 ---
 
 <BaseLayout title={d.title} description={d.summary} image={d.image}>
-  <script type="application/ld+json" slot="head" set:html={eventLd} />
+  {eventLd && <script type="application/ld+json" slot="head" set:html={eventLd} />}
   <article>
     <header class="g-pagehero">
       <div class="g-container">
@@ -49,7 +51,7 @@ const eventLd = jsonld(buildSummitEventLd({
         <span class="g-eyebrow">{d.status === 'upcoming' ? STRINGS.statusUpcoming : STRINGS.statusPast} · {d.year}</span>
         <h1 style="margin:.5rem 0 0">{d.title}</h1>
         <div class="g-meta-line" style="margin-top:var(--space-3)">
-          <span><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> {d.date}</span>
+          <span><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> {d.date ?? STRINGS.dateTba}</span>
           <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {d.location}</span>
         </div>
         {d.status === 'upcoming' && (d.registrationUrl || d.cfpUrl || d.scheduleUrl) && (
