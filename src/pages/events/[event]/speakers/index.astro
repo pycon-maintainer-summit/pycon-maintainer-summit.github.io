@@ -19,7 +19,7 @@ const speakers = (await getCollection('speakers', (s) => s.data.event.id === eve
   <PageHero
     eyebrow={event.data.title}
     title="Speakers"
-    lead={`The lineup for ${event.data.date} in ${event.data.location}.`}
+    lead={event.data.date ? `The lineup for ${event.data.date} in ${event.data.location}.` : `The lineup for ${event.data.title}.`}
   />
 
   <EventSubnav eventId={event.id} current="speakers" />
