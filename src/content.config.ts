@@ -74,9 +74,13 @@ const events = defineCollection({
     registrationUrl: z.string().url().optional(),
     scheduleUrl: z.string().url().optional(),
     /** Link back to the original PyCon US event page. */
-    pyconUrl: z.string().url().optional(),
-  }),
+      pyconUrl: z.string().url().optional(),
+    }).refine(
+    (e) => (e.date === undefined) === (e.startDate === undefined),
+    { message: '`date` and `startDate` must be set together (or both omitted while an edition is only being planned)' },
+  ),
 });
+
 
 const speakers = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/speakers' }),
