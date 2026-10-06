@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Google Gemini//EN
+BEGIN:VEVENT
+UID:maintainer-summit-2027-20261006T013340Z@gemini.local
+DTSTAMP:20261006T013340Z
+DTSTART:20261116T200000Z
+DTEND:20261116T210000Z
+SUMMARY:Maintainer Summit 2027 Announcement
+DESCRIPTION:time to check out the PyCon US Maintainer Summit website at https://pycon-maintainer-summit.github.io/
+END:VEVENT
+END:VCALENDAR
