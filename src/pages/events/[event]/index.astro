@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import EventSubnav from '../../../components/EventSubnav.astro';
 import EventPrevNext from '../../../components/EventPrevNext.astro';
+import CalendarSubscribe from 'astro-theme-popular/components/CalendarSubscribe.astro';
 import { STRINGS, SITE } from '../../../config';
 import { buildSummitEventLd, jsonld } from '../../../lib/jsonld';
 
@@ -42,8 +43,6 @@ const eventLd = d.startDate && jsonld(buildSummitEventLd({
 const milestones = [...d.milestones].sort((a, b) => +a.date - +b.date);
 const fmtDay = (date: Date) =>
   date.toLocaleDateString(SITE.locale, { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-const feedUrl = new URL('/events/calendar.ics', Astro.site ?? Astro.url);
-const webcalUrl = `webcal://${feedUrl.host}${feedUrl.pathname}`;
 ---
 
 <BaseLayout title={d.title} description={d.summary} image={d.image}>
@@ -88,10 +87,9 @@ const webcalUrl = `webcal://${feedUrl.host}${feedUrl.pathname}`;
               </li>
             ))}
           </ul>
-          <p style="font-size:var(--text-sm);margin:0">
-            <a href={webcalUrl}><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Subscribe to these dates</a>
-            {' '}· <a href="/events/calendar.ics">Download .ics</a>
-          </p>
+          <div class="g-row">
+            <CalendarSubscribe small />
+          </div>
         </section>
       )}
 
