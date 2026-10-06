@@ -36,6 +36,14 @@ const eventLd = d.startDate && jsonld(buildSummitEventLd({
   siteTitle: SITE.title,
   performers: speakers.map((s) => s.data.name),
 }));
+
+/* Important dates (milestones) list. Dates are date-only in front matter, so
+   format in UTC to avoid them drifting a day in western timezones. */
+const milestones = [...d.milestones].sort((a, b) => +a.date - +b.date);
+const fmtDay = (date: Date) =>
+  date.toLocaleDateString(SITE.locale, { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const feedUrl = new URL('/events/calendar.ics', Astro.site ?? Astro.url);
+const webcalUrl = `webcal://${feedUrl.host}${feedUrl.pathname}`;
 ---
 
 <BaseLayout title={d.title} description={d.summary} image={d.image}>
@@ -68,6 +76,25 @@ const eventLd = d.startDate && jsonld(buildSummitEventLd({
 
     <div class="g-container g-section--sm">
       <p class="g-lead" style="margin-bottom:var(--space-4)">{d.summary}</p>
+
+      {milestones.length > 0 && (
+        <section style="margin-bottom:var(--space-5)" aria-labelledby="important-dates">
+          <h2 id="important-dates" style="font-size:var(--text-xl);margin:0 0 var(--space-3)">Important dates</h2>
+          <ul style="list-style:none;margin:0 0 var(--space-3);padding:0;display:grid;gap:var(--space-2)">
+            {milestones.map((m) => (
+              <li style="display:flex;gap:var(--space-3);align-items:baseline;flex-wrap:wrap">
+                <span style="font-weight:var(--weight-semibold);min-width:11rem">{fmtDay(m.date)}</span>
+                {m.url ? <a href={m.url}>{m.label}</a> : <span>{m.label}</span>}
+              </li>
+            ))}
+          </ul>
+          <p style="font-size:var(--text-sm);margin:0">
+            <a href={webcalUrl}><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Subscribe to these dates</a>
+            {' '}· <a href="/events/calendar.ics">Download .ics</a>
+          </p>
+        </section>
+      )}
+
       <div class="g-prose"><Content /></div>
 
       {d.pyconUrl && (
