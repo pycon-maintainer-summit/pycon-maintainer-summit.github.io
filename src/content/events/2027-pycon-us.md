@@ -6,6 +6,14 @@ city: "Long Beach"
 status: "upcoming"
 summary: "The 2027 Maintainer Summit is being planned. Dates, the call for proposals, and details of
 the program will be announced here."
+# Placeholder dates for review; replace with the real ones when announced.
+milestones:
+  - label: "CFP opens"
+    date: 2027-01-12
+  - label: "CFP closes"
+    date: 2027-02-23
+  - label: "Speaker notifications sent"
+    date: 2027-03-16
 ---
 
 ## About the 2027 Summit
