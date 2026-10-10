@@ -10,7 +10,7 @@ image: "/og/calendar-nov-16.jpg"
 
 ## Save the Date!
 
-Your 2027 PyCon US Maintainers Summit organizers had their very first organizer's meeting tonight and we're very excited to say "Save the Date!" for Nov 16, 2026! 
+Your 2027 PyCon US Maintainer Summit organizers just had their first planning meeting, and we’re very excited to say "Save the Date!" for Nov 16, 2026! 
 
 We got some big news to share on this date so please mark your calendars! We also have some fancy links below to help you remember: 
 
