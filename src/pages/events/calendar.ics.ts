@@ -3,10 +3,10 @@ import { getCollection } from 'astro:content';
 import { buildIcs, type IcsAllDayEvent } from '../../lib/ical';
 import { SITE } from '../../config';
 
-/* iCalendar feed for the summit: one all-day entry per edition that has a
-   machine-readable startDate, plus one all-day entry per milestone (CFP
-   opens/closes, speaker notification, ...). Replaces the theme's injected
-   calendar route (disabled in astro.config.mjs), which reads the theme's
+/* iCalendar feed for the PyCon US Maintainer Summit: one all-day entry per
+   edition that has a machine-readable startDate, plus one all-day entry per
+   milestone (CFP opens/closes, speaker notification, ...). Replaces the theme's
+   injected calendar route (disabled in astro.config.mjs), which reads the theme's
    flat single-event schema. Like upstream, the feed carries upcoming dates
    plus the last 90 days, so a subscribed calendar stays tidy. */
 
@@ -17,7 +17,8 @@ const slug = (s: string) =>
     .replace(/^-|-$/g, '');
 
 export const GET: APIRoute = async ({ site }) => {
-  const origin = site ?? new URL('https://example.com');
+  if (!site) throw new Error('`site` must be set in astro.config.mjs: the calendar feed needs it for absolute UIDs and URLs');
+  const origin = site;
   const cutoff = Date.now() - 90 * 24 * 60 * 60 * 1000;
   const editions = (await getCollection('events')).sort((a, b) => a.data.year - b.data.year);
 
@@ -44,6 +45,7 @@ export const GET: APIRoute = async ({ site }) => {
         uid: `${permalink}#${slug(m.label)}`,
         title: `${d.title}: ${m.label}`,
         start: m.date,
+        description: d.summary,
         url: m.url ?? permalink,
       });
     }

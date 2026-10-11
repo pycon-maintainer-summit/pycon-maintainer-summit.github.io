@@ -1,11 +1,6 @@
-/** iCalendar builder for summit editions and their milestone dates. Adapted
- *  from the theme's src/lib/ical.ts, copied because the package's `exports`
- *  map publishes no ./lib/* (same situation as lib/stats.ts). Differences
- *  from upstream, worth folding back in: entries here are all-day only (the
- *  summit announces days, not clock times), a multi-day entry gets the
- *  DTEND the upstream builder lacks, and icsEscape actually escapes
- *  semicolons (upstream's '\;' literal collapses to a plain ';'). */
-
+/** iCalendar builder for PyCon US Maintainer Summit editions and their milestone
+ *  dates. Adapted from the theme's src/lib/ical.ts, copied because the package's
+ *  `exports` map publishes no ./lib/* (same situation as lib/stats.ts).*/
 const pad = (n: number) => String(n).padStart(2, '0');
 const enc = new TextEncoder();
 
@@ -63,7 +58,7 @@ export function buildIcs(
   const L: string[] = [];
   L.push(fold('BEGIN:VCALENDAR'));
   L.push(fold('VERSION:2.0'));
-  L.push(fold(`PRODID:-//${opts.siteTitle}//Popular theme//EN`));
+  L.push(fold(`PRODID:-//${opts.siteTitle}//Important dates feed//EN`));
   L.push(fold('CALSCALE:GREGORIAN'));
   L.push(fold('METHOD:PUBLISH'));
   L.push(fold(`X-WR-CALNAME:${opts.calName}`));
