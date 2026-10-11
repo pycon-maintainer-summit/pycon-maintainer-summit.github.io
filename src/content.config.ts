@@ -87,7 +87,16 @@ const events = defineCollection({
           url: z.string().url().optional(),
         })
       )
-      .default([]),
+      .default([])
+      // The calendar feed derives each milestone's UID from its label, so two
+      // milestones on one edition must not share a label (they would collide
+      // into one calendar entry). Renaming a label replaces the entry in
+      // subscribers' calendars rather than updating it; that is acceptable
+      // for a subscription feed but worth knowing before you rename one.
+      .refine(
+        (ms) => new Set(ms.map((m) => m.label.trim().toLowerCase())).size === ms.length,
+        { message: 'milestone labels must be unique within an edition' }
+      ),
   }).refine(
     (e) => (e.date === undefined) === (e.startDate === undefined),
     { message: '`date` and `startDate` must be set together (or both omitted while an edition is only being planned)' },

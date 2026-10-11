@@ -6,14 +6,15 @@ city: "Long Beach"
 status: "upcoming"
 summary: "The 2027 Maintainer Summit is being planned. Dates, the call for proposals, and details of
 the program will be announced here."
-# Placeholder dates for review; replace with the real ones when announced.
 milestones:
   - label: "CFP opens"
-    date: 2027-01-12
+    date: 2026-11-16
   - label: "CFP closes"
-    date: 2027-02-23
+    date: 2027-01-16
   - label: "Speaker notifications sent"
-    date: 2027-03-16
+    date: 2027-02-01
+# Add label for PyCon US Travel Grant Applications opening
+# Add label for PyCon US Travel Grant Applications closing
 ---
 
 ## About the 2027 Summit
