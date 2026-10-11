@@ -141,13 +141,13 @@ const postLd = jsonld(buildBlogPostingLd({
       {(older || newer) && (
         <nav class="g-postnav" aria-label={STRINGS.postNavigation}>
           {older ? (
-            <a class="g-postnav__card" href={`/blog/${older.id}/`} rel="prev">
+            <a class="g-postnav__card" href={`/news/${older.id}/`} rel="prev">
               <span class="g-postnav__label"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {STRINGS.olderPost}</span>
               <span class="g-postnav__title">{older.data.title}</span>
             </a>
           ) : <span></span>}
           {newer && (
-            <a class="g-postnav__card g-postnav__card--next" href={`/blog/${newer.id}/`} rel="next">
+            <a class="g-postnav__card g-postnav__card--next" href={`/news/${newer.id}/`} rel="next">
               <span class="g-postnav__label">{STRINGS.newerPost} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
               <span class="g-postnav__title">{newer.data.title}</span>
             </a>
