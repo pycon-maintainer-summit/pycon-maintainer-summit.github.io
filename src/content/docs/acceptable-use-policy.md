@@ -50,7 +50,7 @@ We do not allow content or activity on the web app that:
   as
     - spamming
     - cryptocurrency mining;
-- bulk distribution of promotions and advertising prohibited by the web app terms and
+- bulk distribution of promotions and advertising prohibited by the web app's terms and
   policies;
 - inauthentic interactions, such as fake accounts and automated inauthentic
   activity;
@@ -295,8 +295,8 @@ organizers.
 
 ## Credits and license
 
-This policy is adapted from the [acceptable use policy template](https://docs.flashlights.app/latest/policies/acceptable_use_policy/) that ships with Flashlights, which is based on [PyPI's Acceptable Use Policies](https://policies.python.org/pypi.org/Acceptable-Use-Policy/)
-which is based on [GitHub’s Acceptable Use
+This policy is adapted from the [acceptable use policy template](https://docs.flashlights.app/latest/policies/acceptable_use_policy/) that ships with Flashlights, which is based on [PyPI's Acceptable Use Policies](https://policies.python.org/pypi.org/Acceptable-Use-Policy/),
+in turn based on [GitHub's Acceptable Use
 Policies](https://docs.github.com/en/site-policy/acceptable-use-policies/) and
 modified from its original form.
 
