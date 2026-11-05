@@ -1,9 +1,12 @@
 ---
 title: "PyCon US Maintainer Summit 2027"
 year: 2027
+date: "Saturday, May 15, 2027"
+startDate: 2027-05-15
 location: "Room 201A, Long Beach Convention & Entertainment Center, Long Beach, CA"
 city: "Long Beach"
 status: "upcoming"
+cfpUrl: "https://maintainer-summit.us.pycon.org/speakers/propose/"
 summary: "The 2027 Maintainer Summit is being planned. Dates, the call for proposals, and details of
 the program will be announced here."
 milestones:
