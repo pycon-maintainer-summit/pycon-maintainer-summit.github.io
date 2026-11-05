@@ -67,7 +67,7 @@ Your information leaves the web app only through the services that run it:
 
 | Service | What it does | What it receives |
 |---|---|---|
-| The Python Software Foundation's infrastructure: Cabotage, its hosting platform, with the database and task queue it provides | runs the app | everything the web app stores, apart from uploaded files |
+| The Python Software Foundation's infrastructure, through its Cabotage hosting platform | runs the app, and provides its database and task queue | everything the web app stores, apart from uploaded files |
 | DigitalOcean Spaces, a bucket the summit pays for in its own account | keeps the files people upload | headshots and logos. Public ones are shown from the bucket's address, so your browser fetches those images from DigitalOcean |
 | Mailgun, through the Python Software Foundation's account | sends the web app's email | each email the web app sends: the recipient's address, the subject and the body. The PSF's staff administer the account; the summit's organizers have no access to it |
 
