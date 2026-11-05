@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { STRINGS, SITE } from '../config';
+import { STRINGS } from '../config';
+import { fmtDay } from '../lib/dates';
 
 interface Props { event: CollectionEntry<'events'> }
 const { event } = Astro.props;
@@ -14,8 +15,6 @@ const today = new Date(new Date().toISOString().slice(0, 10));
 const next = d.status === 'upcoming'
   ? [...d.milestones].sort((a, b) => +a.date - +b.date).find((m) => +m.date >= +today)
   : undefined;
-const fmtDay = (date: Date) =>
-  date.toLocaleDateString(SITE.locale, { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 ---
 
 <article class="g-card">

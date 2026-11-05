@@ -7,6 +7,7 @@ import OrganizerCard from '../../../components/OrganizerCard.astro';
 import CalendarSubscribe from 'astro-theme-popular/components/CalendarSubscribe.astro';
 import { STRINGS, SITE } from '../../../config';
 import { buildSummitEventLd, jsonld } from '../../../lib/jsonld';
+import { fmtDay } from '../../../lib/dates';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -39,11 +40,8 @@ const eventLd = d.startDate && jsonld(buildSummitEventLd({
   performers: speakers.map((s) => s.data.name),
 }));
 
-/* Important dates (milestones) list. Dates are date-only in front matter, so
-   format in UTC to avoid them drifting a day in western timezones. */
+/* Important dates (milestones) list. */
 const milestones = [...d.milestones].sort((a, b) => +a.date - +b.date);
-const fmtDay = (date: Date) =>
-  date.toLocaleDateString(SITE.locale, { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 /* The people who organized this edition: the home page shows the current
    year's team, this shows the edition's own, including past years. */
@@ -106,7 +104,7 @@ const organizers = (await getCollection('organizers'))
         <section style="margin-top:var(--space-5)" aria-labelledby="edition-organizers">
           <h2 id="edition-organizers" style="font-size:var(--text-xl);margin:0 0 var(--space-3)">{d.year} organizers</h2>
           <div class="g-grid-3">
-            {organizers.map((o) => <OrganizerCard organizer={o} />)}
+            {organizers.map((o) => <OrganizerCard organizer={o} highlightYear={d.year} />)}
           </div>
         </section>
       )}

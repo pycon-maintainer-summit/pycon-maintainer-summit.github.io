@@ -215,7 +215,7 @@ export const HOME = {
     title: 'Maintainer Summit',
     lead: "The PyCon US Maintainer Summit brings together maintainers, contributors, researchers, policymakers, and everyone invested in the health and sustainability of the open source Python ecosystem.",
     // '@featuredEvent' resolves to the upcoming edition's page (or /events/
-    // when none is announced); see pages/index.astro.
+    // when none is announced) in any home CTA; see pages/index.astro.
     ctas: [
       { label: "See this year's summit", url: '@featuredEvent', variant: 'accent' },
       { label: 'About the summit', url: '/about/', variant: 'outline' },
