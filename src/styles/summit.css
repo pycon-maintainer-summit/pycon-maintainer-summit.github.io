@@ -11,3 +11,10 @@
 
 /* Underline all prose links, not only bare ones. */
 .g-prose a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* Markdown tables in prose. The theme has no table rules, so cells with long
+   text run together; proposed upstream, local until the theme ships it. */
+.g-prose table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); line-height: var(--leading-normal, 1.5); display: block; overflow-x: auto; }
+.g-prose th, .g-prose td { border: var(--border-width, 1px) solid var(--border-default); padding: 0.55rem 0.75rem; text-align: left; vertical-align: top; }
+.g-prose th { background: var(--surface-wash-soft, var(--surface-wash)); color: var(--text-strong); font-weight: 600; }
+.g-prose tbody tr:nth-child(even) td { background: var(--surface-wash-soft, transparent); }
