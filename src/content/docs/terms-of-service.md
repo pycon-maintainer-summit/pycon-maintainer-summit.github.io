@@ -13,7 +13,8 @@ the open source software the summit's organizers use to run the call for
 proposals and the program.
 
 The Maintainer Summit is part of PyCon US, and the web app is hosted on the
-Python Software Foundation's infrastructure. We follow the same
+Python Software Foundation's infrastructure, except for the storage bucket
+that holds uploaded files, which is the summit's own. We follow the same
 [policies](https://policies.python.org/) as the PSF, including its
 [privacy policy](https://www.python.org/privacy/).
 
@@ -63,8 +64,8 @@ Your information leaves the web app only through the services that run it:
 
 | Service | What it does | What it receives |
 |---|---|---|
-| Cabotage, the Python Software Foundation's hosting platform | runs the app, its database and its task queue | everything the web app stores |
-| DigitalOcean Spaces | keeps the files people upload | headshots and logos. Public ones are shown from the bucket's address, so your browser fetches those images from DigitalOcean |
+| Cabotage, the Python Software Foundation's hosting platform | runs the app, its database and its task queue | everything the web app stores, apart from uploaded files |
+| DigitalOcean Spaces, a bucket the summit pays for in its own account | keeps the files people upload | headshots and logos. Public ones are shown from the bucket's address, so your browser fetches those images from DigitalOcean |
 | Mailgun, through the Python Software Foundation's account | sends the web app's email | each email the web app sends: the recipient's address, the subject and the body. The PSF's staff administer the account; the summit's organizers have no access to it |
 
 The web app does not report errors to any outside service. If the summit
