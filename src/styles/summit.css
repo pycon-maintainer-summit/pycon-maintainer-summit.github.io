@@ -11,4 +11,3 @@
 
 /* Underline all prose links, not only bare ones. */
 .g-prose a { text-decoration: underline; text-underline-offset: 2px; }
-
