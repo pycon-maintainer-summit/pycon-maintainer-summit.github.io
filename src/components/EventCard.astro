@@ -1,11 +1,20 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { STRINGS } from '../config';
+import { fmtDay } from '../lib/dates';
 
 interface Props { event: CollectionEntry<'events'> }
 const { event } = Astro.props;
 const d = event.data;
 const href = `/events/${event.id}/`;
+
+/* The next important date of an upcoming edition, so the deadline is visible
+   without opening the page. "Next" is relative to the build, and the site is
+   rebuilt on every push; dates are date-only, so compare and format in UTC. */
+const today = new Date(new Date().toISOString().slice(0, 10));
+const next = d.status === 'upcoming'
+  ? [...d.milestones].sort((a, b) => +a.date - +b.date).find((m) => +m.date >= +today)
+  : undefined;
 ---
 
 <article class="g-card">
@@ -21,6 +30,11 @@ const href = `/events/${event.id}/`;
       <strong>{d.date ?? STRINGS.dateTba}</strong>{d.city && ` · ${d.city}`}
     </div>
     <p class="g-card__text">{d.summary}</p>
+    {next && (
+      <p class="g-card__text" style="font-size:var(--text-sm)">
+        <i class="fa-solid fa-calendar-day" aria-hidden="true"></i> <strong>{next.label}</strong> · {fmtDay(next.date)}
+      </p>
+    )}
     <div class="g-card__footer" style="border:0;padding-top:0">
       <a href={href} style="font-weight:var(--weight-semibold)">{STRINGS.viewDetails} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
