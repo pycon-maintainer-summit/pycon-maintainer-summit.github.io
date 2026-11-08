@@ -15,6 +15,12 @@ const upcoming = events.filter((e) => e.data.status === 'upcoming').sort((a, b) 
 const latestPast = events.filter((e) => e.data.status === 'past').sort((a, b) => b.data.year - a.data.year);
 const featured = upcoming[0] ?? latestPast[0];
 
+/* A home CTA whose url is '@featuredEvent' goes straight to the upcoming
+   edition's page. With no edition announced it falls back to the events
+   listing, which explains that the next summit is to come. */
+const featuredEventUrl = upcoming[0] ? `/events/${upcoming[0].id}/` : '/events/';
+const ctaUrl = (url: string) => (url === '@featuredEvent' ? featuredEventUrl : url);
+
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => +b.data.date - +a.data.date)
@@ -60,7 +66,7 @@ const orgLd = jsonld(buildOrgLd({
           {h.hero.ctas && (
             <div class="g-row">
               {h.hero.ctas.map((c) => (
-                <a class={`g-btn g-btn--lg g-btn--${c.variant ?? 'primary'}`} href={c.url}>
+                <a class={`g-btn g-btn--lg g-btn--${c.variant ?? 'primary'}`} href={ctaUrl(c.url)}>
                   {'icon' in c && c.icon && <i class={c.icon} aria-hidden="true"></i>}{c.label}
                 </a>
               ))}
@@ -189,7 +195,7 @@ const orgLd = jsonld(buildOrgLd({
         {h.getInvolved.lead && <p style="margin:0;color:var(--ink-700);max-width:38rem">{h.getInvolved.lead}</p>}
         <div class="g-row" style="justify-content:center">
           {h.getInvolved.ctas.map((c) => (
-            <a class={`g-btn g-btn--${c.variant ?? 'primary'}`} href={c.url}>{c.label}</a>
+            <a class={`g-btn g-btn--${c.variant ?? 'primary'}`} href={ctaUrl(c.url)}>{c.label}</a>
           ))}
         </div>
       </div>

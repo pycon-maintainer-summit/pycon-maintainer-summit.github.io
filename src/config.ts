@@ -22,7 +22,10 @@ export const SITE = {
    *  `url` appends a "Learn more" link. Static and not dismissible, so keep
    *  it to one timely thing (CFP open, registration live) and set it back to
    *  null when that window closes. */
-  notice: null as { text: string; url?: string } | null,
+  notice: {
+    text: 'The 2027 call for proposals is open until January 16, 2027.',
+    url: 'https://maintainer-summit.us.pycon.org/speakers/propose/',
+  } as { text: string; url?: string } | null,
 };
 
 /** The year of the upcoming/current summit — used to flag "this year" organizers. */
@@ -211,8 +214,10 @@ export const HOME = {
     eyebrow: 'PyCon US',
     title: 'Maintainer Summit',
     lead: "The PyCon US Maintainer Summit brings together maintainers, contributors, researchers, policymakers, and everyone invested in the health and sustainability of the open source Python ecosystem.",
+    // '@featuredEvent' resolves to the upcoming edition's page (or /events/
+    // when none is announced) in any home CTA; see pages/index.astro.
     ctas: [
-      { label: "See this year's summit", url: '/events/', variant: 'accent' },
+      { label: "See this year's summit", url: '@featuredEvent', variant: 'accent' },
       { label: 'About the summit', url: '/about/', variant: 'outline' },
     ],
   },
