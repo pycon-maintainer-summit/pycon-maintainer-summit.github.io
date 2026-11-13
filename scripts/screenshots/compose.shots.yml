@@ -1,0 +1,16 @@
+# Laid over the summit instance's compose.yml by run.sh: its own ports, so it
+# runs beside a summit instance on 8007, and links to them in the page.
+services:
+  maildev:
+    ports: !override
+      - "127.0.0.1:9017:1080"
+  web:
+    ports: !override
+      - "127.0.0.1:8017:8000"
+    environment:
+      SITE_LOGO: http://127.0.0.1:8017/static/flashlights_summit/logo.svg
+      SITE_FAVICON: http://127.0.0.1:8017/static/flashlights_summit/favicon.svg
+  worker:
+    environment:
+      SITE_LOGO: http://127.0.0.1:8017/static/flashlights_summit/logo.svg
+      SITE_FAVICON: http://127.0.0.1:8017/static/flashlights_summit/favicon.svg
