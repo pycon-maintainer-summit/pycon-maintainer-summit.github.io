@@ -29,18 +29,17 @@ download the [.ics file](/events/calendar.ics). For 2027:
 
 ## Session formats
 
-The summit runs in one room, so there are no parallel tracks. You propose
-one of two kinds of session:
+The summit runs in one room, so no two sessions run at the same time.
+You propose one of two kinds of session:
 
 **Talk (15 minutes).** A prepared presentation with time for a question or
 two. Most of the day is talks.
 
-**Lightning talk (3 minutes).** A quick update on a project, tool or
-initiative in the Python ecosystem, with two or three slides. Lightning
-talks run back to back in a single project updates session.
-
-Roundtables, Birds of a Feather sessions and panels are organized by the
-summit team rather than proposed here; see [Event Formats](/docs/event-formats).
+**Lightning talk (5 minutes), for the Tools Track.** Updates or news
+about a project, tool or initiative in the Python ecosystem: a new
+release, a feature maintainers should know about, a tool that saves you
+time. Keep it to a few slides. Lightning talks run back to back in the
+Tools Track, a single session of the day.
 
 ## What we look for
 
@@ -72,7 +71,25 @@ Proposals are submitted through the summit's
 account, or create one, using an email address you check regularly; that is
 how we will reach you.
 
-The form asks for:
+![The proposal page when you are signed out, with buttons to create an account or sign in](/images/docs/cfp-guide/propose-signed-out.png)
+
+### About you
+
+The form starts with you. The first time you propose for this year's
+summit, it asks for a short profile: your name, a bio of up to about 150
+words, an optional headshot, and your GitHub and social handles. If your
+account already has pronouns, they are filled in for you. We use this
+profile to promote accepted sessions through PyCon US and Python Software
+Foundation channels, including social media.
+
+The Affiliations section at the end is for the organizers only and is not
+published. Mention your affiliations in the bio if you want them shown.
+
+![The About you part of the form, with display name, pronouns, bio, headshot, location, links and affiliations](/images/docs/cfp-guide/about-you.png)
+
+### Your session
+
+Then the form asks about your session:
 
 - **Kind of session.** Talk or lightning talk.
 - **Title.** Short and specific. It appears on the schedule as written.
@@ -80,41 +97,38 @@ The form asks for:
   for a talk, a few sentences for a lightning talk. Say what the session
   is about and why it matters to maintainers.
 - **Outline.** How you would spend the time. For a lightning talk, the two
-  or three points you will make. Put links to blog posts, articles or
-  earlier versions of the talk at the end of the outline; reviewers read
-  them.
-- **Who it is for.** Who should attend, and what they will take away. This
-  is where you tell us how the session benefits the summit's audience.
-- **Prerequisites and level.** Optional. Leave them blank if you are not
-  sure.
+  or three points you will make.
+- **Audience.** Who should attend, and what they will take away. This is
+  where you tell us how the session benefits the summit's audience.
+- **Level.** Leave it as "Not sure yet" if you are not sure.
+- **Links the talk is based on.** Optional. Blog posts, articles or
+  anything else the proposed talk builds on. The organizers read them.
+- **Links to previous presentations.** Optional. Slides or videos of
+  talks you have given before, if you have any.
 
-If you have slides or video from a previous presentation, link them at
-the end of your outline too.
+Only the organizers see your answers to the two link questions.
+
+![The Your session part of the form, filled in for a lightning talk: kind of session, title, summary, outline, audience, level and the two link questions](/images/docs/cfp-guide/your-session.png)
+
+If your session is accepted, the kind, title, summary, outline, audience
+and level appear on the public program, so write them for the people who
+will attend.
 
 You are welcome to submit the same proposal you sent to the main PyCon US
 program. Doing so does not affect your chances with either the PyCon US
 Program Committee or the summit.
 
-You may submit more than one proposal. The form keeps up to three of
-yours waiting for an answer at a time; to send a fourth, withdraw one
-from your proposals page first.
+You can submit up to three proposals. If you want to submit more,
+please withdraw another one first from **My proposals**, where you can
+also edit a proposal while it waits for an answer.
 
-## About you
-
-The first time you propose, the form also asks for a short profile: your
-name, a bio of up to about 150 words, an optional headshot, and your
-GitHub and social handles. Your pronouns come from your account and are
-shown already filled in. Mention your affiliations in the bio if you want
-them shown. We use this profile to promote accepted sessions through
-PyCon US and Python Software Foundation channels, including social media.
+![My proposals, showing one lightning talk pending review with Edit and Withdraw buttons](/images/docs/cfp-guide/my-proposals.png)
 
 ## How we choose
 
-A small panel of reviewers reads every proposal. We actively balance the
-program for diversity in as many ways as we can, so reviews are not
-anonymous, and we keep the review panel as diverse as the speaker lineup
-we aim for. We let everyone know the outcome by the notification date
-above.
+The organizers read every proposal. We actively balance the program for
+diversity in as many ways as we can, so reviews are not anonymous. We let
+everyone know the outcome by the notification date above.
 
 ## Presenting in person
 
@@ -122,10 +136,8 @@ All sessions are given in person at the summit. Acceptance does not
 include financial assistance to attend PyCon US. If you need help with
 the cost of attending, apply for a
 [PyCon US travel grant](https://us.pycon.org/2027/attend/travel-grants/)
-before its deadline, which falls before our notifications go out; apply
-early rather than waiting to hear from us.
+before its deadline. Apply early rather than waiting to hear from us.
 
 ## Questions
 
-Write to the organizers at maintainer-pyconus@googlegroups.com, and add
-that address to your contacts so our replies reach you.
+Write to the organizers at maintainer-pyconus@googlegroups.com.
