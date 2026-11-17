@@ -10,13 +10,15 @@ summary: "A full day of talks, lightning talks, and discussion among Python open
 cfpUrl: "https://maintainer-summit.us.pycon.org/speakers/propose/"
 milestones:
   - label: "CFP opens"
-    date: 2026-11-16
+    date: 2026-11-23
   - label: "CFP closes"
     date: 2027-01-16
   - label: "Speaker notifications sent"
     date: 2027-02-01
-# Add label for PyCon US Travel Grant Applications opening
-# Add label for PyCon US Travel Grant Applications closing
+  - label: "PyCon US Travel Grant applications and registration open"
+    date: 2026-12-08
+  - label: "PyCon US Travel Grant applications close"
+    date: 2027-02-19
 ---
 
 ## About the 2027 Summit
@@ -27,7 +29,7 @@ PyCon US. As in previous years, it brings together maintainers,
 contributors, researchers, and everyone invested in the health of the open
 source Python ecosystem.
 
-The call for proposals opens on November 16, 2026 and closes on January 16,
+The call for proposals opens on November 23, 2026 and closes on January 16,
 2027. Read the [CFP guide](/docs/cfp-guide) for what we look for, then
 [submit a proposal](https://maintainer-summit.us.pycon.org/speakers/propose/).
 
