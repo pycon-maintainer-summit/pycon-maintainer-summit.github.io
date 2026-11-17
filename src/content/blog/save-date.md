@@ -1,6 +1,7 @@
 ---
 title: "Save the Date!"
 date: 2026-10-05
+updated: 2026-11-17
 authors: ["elaine-wong"]
 summary: "The Call for Proposals for the 2027 Summit opens on Nov. 23!"
 tags: ["announcement", "blog"]

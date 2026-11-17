@@ -15,7 +15,7 @@ milestones:
     date: 2027-01-16
   - label: "Speaker notifications sent"
     date: 2027-02-01
-  - label: "PyCon US Travel Grant applications and registration open"
+  - label: "PyCon US registration and Travel Grant applications open"
     date: 2026-12-08
   - label: "PyCon US Travel Grant applications close"
     date: 2027-02-19
