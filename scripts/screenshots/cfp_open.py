@@ -34,13 +34,13 @@ QUESTIONS = [
 ]
 
 INTRO = """\
-We are taking proposals for the PyCon US Maintainer Summit 2027, a gathering for people who maintain open source Python projects.
+We are taking proposals for the PyCon US Maintainer Summit 2027, bringing together maintainers, contributors, researchers, policymakers, and everyone invested in the health and sustainability of the open source Python ecosystem.
 
 Proposals close on **January 16, 2027**, and we will let everyone who proposed know the outcome by **February 1, 2027**.
 
 Two kinds of session are open:
 
-- **Talk**, 15 minutes. An experience, a practice or a lesson other maintainers can use. We would love to hear about responsible use of generative AI, developer workflows and tooling, security, community and governance, funding and resources, or anything else about keeping a Python project going.
+- **Talk**, 15 minutes. An experience, a practice or a lesson others in the community can use. We would love to hear about responsible use of generative AI, developer workflows and tooling, security, community and governance, funding and resources, or anything else about keeping a Python project going.
 - **Lightning talk**, 5 minutes, for the Tools Track. Updates or news about your project, tool or initiative: a new release, a feature maintainers should know about, a tool that saves time. Lightning talks run back to back in the Tools Track session.
 
 Read the [call for proposals guide](https://pycon-maintainer-summit.github.io/docs/cfp-guide/) before you submit. You may submit up to three proposals, and you are welcome to propose the same talk you sent to the main PyCon US program.
