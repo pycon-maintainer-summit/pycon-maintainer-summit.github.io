@@ -227,7 +227,7 @@ export const HOME = {
   ],
   featuresHead: { eyebrow: 'What happens at the summit', title: 'A day for the people who keep Python running'},
   features: [
-    { icon: 'fa-solid fa-microphone-lines', title: 'Talks & lightning talks', body: 'Maintainers, contributors, and researchers share lessons learned: sustainability, governance, funding, tooling, and everything in between.' },
+    { icon: 'fa-solid fa-microphone-lines', title: 'Talks & lightning talks', body: 'Maintainers, contributors, researchers, and policymakers share lessons learned: sustainability, governance, funding, tooling, and everything in between.' },
     { icon: 'fa-solid fa-comments', title: 'Discussions & roundtables', body: 'Open conversations about the challenges of maintenance, with people who have faced the same ones.' },
     { icon: 'fa-solid fa-people-group', title: 'A community of peers', body: 'Meet the humans behind the projects you depend on, and the ones who depend on yours.' },
   ],
