@@ -21,8 +21,8 @@ milestones:
 
 Planning for the 2027 Maintainer Summit is underway. As in previous years,
 it will take place alongside PyCon US and bring together maintainers,
-contributors, researchers, and everyone invested in the health of the open
-source Python ecosystem.
+contributors, researchers, policymakers, and everyone invested in the health
+and sustainability of the open source Python ecosystem.
 
 Dates, the call for proposals, registration details, and the program will be
 posted here as they are confirmed. Subscribe to the [RSS feed](/rss.xml) or

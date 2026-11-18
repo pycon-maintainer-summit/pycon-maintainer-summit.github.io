@@ -11,8 +11,8 @@ following.
 
 ## Talks
 
-Standard prepared presentations on a topic relevant to open source
-maintainers — sustainability, governance, tooling, contributor
+Standard prepared presentations on a topic relevant to the open source
+Python community: sustainability, governance, tooling, contributor
 experience, and so on. Talks usually run 15 to 30 minutes including time
 for questions, and are selected from the [Call for Proposals](/docs/cfp-guide).
 
