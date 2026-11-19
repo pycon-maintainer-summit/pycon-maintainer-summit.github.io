@@ -8,7 +8,7 @@ summary: "The 2027 Maintainer Summit is being planned. Dates, the call for propo
 the program will be announced here."
 milestones:
   - label: "CFP opens"
-    date: 2026-11-16
+    date: 2026-11-24
   - label: "CFP closes"
     date: 2027-01-16
   - label: "Speaker notifications sent"
