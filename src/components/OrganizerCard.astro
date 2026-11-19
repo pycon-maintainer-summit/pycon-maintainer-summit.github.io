@@ -2,8 +2,13 @@
 import type { CollectionEntry } from 'astro:content';
 import { CURRENT_YEAR } from '../config';
 
-interface Props { organizer: CollectionEntry<'organizers'> }
-const { organizer } = Astro.props;
+interface Props {
+  organizer: CollectionEntry<'organizers'>;
+  /** The year badge to highlight: the current summit by default, the
+   *  edition's own year on an edition page. */
+  highlightYear?: number;
+}
+const { organizer, highlightYear = CURRENT_YEAR } = Astro.props;
 const d = organizer.data;
 const yearsSorted = [...d.years].sort((a, b) => a - b);
 const href = `/organizers/${organizer.id}/`;
@@ -16,7 +21,7 @@ const href = `/organizers/${organizer.id}/`;
   {yearsSorted.length > 0 && (
     <div class="g-org__years" aria-label="Years organized">
       {yearsSorted.map((y) => (
-        <span class={`year-badge ${y === CURRENT_YEAR ? 'year-badge--current' : ''}`}>{y}</span>
+        <span class={`year-badge ${y === highlightYear ? 'year-badge--current' : ''}`}>{y}</span>
       ))}
     </div>
   )}
