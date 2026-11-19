@@ -20,7 +20,7 @@ The current edition's page lists the dates under Important dates, with
 buttons to subscribe to them in your calendar app or Google Calendar, or to
 download the [.ics file](/events/calendar.ics). For 2027:
 
-- Call for proposals opens: November 16, 2026
+- Call for proposals opens: November 24, 2026
 - Call for proposals closes: January 16, 2027
 - Speaker notifications: February 1, 2027
 - Deadline to confirm you will present: to be announced
