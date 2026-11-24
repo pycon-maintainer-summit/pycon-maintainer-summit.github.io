@@ -16,16 +16,21 @@ project to have something worth sharing.
 
 ## Important dates
 
-The current edition's page lists the dates under Important dates, with
-buttons to subscribe to them in your calendar app or Google Calendar, or to
-download the [.ics file](/events/calendar.ics). For 2027:
+The [2027 summit page](/events/2027-pycon-us/) lists the dates under
+Important dates. To keep them in your calendar,
+[subscribe in your calendar app](webcal://pycon-maintainer-summit.github.io/events/calendar.ics),
+[add them to Google Calendar](https://calendar.google.com/calendar/render?cid=webcal%3A%2F%2Fpycon-maintainer-summit.github.io%2Fevents%2Fcalendar.ics),
+or download the [.ics file](/events/calendar.ics). For 2027:
 
 - Call for proposals opens: November 24, 2026
+- PyCon US registration and travel grant applications open: December 8, 2026
 - Call for proposals closes: January 16, 2027
 - Speaker notifications: February 1, 2027
+- PyCon US travel grant applications close: February 19, 2027
 - Deadline to confirm you will present: to be announced
-- PyCon US travel grant application deadline: see
-  [PyCon US travel grants](https://us.pycon.org/2027/attend/travel-grants/)
+
+See [PyCon US travel grants](https://us.pycon.org/2027/attend/travel-grants/)
+for how to apply.
 
 ## Session formats
 
