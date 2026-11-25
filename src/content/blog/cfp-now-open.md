@@ -27,6 +27,13 @@ underrepresented in tech to submit. You do not need to maintain a large project
 to have something worth sharing. The [Call for Proposals guide](/docs/cfp-guide/)
 has topic ideas, a walkthrough of the form, and how we choose.
 
+## The main PyCon US CFP
+
+The Maintainer Summit has its own call for proposals, separate from the main
+PyCon US call for proposals. Proposals to the summit do not count toward the
+three-proposal limit of the main PyCon US CFP. You are welcome to submit to
+both, even the same proposal.
+
 ## Important dates
 
 - Call for proposals closes: January 16, 2027
@@ -34,8 +41,7 @@ has topic ideas, a walkthrough of the form, and how we choose.
 - PyCon US travel grant applications: December 8, 2026 to February 19, 2027
 
 Sessions are in person, and acceptance does not include funding to attend. If
-you need help with the cost, apply early for a
-[PyCon US travel grant](https://us.pycon.org/2027/attend/travel-grants/).
+you need help with the cost, apply early for a PyCon US travel grant.
 
 Questions? Email us at maintainer-pyconus@googlegroups.com. We look forward to
 reading your proposals!
