@@ -72,17 +72,18 @@ Some starting points:
 ## Writing your proposal
 
 Proposals are submitted through the summit's
-[proposal form](https://maintainer-summit.us.pycon.org/). You sign in with an
-account, or create one, using an email address you check regularly; that is
-how we will reach you.
+[proposal form](https://maintainer-summit.us.pycon.org/speakers/propose/).
+You sign in with an account, or create one, using an email address you check
+regularly; that is how we will reach you.
 
 ![The proposal page when you are signed out, with buttons to create an account or sign in](/images/docs/cfp-guide/propose-signed-out.png)
 
 ### About you
 
 The form starts with you. The first time you propose for this year's
-summit, it asks for a short profile: your name, a bio of up to about 150
-words, an optional headshot, and your GitHub and social handles. If your
+summit, it asks for a short profile: your name, a bio (a couple of
+sentences is plenty), an optional headshot, and your GitHub and social
+handles. If your
 account already has pronouns, they are filled in for you. We use this
 profile to promote accepted sessions through PyCon US and Python Software
 Foundation channels, including social media.
@@ -107,7 +108,7 @@ Then the form asks about your session:
   where you tell us how the session benefits the summit's audience.
 - **Level.** Leave it as "Not sure yet" if you are not sure.
 - **Links the talk is based on.** Optional. Blog posts, articles or
-  anything else the proposed talk builds on. The organizers read them.
+  anything else the proposed talk builds on.
 - **Links to previous presentations.** Optional. Slides or videos of
   talks you have given before, if you have any.
 
