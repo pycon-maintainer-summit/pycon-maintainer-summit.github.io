@@ -1,0 +1,8 @@
+{
+  "name": "summit-screenshots",
+  "private": true,
+  "description": "Takes the screenshots of the proposal form used in the CFP guide.",
+  "dependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}
