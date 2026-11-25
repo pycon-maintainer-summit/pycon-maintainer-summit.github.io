@@ -6,6 +6,7 @@ import PostFooter from '../../components/PostFooter.astro';
 import { SUPPORT, SITE, STRINGS } from '../../config';
 import { tagSlug } from '../../lib/slugs';
 import { buildBlogPostingLd, jsonld } from '../../lib/jsonld';
+import { fmtDay } from '../../lib/dates';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
@@ -24,8 +25,7 @@ export async function getStaticPaths() {
 const { post, newer, older } = Astro.props;
 const d = post.data;
 const { Content } = await render(post);
-const formatDate = (date: Date) =>
-  date.toLocaleDateString(SITE.locale, { month: 'long', day: 'numeric', year: 'numeric' });
+const formatDate = fmtDay;
 const dateStr = formatDate(d.date);
 // Only surface "Updated" when it's meaningfully after the publish date.
 const isUpdated = !!d.updated && d.updated.getTime() > d.date.getTime();
