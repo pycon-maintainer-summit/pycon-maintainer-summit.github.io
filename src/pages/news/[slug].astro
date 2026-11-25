@@ -81,12 +81,7 @@ const postLd = jsonld(buildBlogPostingLd({
   {byline && `${STRINGS.authorsBy} ${byline} · `}
   <time datetime={d.date.toISOString()}>{dateStr}</time>
   {isUpdated && d.updated && (
-    <span>
-      · Updated
-      <time datetime={d.updated.toISOString()}>
-        {formatDate(d.updated)}
-      </time>
-    </span>
+    <span>{' · Updated '}<time datetime={d.updated.toISOString()}>{formatDate(d.updated)}</time></span>
   )}
 </p>
 
