@@ -31,9 +31,9 @@ inspiration, see the [talks presented at past summits](/talks/).
 ## The main PyCon US CFP
 
 The Maintainer Summit has its own call for proposals, separate from the main
-PyCon US call for proposals. Proposals to the summit do not count toward the
-three-proposal limit of the main PyCon US CFP. You are welcome to submit to
-both, even the same proposal.
+PyCon US call for proposals. Each has its own limit of three proposals, and
+proposals to the summit do not count toward the limit of the main PyCon US CFP.
+You are welcome to submit to both, even the same proposal.
 
 ## Important dates
 
