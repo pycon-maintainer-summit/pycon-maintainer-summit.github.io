@@ -37,8 +37,10 @@ database and removes it at the end.
   (default `~/github/pycon-maintainer-summit/flashlights`; set
   `SUMMIT_FLASHLIGHTS` for another path). Check out the commit the live
   instance runs, usually `origin/main`.
-- A Chromium for Playwright: `npx playwright install chromium-headless-shell`
-  in this folder, once.
+- A Chromium for Playwright: `npm install`, then
+  `npx playwright-core install chromium-headless-shell`, in this folder, once.
+  Use `playwright-core`, not `playwright`: that is the package the lockfile
+  pins, so the browser it downloads is the one the script expects.
 
 ## Run it
 

@@ -23,6 +23,8 @@ BASE_URL="http://127.0.0.1:8017"
 manage() { docker compose run --rm -T web python manage.py "$@"; }
 
 docker compose down -v --remove-orphans
+# Whatever happens from here on, leave nothing running and no database behind.
+trap 'docker compose down -v' EXIT
 docker compose build web
 manage createcachetable
 manage migrate -v0
@@ -30,13 +32,23 @@ manage set_site_domain 127.0.0.1:8017
 manage load_preset /community/presets/summit > /dev/null
 manage shell < "$HERE/cfp_open.py"
 docker compose up -d web worker maildev
-until curl -sf -o /dev/null "$BASE_URL/speakers/propose/"; do sleep 1; done
+# Give the instance 2 minutes to answer, then say why we stopped.
+for attempt in $(seq 1 120); do
+  curl -sf -o /dev/null "$BASE_URL/speakers/propose/" && break
+  if [ "$attempt" -eq 120 ]; then
+    echo "No answer from $BASE_URL/speakers/propose/ after 120 seconds:" >&2
+    docker compose logs --tail 40 web >&2
+    exit 1
+  fi
+  sleep 1
+done
 
 SHOTS="$(cd "$HERE/../.." && pwd)/public/images/docs/cfp-guide"
 BASE_URL="$BASE_URL" SHOTS="$SHOTS" node "$HERE/shoot-cfp.js"
 # A grey border, so a screenshot reads as a picture of a page and not part of the guide.
 for shot in "$SHOTS"/*.png; do
+  # Left behind by a run that stopped halfway; never border a border.
+  case "$shot" in *.bordered.png) rm -f "$shot"; continue ;; esac
   ffmpeg -v error -y -i "$shot" -vf "pad=iw+8:ih+8:4:4:color=0xaeb4bd" "$shot.bordered.png"
   mv "$shot.bordered.png" "$shot"
 done
-docker compose down -v

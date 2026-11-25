@@ -53,16 +53,22 @@ edition = Conference.objects.get(year=YEAR)
 types = SessionType.objects.filter(conference=edition)
 types.update(open_for_proposals=False)
 for code, minutes in OPEN_KINDS.items():
-    types.filter(code=code).update(
+    opened = types.filter(code=code).update(
         open_for_proposals=True, default_duration_minutes=minutes
     )
+    # update() on no rows is not an error; a preset that renames a kind
+    # would otherwise leave it closed without a word.
+    if opened != 1:
+        raise SystemExit(f"{edition}: expected one {code} session type, found {opened}")
 
-SpeakerSettings.objects.filter(conference=edition).update(
+settings = SpeakerSettings.objects.filter(conference=edition).update(
     proposals_open=True,
     asks_prerequisites=False,
     asks_language=False,
     proposals_intro_md=INTRO,
 )
+if settings != 1:
+    raise SystemExit(f"{edition}: expected one SpeakerSettings row, found {settings}")
 
 for order, label in enumerate(QUESTIONS, start=1):
     ProposalQuestion.objects.update_or_create(
