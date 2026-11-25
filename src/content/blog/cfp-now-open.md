@@ -25,7 +25,8 @@ We invite proposals on any topic about maintaining an open source Python
 project. We especially encourage first-time speakers and people from groups
 underrepresented in tech to submit. You do not need to maintain a large project
 to have something worth sharing. The [Call for Proposals guide](/docs/cfp-guide/)
-has topic ideas, a walkthrough of the form, and how we choose.
+has topic ideas, a walkthrough of the form, and how we choose. For
+inspiration, see the [talks presented at past summits](/talks/).
 
 ## The main PyCon US CFP
 
