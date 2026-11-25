@@ -29,9 +29,6 @@ or download the [.ics file](/events/calendar.ics). For 2027:
 - PyCon US travel grant applications close: February 19, 2027
 - Deadline to confirm you will present: to be announced
 
-See [PyCon US travel grants](https://us.pycon.org/2027/attend/travel-grants/)
-for how to apply.
-
 ## Session formats
 
 The summit runs in one room, so no two sessions run at the same time.
@@ -141,7 +138,7 @@ everyone know the outcome by the notification date above.
 All sessions are given in person at the summit. Acceptance does not
 include financial assistance to attend PyCon US. If you need help with
 the cost of attending, apply for a
-[PyCon US travel grant](https://us.pycon.org/2027/attend/travel-grants/)
+PyCon US travel grant
 before its deadline. Apply early rather than waiting to hear from us.
 
 ## Questions
