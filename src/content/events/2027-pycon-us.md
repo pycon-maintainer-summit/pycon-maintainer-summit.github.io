@@ -8,6 +8,9 @@ city: "Long Beach"
 status: "upcoming"
 summary: "A full day of talks, lightning talks, and discussion among Python open source maintainers at PyCon US 2027, on Saturday, May 15, 2027 in Long Beach."
 cfpUrl: "https://maintainer-summit.us.pycon.org/speakers/propose/"
+# The CFP dates below are also written in src/content/docs/cfp-guide.md,
+# the notice in src/config.ts, and the form intro on the live instance (with
+# its copy in scripts/screenshots/cfp_open.py). Change them together.
 milestones:
   - label: "CFP opens"
     date: 2026-11-24

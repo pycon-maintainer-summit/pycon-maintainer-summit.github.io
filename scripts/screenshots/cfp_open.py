@@ -17,6 +17,10 @@ time. Password: password123, like every preset account.
 
 Keep this in step with the instance's Speaker settings and Proposal
 questions pages: the screenshots are only as true as this file.
+
+The dates in INTRO are also written in src/content/events/2027-pycon-us.md
+(milestones), src/content/docs/cfp-guide.md (Important dates) and the notice
+in src/config.ts. Change them together.
 """
 
 from allauth.account.models import EmailAddress
